@@ -498,6 +498,12 @@
     <ClCompile Include="game\Weapon.cpp" />
     <ClCompile Include="game\WorldSpawn.cpp" />
     <ClCompile Include="idlib\precompiled.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug with inlines|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug with inlines and memory log|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Dedicated Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Dedicated Debug with Inlines|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Prey\ai_centurion.cpp" />
     <ClCompile Include="Prey\ai_crawler.cpp" />
@@ -512,1232 +518,204 @@
     <ClCompile Include="Prey\ai_mutate.cpp" />
     <ClCompile Include="Prey\ai_mutilatedhuman.cpp" />
     <ClCompile Include="prey\ai_passageway.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="Prey\ai_possessedTommy.cpp" />
     <ClCompile Include="prey\ai_reaction.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="Prey\ai_spawncase.cpp">
-      
-      
-      
-     
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\ai_speech.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="Prey\ai_sphereboss.cpp" />
     <ClCompile Include="prey\anim_baseanim.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\force_converge.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_afs.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_alarm.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_anim.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_animatedentity.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_animatedgui.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_animator.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_animBlend.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="Prey\game_animDriven.cpp" />
     <ClCompile Include="prey\game_arcadegame.cpp" />
     <ClCompile Include="Prey\game_barrel.cpp" />
     <ClCompile Include="prey\game_bindController.cpp" />
     <ClCompile Include="prey\game_blackjack.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_cards.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_cilia.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_console.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_damagetester.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_dda.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_deathwraith.cpp" />
     <ClCompile Include="Prey\game_debrisspawner.cpp" />
     <ClCompile Include="Prey\game_dock.cpp" />
     <ClCompile Include="prey\game_dockedgun.cpp" />
     <ClCompile Include="prey\game_door.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_eggspawner.cpp" />
     <ClCompile Include="Prey\game_energynode.cpp" />
     <ClCompile Include="prey\game_entityfx.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="Prey\game_entityspawner.cpp" />
     <ClCompile Include="prey\game_fixedpod.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_forcefield.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="Prey\game_fxinfo.cpp" />
     <ClCompile Include="prey\game_gibbable.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_gravityswitch.cpp" />
     <ClCompile Include="prey\game_guihand.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_gun.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_hand.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_handcontrol.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_healthbasin.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_healthspore.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_inventory.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="Prey\game_itemautomatic.cpp" />
     <ClCompile Include="prey\game_itemcabinet.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_jukebox.cpp" />
     <ClCompile Include="prey\game_jumpzone.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_light.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_lightfixture.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_mine.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_misc.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_modeldoor.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_modeltoggle.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="Prey\game_monster_ai.cpp" />
     <ClCompile Include="Prey\game_monster_ai_events.cpp" />
     <ClCompile Include="prey\game_mountedgun.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_moveable.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_mover.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_note.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_organtrigger.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_player.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_playerview.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_pod.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_podspawner.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_poker.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_portal.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_portalframe.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="Prey\game_proxdoor.cpp" />
     <ClCompile Include="prey\game_rail.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_railshuttle.cpp" />
     <ClCompile Include="Prey\game_renderentity.cpp" />
     <ClCompile Include="prey\game_safeDeathVolume.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_securityeye.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_shuttle.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_shuttledock.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_shuttletransport.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="Prey\game_skybox.cpp" />
     <ClCompile Include="prey\game_slots.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_sphere.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_spherepart.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_spring.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="Prey\game_sunCorona.cpp" />
     <ClCompile Include="prey\game_talon.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_targetproxy.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_targets.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_trackmover.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_trigger.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_tripwire.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_utils.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_vehicle.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_vomiter.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_weaponHandState.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="Prey\game_woundmanager.cpp" />
     <ClCompile Include="prey\game_wraith.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\game_zone.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="Prey\physics_delta.cpp" />
     <ClCompile Include="prey\physics_preyai.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\physics_preyparametric.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\physics_simple.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\physics_vehicle.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\prey_animator.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\prey_baseweapons.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\prey_beam.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\prey_bonecontroller.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\prey_camerainterpolator.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="Prey\prey_firecontroller.cpp" />
     <ClCompile Include="prey\prey_game.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\prey_items.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\prey_liquid.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\prey_local.cpp" />
     <ClCompile Include="prey\prey_projectile.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="Prey\prey_projectileautocannon.cpp" />
     <ClCompile Include="Prey\prey_projectilebounce.cpp" />
@@ -1758,156 +736,32 @@
     <ClCompile Include="Prey\prey_projectiletrigger.cpp" />
     <ClCompile Include="Prey\prey_projectilewrench.cpp" />
     <ClCompile Include="prey\prey_script_thread.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\prey_sound.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\prey_soundleadincontroller.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\prey_spiritbridge.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\prey_spiritproxy.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="Prey\prey_spiritsecret.cpp" />
     <ClCompile Include="Prey\prey_vehiclefirecontroller.cpp" />
     <ClCompile Include="prey\prey_weaponautocannon.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\prey_weaponcrawlergrenade.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="Prey\prey_weaponfirecontroller.cpp" />
     <ClCompile Include="Prey\prey_weaponhider.cpp" />
     <ClCompile Include="Prey\prey_weaponrifle.cpp" />
     <ClCompile Include="prey\prey_weaponrocketlauncher.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\prey_weaponsoulstripper.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="Prey\prey_weaponspiritbow.cpp" />
     <ClCompile Include="prey\sys_debugger.cpp">
-      
-      
-      
-      
-      
-     
-      
-      
-      
-      
-      
-      
     </ClCompile>
     <ClCompile Include="prey\sys_preycmds.cpp">
-      
-      
-      
-      
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

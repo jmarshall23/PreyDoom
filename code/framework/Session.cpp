@@ -2375,7 +2375,7 @@ void idSessionLocal::Draw() {
 		if ( guiLoading ) {
 			guiLoading->Redraw( com_frameTime );
 		}
-		if ( guiActive == guiMsg ) {
+		if ( guiActive == guiMsg && guiMsg != NULL ) {
 			guiMsg->Redraw( com_frameTime );
 		} 
 	} else if ( guiTest ) {
