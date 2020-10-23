@@ -1,0 +1,178 @@
+!!ARBvp1.0 OPTION ARB_position_invariant ;
+
+# VPROG_INTERACTION
+# 
+# input:
+# 
+# attrib[8] TEX0	texture coordinates
+# attrib[9] TEX1	normal
+# attrib[10] TEX2	tangent[0]
+# attrib[11] TEX3	tangent[1]
+# COL			vertex color
+#
+# c[4]	localLightOrigin
+# c[5]	localViewOrigin
+# c[6]	lightProjection S
+# c[7]	lightProjection T
+# c[8]	lightProjection Q
+# c[9]	lightFalloff S
+# c[10]	bumpMatrix S
+# c[11]	bumpMatrix T
+# c[12]	diffuseMatrix S
+# c[13]	diffuseMatrix T
+# c[14]	specularMatrix S
+# c[15]	specularMatrix T
+# c[16]	vertex color modulate
+# c[17]	vertex color add
+#
+# output:
+# 
+# texture 0 is the cube map
+# texture 1 is the per-surface bump map
+# texture 2 is the light falloff texture
+# texture 3 is the light projection texture
+# texture 4 is the per-surface diffuse map
+# texture 5 is the per-surface specular map
+# texture 6 is the specular lookup table
+
+TEMP	R0, R1, R2;
+
+PARAM	defaultTexCoord = { 0, 0.5, 0, 1 };
+
+
+# calculate vector to light in R0
+SUB		R0, program.env[4], vertex.position;
+
+# put into texture space for TEX0
+DP3		result.texcoord[0].x, vertex.attrib[9], R0;
+DP3		result.texcoord[0].y, vertex.attrib[10], R0;
+DP3		result.texcoord[0].z, vertex.attrib[11], R0;
+
+# textures 1 takes the base coordinates by the texture matrix
+MOV		result.texcoord[1], defaultTexCoord;
+MOV		result.texcoord[1], vertex.attrib[8];
+#DP4		result.texcoord[1].x, vertex.attrib[8], program.env[10];
+#DP4		result.texcoord[1].y, vertex.attrib[8], program.env[11];
+
+# texture 2 has one texgen
+MOV		result.texcoord[2], defaultTexCoord;
+DP4		result.texcoord[2].x, vertex.position, program.env[9];
+
+# texture 3 has three texgens
+DP4		result.texcoord[3].x, vertex.position, program.env[6];
+DP4		result.texcoord[3].y, vertex.position, program.env[7];
+DP4		result.texcoord[3].w, vertex.position, program.env[8];
+
+# calculate vector to viewer in R0
+SUB		R0, program.env[5], vertex.position;
+
+# put into texture space for TEX6
+DP3		result.texcoord[6].x, vertex.attrib[9], R0;
+DP3		result.texcoord[6].y, vertex.attrib[10], R0;
+DP3		result.texcoord[6].z, vertex.attrib[11], R0;
+
+END
+
+
+#==================================================================================
+
+!!ARBfp1.0 
+OPTION ARB_precision_hint_fastest;
+
+# texture 0 is the cube map
+# texture 1 is the per-surface bump map
+# texture 2 is the light falloff texture
+# texture 3 is the light projection texture
+# texture 4 is the per-surface diffuse map
+# texture 5 is the per-surface specular map
+# texture 6 is the specular lookup table
+
+# env[0] is the diffuse modifier
+# env[1] is the specular modifier
+
+TEMP	toLight, light, toViewer, halfAngle, color, R1, R2, localNormal, newtexcoord;
+
+PARAM	subOne = { -1, -1, -1, -1 };
+PARAM	scaleTwo = { 2, 2, 2, 2 };
+
+#
+# the amount of light contacting the fragment is the
+# product of the two light projections and the surface
+# bump mapping
+#
+
+# normalize the direction to the light
+#DP3		toLight, fragment.texcoord[0],fragment.texcoord[0];
+#RSQ		toLight, toLight.x;
+#MUL		toLight, toLight.x, fragment.texcoord[0];
+
+TEX		toLight, fragment.texcoord[0], texture[0], CUBE;
+MAD		toLight, toLight, scaleTwo, subOne;
+
+# normalize the direction to the viewer
+DP3		toViewer.w, fragment.texcoord[6],fragment.texcoord[6];
+RSQ		toViewer.w, toViewer.w;
+MUL		toViewer, toViewer.w, fragment.texcoord[6];
+
+#TEX		toViewer, fragment.texcoord[6], texture[0], CUBE;
+#MAD		toViewer, toViewer, scaleTwo, subOne;
+
+# load heightmap
+TEX		R1, fragment.texcoord[1], texture[7], 2D;
+MAD		R1, R1, program.local[0].x, program.local[0].y; # scale and bias
+MAD		newtexcoord, R1, toViewer, fragment.texcoord[1];
+
+# load the filtered normal map
+TEX		localNormal, newtexcoord, texture[1], 2D;
+MOV		localNormal.x, localNormal.a;
+MAD		localNormal.xyz, localNormal, scaleTwo, subOne;
+
+# normalize the bumpmap
+DP3		R1.w, localNormal,localNormal;
+RSQ		R1.w, R1.w;
+MUL		localNormal.xyz, localNormal, R1.w;
+
+# diffuse dot product
+DP3		light.w, toLight, localNormal;
+
+# modulate by the light projection
+TXP		R1, fragment.texcoord[3], texture[3], 2D;
+MUL		light.rgb, light.w, R1;
+
+# modulate by the light falloff
+TXP		R1, fragment.texcoord[2], texture[2], 2D;
+MUL		light.rgb, light, R1;
+
+# modulate by the diffuse map and constant diffuse factor
+TEX		color, newtexcoord, texture[4], 2D;
+#MUL		color, R1, program.env[0];
+
+# calculate the half angle vector and normalize
+ADD		halfAngle.xyz, toLight, toViewer;
+DP3		R1.w, halfAngle, halfAngle;
+RSQ		R1.w, R1.w;
+MUL		halfAngle.xyz, halfAngle, R1.w;
+
+# calculate specular
+DP3_SAT		R1.w, halfAngle, localNormal;
+
+# perform a dependent table read for the specular falloff
+#TEX	R1, R1, texture[6], 2D;
+
+# use power instead of table
+POW		R1.w, R1.w, 12.0.x;
+
+# modulate by the constant specular factor
+#MUL	R1, R1, program.env[1];
+
+# modulate by the specular map * 2
+TEX	R2, newtexcoord, texture[5], 2D;
+ADD	R2, R2, R2;
+MAD	color, R1.w, R2, color;
+
+MUL	color, light, color;
+
+MUL result.color.xyz, color, program.env[0];
+
+END
+

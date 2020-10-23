@@ -1,0 +1,108 @@
+#==================================================================================
+
+!!ARBfp1.0 
+OPTION ARB_precision_hint_fastest;
+
+# texture 0 is the cube map
+# texture 1 is the per-surface bump map
+# texture 2 is the light falloff texture
+# texture 3 is the light projection texture
+# texture 4 is the per-surface diffuse map
+# texture 5 is the per-surface specular map
+# texture 6 is the specular lookup table
+
+# env[0] is the diffuse modifier
+# env[1] is the specular modifier
+
+TEMP	toLight, light, toViewer, halfAngle, color, R1, R2, localNormal, newtexcoord;
+
+PARAM	subOne = { -1, -1, -1, -1 };
+PARAM	scaleTwo = { 2, 2, 2, 2 };
+
+#
+# the amount of light contacting the fragment is the
+# product of the two light projections and the surface
+# bump mapping
+#
+
+# normalize the direction to the light
+DP3		toLight, fragment.texcoord[0],fragment.texcoord[0];
+RSQ		toLight, toLight.x;
+MUL		toLight, toLight.x, fragment.texcoord[0];
+
+#TEX		toLight, fragment.texcoord[0], texture[0], CUBE;
+#MAD		toLight, toLight, scaleTwo, subOne;
+
+# normalize the direction to the viewer
+DP3		toViewer, fragment.texcoord[6],fragment.texcoord[6];
+RSQ		toViewer, toViewer.x;
+MUL		toViewer, toViewer.x, fragment.texcoord[6];
+
+#TEX		toViewer, fragment.texcoord[6], texture[0], CUBE;
+#MAD		toViewer, toViewer, scaleTwo, subOne;
+
+# load the filtered normal map and convert to -1 to 1 range
+MAD		newtexcoord, fragment.texcoord[1], program.local[0].xyxy, program.local[0].zwzw;
+TEX		localNormal, newtexcoord, texture[7], 2D;
+MAD		localNormal, localNormal.wyzx, scaleTwo, subOne;
+
+# offset by the scaled localNormal
+MAD		newtexcoord, localNormal, program.local[1], fragment.texcoord[1];
+
+# load the filtered normal map
+TEX		localNormal, newtexcoord, texture[1], 2D;
+MAD		localNormal.xyz, localNormal.wyzx, scaleTwo, subOne;
+
+# normalize the bumpmap
+DP3		R1, localNormal,localNormal;
+RSQ		R1, R1.x;
+MUL		localNormal.xyz, localNormal, R1;
+
+# diffuse dot product
+DP3		light, toLight, localNormal;
+
+# modulate by the light projection
+TXP		R1, fragment.texcoord[3], texture[3], 2D;
+MUL		light, light, R1;
+
+# modulate by the light falloff
+TXP		R1, fragment.texcoord[2], texture[2], 2D;
+MUL		light, light, R1;
+
+# modulate by the diffuse map and constant diffuse factor
+TEX		color, newtexcoord, texture[4], 2D;
+#MUL		color, R1, program.env[0];
+
+# calculate the half angle vector and normalize
+ADD		halfAngle, toLight, toViewer;
+DP3		R1, halfAngle, halfAngle;
+RSQ		R1, R1.x;
+MUL		halfAngle.xyz, halfAngle, R1;
+
+# calculate specular
+DP3_SAT	R1, halfAngle, localNormal;
+
+# perform a dependent table read for the specular falloff
+#TEX	R1, R1, texture[6], 2D;
+
+# use power instead of table
+POW		R1, R1.x, program.local[2].x;
+
+# modulate by the constant specular factor
+#MUL	R1, R1, program.env[1];
+
+# modulate by the specular map * 2
+TEX	R2, newtexcoord, texture[5], 2D;
+ADD	R2, R2, R2;
+MAD	color, R1, R2, color;
+
+MUL	color, light, color;
+
+MUL	color, color, program.env[0];
+
+# modify by the vertex color
+MUL result.color, color, fragment.color;
+
+END
+
+

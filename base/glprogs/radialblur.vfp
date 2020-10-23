@@ -1,0 +1,92 @@
+!!ARBvp1.0 OPTION ARB_position_invariant ;
+
+# texture 0 takes the texture coordinates unmodified
+MOV		result.texcoord[0], vertex.texcoord[0];
+MOV		result.color, vertex.color;
+
+END
+
+#======================================================================
+
+!!ARBfp1.0 
+OPTION ARB_precision_hint_fastest;
+
+# texture 0 is _currentRender
+# texture 1 is a normal map that we will use to deform texture 0
+#
+# env[0] is the 1.0 to _currentRender conversion
+# env[1] is the fragment.position to 0.0 - 1.0 conversion
+
+TEMP	color, R0, R1, pos, displace, half;
+
+PARAM	size=program.local[0];
+PARAM	strength=program.local[0];
+
+# calculate the screen texcoord in the 0.0 to 1.0 range
+MOV		R0, fragment.texcoord[0];
+
+# scale by the screen non-power-of-two-adjust
+MUL		pos, R0, program.env[0];
+
+MOV		color, 0.0;
+
+MUL		half, program.env[0], 0.5;
+SUB		R1, pos, half;
+
+MOV		displace.x, 1.0;
+MAD		R0, R1, displace.x, half;
+TEX		R0, R0, texture[0], 2D;
+MAD		color, R0, strength.y, color;
+
+SUB		displace.x, displace.x, size.x;
+MAD		R0, R1, displace.x, half;
+TEX		R0, R0, texture[0], 2D;
+MAD		color, R0, strength.y, color;
+
+SUB		displace.x, displace.x, size.x;
+MAD		R0, R1, displace.x, half;
+TEX		R0, R0, texture[0], 2D;
+MAD		color, R0, strength.y, color;
+
+SUB		displace.x, displace.x, size.x;
+MAD		R0, R1, displace.x, half;
+TEX		R0, R0, texture[0], 2D;
+MAD		color, R0, strength.y, color;
+
+SUB		displace.x, displace.x, size.x;
+MAD		R0, R1, displace.x, half;
+TEX		R0, R0, texture[0], 2D;
+MAD		color, R0, strength.y, color;
+
+SUB		displace.x, displace.x, size.x;
+MAD		R0, R1, displace.x, half;
+TEX		R0, R0, texture[0], 2D;
+MAD		color, R0, strength.y, color;
+
+SUB		displace.x, displace.x, size.x;
+MAD		R0, R1, displace.x, half;
+TEX		R0, R0, texture[0], 2D;
+MAD		color, R0, strength.y, color;
+
+SUB		displace.x, displace.x, size.x;
+MAD		R0, R1, displace.x, half;
+TEX		R0, R0, texture[0], 2D;
+MAD		color, R0, strength.y, color;
+
+TEX		R0, pos, texture[0], 2D;
+
+MAD_SAT	color, program.local[1].x, color, program.local[1].y;
+
+LRP		color, program.local[0].z, R0, color;
+
+DP3		R1, color, {0.3,0.5,0.1};
+LRP		color, program.local[2].x, color, R1;
+LRP		color, program.local[3].x, color, program.local[3].y;
+MUL		R1, R1, program.local[4].a;
+LRP		color, R1, program.local[4], color;
+MAD		color, color, 0.95, program.local[5];
+
+MOV		result.color, color;
+
+END
+

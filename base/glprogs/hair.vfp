@@ -1,0 +1,195 @@
+!!ARBvp1.0 OPTION ARB_position_invariant ;
+
+# VPROG_INTERACTION
+# 
+# input:
+# 
+# attrib[8] TEX0	texture coordinates
+# attrib[9] TEX1	normal
+# attrib[10] TEX2	tangent[0]
+# attrib[11] TEX3	tangent[1]
+# COL			vertex color
+#
+# c[4]	localLightOrigin
+# c[5]	localViewOrigin
+# c[6]	lightProjection S
+# c[7]	lightProjection T
+# c[8]	lightProjection Q
+# c[9]	lightFalloff S
+# c[10]	bumpMatrix S
+# c[11]	bumpMatrix T
+# c[12]	diffuseMatrix S
+# c[13]	diffuseMatrix T
+# c[14]	specularMatrix S
+# c[15]	specularMatrix T
+# c[16]	vertex color modulate
+# c[17]	vertex color add
+# 
+# output:
+# 
+# texture 0 is the cube map
+# texture 1 is the per-surface bump map
+# texture 2 is the light falloff texture
+# texture 3 is the light projection texture
+# texture 4 is the per-surface diffuse map
+# texture 5 is the per-surface specular map
+# texture 6 is the specular lookup table
+
+TEMP	R0, R1, R2;
+
+PARAM	defaultTexCoord = { 0, 0.5, 0, 1 };
+
+
+# calculate vector to light in R0
+SUB		R0, program.env[4], vertex.position;
+
+# put into texture space for TEX0
+DP3		result.texcoord[0].x, vertex.attrib[9], R0;
+DP3		result.texcoord[0].y, vertex.attrib[10], R0;
+DP3		result.texcoord[0].z, vertex.attrib[11], R0;
+
+# textures 1 takes the base coordinates by the texture matrix
+MOV		result.texcoord[1], defaultTexCoord;
+MOV		result.texcoord[1], vertex.attrib[8];
+#DP4		result.texcoord[1].x, vertex.attrib[8], program.env[10];
+#DP4		result.texcoord[1].y, vertex.attrib[8], program.env[11];
+
+# texture 2 has one texgen
+MOV		result.texcoord[2], defaultTexCoord;
+DP4		result.texcoord[2].x, vertex.position, program.env[9];
+
+# texture 3 has three texgens
+DP4		result.texcoord[3].x, vertex.position, program.env[6];
+DP4		result.texcoord[3].y, vertex.position, program.env[7];
+DP4		result.texcoord[3].w, vertex.position, program.env[8];
+
+# calculate vector to viewer in R0
+SUB		R0, program.env[5], vertex.position;
+
+# put into texture space for TEX6
+DP3		result.texcoord[6].x, vertex.attrib[9], R0;
+DP3		result.texcoord[6].y, vertex.attrib[10], R0;
+DP3		result.texcoord[6].z, vertex.attrib[11], R0;
+
+END
+
+
+#==================================================================================
+
+!!ARBfp1.0 
+OPTION ARB_precision_hint_fastest;
+
+# texture 0 is the cube map
+# texture 1 is the per-surface bump map
+# texture 2 is the light falloff texture
+# texture 3 is the light projection texture
+# texture 4 is the per-surface diffuse map
+# texture 5 is the per-surface specular map
+# texture 6 is the specular lookup table
+
+# env[0] is the diffuse modifier
+# env[1] is the specular modifier
+
+TEMP	toLight, light, toViewer, halfAngle, color, R1, R2, localNormal;
+TEMP	T1, T2, tangent;
+
+#
+# the amount of light contacting the fragment is the
+# product of the two light projections and the surface
+# bump mapping
+#
+
+# normalize the direction to the light
+DP3		toLight, fragment.texcoord[0],fragment.texcoord[0];
+RSQ		toLight, toLight.x;
+MUL		toLight, toLight.x, fragment.texcoord[0];
+
+# normalize the direction to the viewer
+DP3		toViewer, fragment.texcoord[6],fragment.texcoord[6];
+RSQ		toViewer, toViewer.x;
+MUL		toViewer, toViewer.x, fragment.texcoord[6];
+
+# load the filtered normal map
+TEX		localNormal, fragment.texcoord[1], texture[1], 2D;
+MOV		localNormal.x, localNormal.a;
+MAD		localNormal.xyz, localNormal, 2.0, -1.0;
+
+# normalize the bumpmap
+DP3		R1, localNormal,localNormal;
+RSQ		R1, R1.x;
+MUL		localNormal.xyz, localNormal, R1;
+
+DP3		light, toLight, localNormal;
+MAD_SAT	light, 0.75, light, 0.25;
+
+# load the filtered tangent map
+TEX		tangent, fragment.texcoord[1], texture[6], 2D;
+#MOV		tangent.x, tangent.a;
+MOV		result.color, tangent;
+MAD		tangent.xyz, tangent, 2.0, -1.0;
+
+# normalize the tangent
+#DP3		R1, tangent, tangent;
+#RSQ		R1, R1.x;
+#MUL		tangent.xyz, tangent, R1;
+
+ADD		halfAngle, toLight, toViewer;
+DP3		R1, halfAngle, halfAngle;
+RSQ		R1, R1.x;
+MUL		halfAngle.xyz, halfAngle, R1;
+
+LRP		localNormal, program.local[1].x, localNormal, {0,0,1.0,0};	# flatten
+DP3		R1, localNormal,localNormal;
+RSQ		R1, R1.x;
+MUL		localNormal.xyz, localNormal, R1;
+
+DP3		R1, localNormal, tangent;
+MAD		tangent, R1, -localNormal, tangent;	#orthonormal
+DP3		R1, tangent, tangent;
+RSQ		R1, R1.x;
+MUL		tangent.xyz, tangent, R1;
+
+MAD		T1, localNormal, program.local[2].x, tangent;	# shift
+
+DP3		T1, T1, halfAngle;
+MAD_SAT	R1, T1, -T1, 1.0;
+POW		R1, R1.x, program.local[3].w;
+MUL		color, R1, program.local[3];	#color
+
+MAD		T1, localNormal, program.local[2].y, tangent;	#shift
+
+DP3		T1, T1, halfAngle;
+MAD_SAT	R1, T1, -T1, 1.0;
+POW		R1, R1.x, program.local[4].w;
+
+MAD		color, R1, program.local[4], color;		#color
+
+TEX		R1, fragment.texcoord[1], texture[4], 2D;
+MUL		R1, R1, program.local[5];
+MAD		color, R1, light, color;
+
+DP3		R1, localNormal, toLight;
+MAD_SAT	R1, 1.75, R1, 0.25;
+MUL		color, R1, color;
+
+TEX		R1, fragment.texcoord[1], texture[5], 2D;
+MUL		color, color, R1;
+
+# modulate by the light projection
+TXP		R1, fragment.texcoord[3], texture[3], 2D;
+MUL		color, color, R1;
+
+# modulate by the light falloff
+TXP		R1, fragment.texcoord[2], texture[2], 2D;
+MUL		color, color, R1;
+
+# mask
+TEX		R1, fragment.texcoord[1], texture[7], 2D;
+DP4		R1, R1, program.local[0];
+MUL		color, color, R1;
+
+MUL		color, color, program.env[0];
+MUL		result.color, color, 0.75;
+
+END
+

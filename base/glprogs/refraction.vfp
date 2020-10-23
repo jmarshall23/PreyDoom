@@ -1,0 +1,168 @@
+!!ARBvp1.0 OPTION ARB_position_invariant ;
+
+# input:
+# 
+# texcoord[0] TEX0	texcoords
+# attrib[9] TEX1	tangent[0]
+# attrib[10] TEX2	tangent[1]
+# attrib[2] TEX3	normal
+#
+# c[5]	localViewOrigin
+# c[6]	modelMatrix[0]
+# c[7]	modelMatrix[1]
+# c[8]	modelMatrix[2]
+#
+# local[0]	scroll
+# local[1]	deform magnitude (1.0 is reasonable, 2.0 is twice as wavy, 0.5 is half as wavy, etc)
+# local[2]	refract color
+# local[3]	reflect color
+# 
+# output:
+#
+# texCoord[0] is the normal map texcoord
+# texCoord[1] is the vector to the eye in global space
+# texCoord[2] is the surface tangent to global coordiantes
+# texCoord[3] is the surface bitangent to global coordiantes
+# texCoord[4] is the surface normal to global coordiantes
+# texCoord[6] is the copied deform magnitude
+# texCoord[7] is the copied scroll
+
+PARAM	scale = { 2, 2, 2, 2 };
+PARAM	scroll = program.local[0];
+
+TEMP	R0, R1, R2;
+
+# texture 1 is the vector to the eye in global coordinates
+SUB		R0, program.env[5], vertex.position;
+DP3		result.texcoord[1].x, R0, program.env[6];
+DP3		result.texcoord[1].y, R0, program.env[7];
+DP3		result.texcoord[1].z, R0, program.env[8];
+
+# texture 2 gets the transformed tangent
+DP3		result.texcoord[2].x, vertex.attrib[9], program.env[6];
+DP3		result.texcoord[3].x, vertex.attrib[9], program.env[7];
+DP3		result.texcoord[4].x, vertex.attrib[9], program.env[8];
+
+# texture 3 gets the transformed bitangent
+DP3		result.texcoord[2].y, vertex.attrib[10], program.env[6];
+DP3		result.texcoord[3].y, vertex.attrib[10], program.env[7];
+DP3		result.texcoord[4].y, vertex.attrib[10], program.env[8];
+
+# texture 4 gets the transformed normal
+DP3		result.texcoord[2].z, vertex.normal, program.env[6];
+DP3		result.texcoord[3].z, vertex.normal, program.env[7];
+DP3		result.texcoord[4].z, vertex.normal,program.env[8];
+
+MOV		result.color.primary, program.local[2];
+MOV		result.color.secondary, program.local[3];
+
+################
+
+# take the texture coordinates and add a scroll
+MAD	result.texcoord[0].xy, scroll, 2.0, vertex.texcoord[0];
+MAD	result.texcoord[0].zw, vertex.texcoord[0].xyxy, 0.75, -scroll.xyxy;
+MOV	result.texcoord[0], vertex.texcoord[0];
+
+# texture 6 takes the deform magnitude and scales it by the projection distance
+PARAM	vec = { 1, 0, 0, 1 };
+
+MOV		R0, vec;
+DP4		R0.z, vertex.position, state.matrix.modelview.row[2];
+
+DP4		R1, R0, state.matrix.projection.row[0];
+DP4		R2, R0, state.matrix.projection.row[3];
+
+# don't let the recip get near zero for polygons that cross the view plane
+MAX		R2, R2, 1;
+
+RCP		R2, R2.w;
+MUL		R1, R1, R2;
+
+# clamp the distance so the the deformations don't get too wacky near the view
+MIN		R1, R1, 0.02;
+
+MUL		result.texcoord[6], R1, program.local[1];
+
+MOV		result.texcoord[7], scroll;
+
+END
+
+#==================================================================================
+
+!!ARBfp1.0 
+OPTION ARB_precision_hint_fastest;
+
+# per-pixel reflection-refraction liquid
+
+# texture 0 is the environment cube map
+# texture 1 is the normal map
+# texture 2 is _currentRender
+#
+# env[0] is the 1.0 to _currentRender conversion
+# env[1] is the fragment.position to 0.0 - 1.0 conversion
+#
+# texCoord[0] is the normal map texcoord
+# texCoord[1] is the vector to the eye in global space
+# texCoord[2] is the surface tangent to global coordiantes
+# texCoord[3] is the surface bitangent to global coordiantes
+# texCoord[4] is the surface normal to global coordiantes
+# texCoord[6] is the copied deform magnitude
+# texCoord[7] is the copied scroll
+
+TEMP	globalEye, localNormal, globalNormal, R0, R1;
+
+ALIAS	fresnel = globalEye;
+
+PARAM	subOne = { -1, -1, -1, -1 };
+PARAM	scaleTwo = { 2, 2, 2, 2 };
+
+# load the filtered normal map, then normalize to full scale,
+TEX		localNormal, fragment.texcoord[0], texture[1], 2D;
+MAD		localNormal, localNormal.wyzx, scaleTwo, subOne;
+
+# transform the surface normal by the local tangent space 
+DP3		globalNormal.x, localNormal, fragment.texcoord[2];
+DP3		globalNormal.y, localNormal, fragment.texcoord[3];
+DP3		globalNormal.z, localNormal, fragment.texcoord[4];
+
+# normalize
+DP3		R1, globalNormal,globalNormal;
+RSQ		R1, R1.x;
+MUL		globalNormal.xyz, globalNormal, R1;
+
+# normalize vector to eye
+DP3		R0, fragment.texcoord[1], fragment.texcoord[1];
+RSQ		R0, R0.x;
+MUL		globalEye, fragment.texcoord[1], R0;
+
+########
+
+# calculate fresnel
+DP3		R1, globalEye, globalNormal;
+SUB		fresnel, 1.0, R1;		# 1 - V dot N
+POW		fresnel, fresnel.x, program.local[2].x;	# assume index is 1
+
+# calculate the screen texcoord in the 0.0 to 1.0 range
+MUL		R1, fragment.position, program.env[1];
+
+# offset by the scaled globalNormal and clamp it to 0.0 - 1.0
+MAD_SAT	R1, globalNormal, fragment.texcoord[6], R1;
+
+# scale by the screen non-power-of-two-adjust
+MUL		R1, R1, program.env[0];
+
+# load the screen render
+TEX		R1, R1, texture[2], 2D;
+
+ADD		R0, R1, 0.11;
+
+MUL		R1, R1, program.local[0];
+MUL		R0, R0, program.local[1];
+
+MUL		fresnel, fresnel, 0.3;
+MAD		R1, fresnel, program.local[1], R1;
+
+MOV		result.color.xyz, R1;
+
+END
+

@@ -1,0 +1,45 @@
+!!ARBvp1.0 OPTION ARB_position_invariant;
+
+# Depth Sprite
+# Coder: Toby Jones
+
+# input:
+# 
+# attrib[8] TEX0	texcoords
+# 
+# texture 0 is the color texture
+# texture 1 is the depth displacement texture
+#
+# output:
+# 
+# position is the transformed vertex
+# color is the vertex color
+# texCoord[0] is the screen space texture coords
+
+MOV		result.color, vertex.color;
+MOV		result.texcoord[0], vertex.texcoord[0];
+END
+
+#======================================================================
+
+!!ARBfp1.0 OPTION ARB_precision_hint_fastest;
+
+ATTRIB texcoord = fragment.texcoord[0];
+
+TEMP	texColor, depth;
+PARAM	scale = 0.003;
+
+# The color is the texture color modulated by the vertex color
+TEX		texColor, texcoord, texture[0], 2D;
+TEX		depth, texcoord, texture[2], 2D;
+MUL		result.color, texColor, fragment.color;
+
+# Scale the depth bias, and add it to the original depth value
+# TODO: the scale may want to be calculated per-pixel, but
+# this is quick and looks good for now.
+MAD		result.depth.z, -depth.r, scale, fragment.position.z;
+
+# Flood fill fragment for testing
+#MOV	result.color.xyz, 1.0;
+
+END

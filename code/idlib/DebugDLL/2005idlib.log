@@ -1,0 +1,542 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(36,5): warning MSB4211: The property "IntermediateOutputPath" is being set to a value for the first time, but it was already consumed at "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets (35,5)".
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets(337,5): warning MSB4211: The property "CleanFile" is being set to a value for the first time, but it was already consumed at "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets (35,5)".
+  Base64.cpp
+D:\projects\PreyDoom\code\idlib\math\Random.h(37,46): warning C4458: declaration of 'seed' hides class member
+D:\projects\PreyDoom\code\idlib\math\Random.h(30,10): message : see declaration of 'idRandom::seed'
+D:\projects\PreyDoom\code\idlib\math\Random.h(99,57): warning C4458: declaration of 'seed' hides class member
+D:\projects\PreyDoom\code\idlib\math\Random.h(89,18): message : see declaration of 'idRandom2::seed'
+D:\projects\PreyDoom\code\idlib\math\Complex.h(84,63): warning C4458: declaration of 'r' hides class member
+D:\projects\PreyDoom\code\idlib\math\Complex.h(17,11): message : see declaration of 'idComplex::r'
+D:\projects\PreyDoom\code\idlib\math\Complex.h(84,63): warning C4458: declaration of 'i' hides class member
+D:\projects\PreyDoom\code\idlib\math\Complex.h(18,11): message : see declaration of 'idComplex::i'
+D:\projects\PreyDoom\code\idlib\math\Vector.h(89,60): warning C4458: declaration of 'x' hides class member
+D:\projects\PreyDoom\code\idlib\math\Vector.h(29,10): message : see declaration of 'idVec2::x'
+D:\projects\PreyDoom\code\idlib\math\Vector.h(89,60): warning C4458: declaration of 'y' hides class member
+D:\projects\PreyDoom\code\idlib\math\Vector.h(30,10): message : see declaration of 'idVec2::y'
+D:\projects\PreyDoom\code\idlib\math\Vector.h(400,75): warning C4458: declaration of 'x' hides class member
+D:\projects\PreyDoom\code\idlib\math\Vector.h(303,10): message : see declaration of 'idVec3::x'
+D:\projects\PreyDoom\code\idlib\math\Vector.h(400,75): warning C4458: declaration of 'y' hides class member
+D:\projects\PreyDoom\code\idlib\math\Vector.h(304,10): message : see declaration of 'idVec3::y'
+D:\projects\PreyDoom\code\idlib\math\Vector.h(400,75): warning C4458: declaration of 'z' hides class member
+D:\projects\PreyDoom\code\idlib\math\Vector.h(305,10): message : see declaration of 'idVec3::z'
+D:\projects\PreyDoom\code\idlib\math\Vector.h(864,90): warning C4458: declaration of 'x' hides class member
+D:\projects\PreyDoom\code\idlib\math\Vector.h(801,10): message : see declaration of 'idVec4::x'
+D:\projects\PreyDoom\code\idlib\math\Vector.h(864,90): warning C4458: declaration of 'y' hides class member
+D:\projects\PreyDoom\code\idlib\math\Vector.h(802,10): message : see declaration of 'idVec4::y'
+D:\projects\PreyDoom\code\idlib\math\Vector.h(864,90): warning C4458: declaration of 'z' hides class member
+D:\projects\PreyDoom\code\idlib\math\Vector.h(803,10): message : see declaration of 'idVec4::z'
+D:\projects\PreyDoom\code\idlib\math\Vector.h(864,90): warning C4458: declaration of 'w' hides class member
+D:\projects\PreyDoom\code\idlib\math\Vector.h(804,10): message : see declaration of 'idVec4::w'
+D:\projects\PreyDoom\code\idlib\math\Vector.h(1943,88): warning C4458: declaration of 'radius' hides class member
+D:\projects\PreyDoom\code\idlib\math\Vector.h(1918,10): message : see declaration of 'idPolar3::radius'
+D:\projects\PreyDoom\code\idlib\math\Vector.h(1943,88): warning C4458: declaration of 'theta' hides class member
+D:\projects\PreyDoom\code\idlib\math\Vector.h(1918,18): message : see declaration of 'idPolar3::theta'
+D:\projects\PreyDoom\code\idlib\math\Vector.h(1943,88): warning C4458: declaration of 'phi' hides class member
+D:\projects\PreyDoom\code\idlib\math\Vector.h(1918,25): message : see declaration of 'idPolar3::phi'
+D:\projects\PreyDoom\code\idlib\math\Angles.h(95,68): warning C4458: declaration of 'pitch' hides class member
+D:\projects\PreyDoom\code\idlib\math\Angles.h(28,10): message : see declaration of 'idAngles::pitch'
+D:\projects\PreyDoom\code\idlib\math\Angles.h(95,68): warning C4458: declaration of 'yaw' hides class member
+D:\projects\PreyDoom\code\idlib\math\Angles.h(29,10): message : see declaration of 'idAngles::yaw'
+D:\projects\PreyDoom\code\idlib\math\Angles.h(95,68): warning C4458: declaration of 'roll' hides class member
+D:\projects\PreyDoom\code\idlib\math\Angles.h(30,10): message : see declaration of 'idAngles::roll'
+D:\projects\PreyDoom\code\idlib\math\Quat.h(222,66): warning C4458: declaration of 'x' hides class member
+D:\projects\PreyDoom\code\idlib\math\Quat.h(25,10): message : see declaration of 'idQuat::x'
+D:\projects\PreyDoom\code\idlib\math\Quat.h(222,66): warning C4458: declaration of 'y' hides class member
+D:\projects\PreyDoom\code\idlib\math\Quat.h(26,10): message : see declaration of 'idQuat::y'
+D:\projects\PreyDoom\code\idlib\math\Quat.h(222,66): warning C4458: declaration of 'z' hides class member
+D:\projects\PreyDoom\code\idlib\math\Quat.h(27,10): message : see declaration of 'idQuat::z'
+D:\projects\PreyDoom\code\idlib\math\Quat.h(222,66): warning C4458: declaration of 'w' hides class member
+D:\projects\PreyDoom\code\idlib\math\Quat.h(28,10): message : see declaration of 'idQuat::w'
+D:\projects\PreyDoom\code\idlib\math\Quat.h(321,58): warning C4458: declaration of 'x' hides class member
+D:\projects\PreyDoom\code\idlib\math\Quat.h(283,10): message : see declaration of 'idCQuat::x'
+D:\projects\PreyDoom\code\idlib\math\Quat.h(321,58): warning C4458: declaration of 'y' hides class member
+D:\projects\PreyDoom\code\idlib\math\Quat.h(284,10): message : see declaration of 'idCQuat::y'
+D:\projects\PreyDoom\code\idlib\math\Quat.h(321,58): warning C4458: declaration of 'z' hides class member
+D:\projects\PreyDoom\code\idlib\math\Quat.h(285,10): message : see declaration of 'idCQuat::z'
+D:\projects\PreyDoom\code\idlib\math\prey_interpolate.h(164,86): warning C4458: declaration of 'tension' hides class member
+D:\projects\PreyDoom\code\idlib\math\prey_interpolate.h(144,10): message : see declaration of 'hhTCBSpline::tension'
+D:\projects\PreyDoom\code\idlib\math\prey_interpolate.h(164,86): warning C4458: declaration of 'continuity' hides class member
+D:\projects\PreyDoom\code\idlib\math\prey_interpolate.h(145,10): message : see declaration of 'hhTCBSpline::continuity'
+D:\projects\PreyDoom\code\idlib\math\prey_interpolate.h(164,86): warning C4458: declaration of 'bias' hides class member
+D:\projects\PreyDoom\code\idlib\math\prey_interpolate.h(146,10): message : see declaration of 'hhTCBSpline::bias'
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(127,61): warning C4458: declaration of 'origin' hides class member
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(93,11): message : see declaration of 'idFrustum::origin'
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(131,57): warning C4458: declaration of 'axis' hides class member
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(94,11): message : see declaration of 'idFrustum::axis'
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(135,86): warning C4458: declaration of 'dNear' hides class member
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(95,10): message : see declaration of 'idFrustum::dNear'
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(135,86): warning C4458: declaration of 'dFar' hides class member
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(96,10): message : see declaration of 'idFrustum::dFar'
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(135,86): warning C4458: declaration of 'dLeft' hides class member
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(97,10): message : see declaration of 'idFrustum::dLeft'
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(135,86): warning C4458: declaration of 'dUp' hides class member
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(98,10): message : see declaration of 'idFrustum::dUp'
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(144,65): warning C4458: declaration of 'dNear' hides class member
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(95,10): message : see declaration of 'idFrustum::dNear'
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(144,65): warning C4458: declaration of 'dFar' hides class member
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(96,10): message : see declaration of 'idFrustum::dFar'
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(153,59): warning C4458: declaration of 'dNear' hides class member
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(95,10): message : see declaration of 'idFrustum::dNear'
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(158,57): warning C4458: declaration of 'dFar' hides class member
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(96,10): message : see declaration of 'idFrustum::dFar'
+D:\projects\PreyDoom\code\idlib\geometry\DrawVert.h(74,52): warning C4458: declaration of 'color' hides class member
+D:\projects\PreyDoom\code\idlib\geometry\DrawVert.h(21,9): message : see declaration of 'idDrawVert::color'
+D:\projects\PreyDoom\code\idlib\Str.h(852,67): warning C4458: declaration of 'len' hides class member
+D:\projects\PreyDoom\code\idlib\Str.h(274,10): message : see declaration of 'idStr::len'
+D:\projects\PreyDoom\code\idlib\Str.h(856,68): warning C4458: declaration of 'len' hides class member
+D:\projects\PreyDoom\code\idlib\Str.h(274,10): message : see declaration of 'idStr::len'
+D:\projects\PreyDoom\code\idlib\Str.h(864,46): warning C4458: declaration of 'len' hides class member
+D:\projects\PreyDoom\code\idlib\Str.h(274,10): message : see declaration of 'idStr::len'
+D:\projects\PreyDoom\code\idlib\Str.h(868,47): warning C4458: declaration of 'len' hides class member
+D:\projects\PreyDoom\code\idlib\Str.h(274,10): message : see declaration of 'idStr::len'
+D:\projects\PreyDoom\code\idlib\Lexer.h(273,47): warning C4458: declaration of 'flags' hides class member
+D:\projects\PreyDoom\code\idlib\Lexer.h(234,9): message : see declaration of 'idLexer::flags'
+D:\projects\PreyDoom\code\idlib\containers\StrPool.h(70,66): warning C4458: declaration of 'caseSensitive' hides class member
+D:\projects\PreyDoom\code\idlib\containers\StrPool.h(60,10): message : see declaration of 'idStrPool::caseSensitive'
+D:\projects\PreyDoom\code\idlib\BitMsg.h(566,96): warning C4458: declaration of 'base' hides class member
+D:\projects\PreyDoom\code\idlib\BitMsg.h(537,18): message : see declaration of 'idBitMsgDelta::base'
+D:\projects\PreyDoom\code\idlib\BitMsg.h(566,96): warning C4458: declaration of 'newBase' hides class member
+D:\projects\PreyDoom\code\idlib\BitMsg.h(538,14): message : see declaration of 'idBitMsgDelta::newBase'
+D:\projects\PreyDoom\code\idlib\BitMsg.h(574,102): warning C4458: declaration of 'base' hides class member
+D:\projects\PreyDoom\code\idlib\BitMsg.h(537,18): message : see declaration of 'idBitMsgDelta::base'
+D:\projects\PreyDoom\code\idlib\BitMsg.h(574,102): warning C4458: declaration of 'newBase' hides class member
+D:\projects\PreyDoom\code\idlib\BitMsg.h(538,14): message : see declaration of 'idBitMsgDelta::newBase'
+D:\projects\PreyDoom\code\framework\CVarSystem.h(146,42): warning C4458: declaration of 'value' hides class member
+D:\projects\PreyDoom\code\framework\CVarSystem.h(157,17): message : see declaration of 'idCVar::value'
+D:\projects\PreyDoom\code\framework\CVarSystem.h(147,39): warning C4458: declaration of 'value' hides class member
+D:\projects\PreyDoom\code\framework\CVarSystem.h(157,17): message : see declaration of 'idCVar::value'
+D:\projects\PreyDoom\code\framework\CVarSystem.h(148,41): warning C4458: declaration of 'value' hides class member
+D:\projects\PreyDoom\code\framework\CVarSystem.h(157,17): message : see declaration of 'idCVar::value'
+D:\projects\PreyDoom\code\framework\CVarSystem.h(149,41): warning C4458: declaration of 'value' hides class member
+D:\projects\PreyDoom\code\framework\CVarSystem.h(157,17): message : see declaration of 'idCVar::value'
+D:\projects\PreyDoom\code\framework\CVarSystem.h(278,42): warning C4458: declaration of 'name' hides class member
+D:\projects\PreyDoom\code\framework\CVarSystem.h(156,17): message : see declaration of 'idCVar::name'
+D:\projects\PreyDoom\code\framework\CVarSystem.h(278,60): warning C4458: declaration of 'value' hides class member
+D:\projects\PreyDoom\code\framework\CVarSystem.h(157,17): message : see declaration of 'idCVar::value'
+D:\projects\PreyDoom\code\framework\CVarSystem.h(278,71): warning C4458: declaration of 'flags' hides class member
+D:\projects\PreyDoom\code\framework\CVarSystem.h(159,11): message : see declaration of 'idCVar::flags'
+D:\projects\PreyDoom\code\framework\CVarSystem.h(278,90): warning C4458: declaration of 'description' hides class member
+D:\projects\PreyDoom\code\framework\CVarSystem.h(158,17): message : see declaration of 'idCVar::description'
+D:\projects\PreyDoom\code\framework\CVarSystem.h(279,101): warning C4458: declaration of 'valueMin' hides class member
+D:\projects\PreyDoom\code\framework\CVarSystem.h(160,12): message : see declaration of 'idCVar::valueMin'
+D:\projects\PreyDoom\code\framework\CVarSystem.h(279,101): warning C4458: declaration of 'valueMax' hides class member
+D:\projects\PreyDoom\code\framework\CVarSystem.h(161,12): message : see declaration of 'idCVar::valueMax'
+D:\projects\PreyDoom\code\framework\CVarSystem.h(279,101): warning C4458: declaration of 'valueStrings' hides class member
+D:\projects\PreyDoom\code\framework\CVarSystem.h(162,18): message : see declaration of 'idCVar::valueStrings'
+D:\projects\PreyDoom\code\framework\CVarSystem.h(279,101): warning C4458: declaration of 'valueCompletion' hides class member
+D:\projects\PreyDoom\code\framework\CVarSystem.h(163,20): message : see declaration of 'idCVar::valueCompletion'
+  precompiled.cpp
+D:\projects\PreyDoom\code\idlib\math\Random.h(37,46): warning C4458: declaration of 'seed' hides class member
+D:\projects\PreyDoom\code\idlib\math\Random.h(30,10): message : see declaration of 'idRandom::seed'
+D:\projects\PreyDoom\code\idlib\math\Random.h(99,57): warning C4458: declaration of 'seed' hides class member
+D:\projects\PreyDoom\code\idlib\math\Random.h(89,18): message : see declaration of 'idRandom2::seed'
+D:\projects\PreyDoom\code\idlib\math\Complex.h(84,63): warning C4458: declaration of 'r' hides class member
+D:\projects\PreyDoom\code\idlib\math\Complex.h(17,11): message : see declaration of 'idComplex::r'
+D:\projects\PreyDoom\code\idlib\math\Complex.h(84,63): warning C4458: declaration of 'i' hides class member
+D:\projects\PreyDoom\code\idlib\math\Complex.h(18,11): message : see declaration of 'idComplex::i'
+D:\projects\PreyDoom\code\idlib\math\Vector.h(89,60): warning C4458: declaration of 'x' hides class member
+D:\projects\PreyDoom\code\idlib\math\Vector.h(29,10): message : see declaration of 'idVec2::x'
+D:\projects\PreyDoom\code\idlib\math\Vector.h(89,60): warning C4458: declaration of 'y' hides class member
+D:\projects\PreyDoom\code\idlib\math\Vector.h(30,10): message : see declaration of 'idVec2::y'
+D:\projects\PreyDoom\code\idlib\math\Vector.h(400,75): warning C4458: declaration of 'x' hides class member
+D:\projects\PreyDoom\code\idlib\math\Vector.h(303,10): message : see declaration of 'idVec3::x'
+D:\projects\PreyDoom\code\idlib\math\Vector.h(400,75): warning C4458: declaration of 'y' hides class member
+D:\projects\PreyDoom\code\idlib\math\Vector.h(304,10): message : see declaration of 'idVec3::y'
+D:\projects\PreyDoom\code\idlib\math\Vector.h(400,75): warning C4458: declaration of 'z' hides class member
+D:\projects\PreyDoom\code\idlib\math\Vector.h(305,10): message : see declaration of 'idVec3::z'
+D:\projects\PreyDoom\code\idlib\math\Vector.h(864,90): warning C4458: declaration of 'x' hides class member
+D:\projects\PreyDoom\code\idlib\math\Vector.h(801,10): message : see declaration of 'idVec4::x'
+D:\projects\PreyDoom\code\idlib\math\Vector.h(864,90): warning C4458: declaration of 'y' hides class member
+D:\projects\PreyDoom\code\idlib\math\Vector.h(802,10): message : see declaration of 'idVec4::y'
+D:\projects\PreyDoom\code\idlib\math\Vector.h(864,90): warning C4458: declaration of 'z' hides class member
+D:\projects\PreyDoom\code\idlib\math\Vector.h(803,10): message : see declaration of 'idVec4::z'
+D:\projects\PreyDoom\code\idlib\math\Vector.h(864,90): warning C4458: declaration of 'w' hides class member
+D:\projects\PreyDoom\code\idlib\math\Vector.h(804,10): message : see declaration of 'idVec4::w'
+D:\projects\PreyDoom\code\idlib\math\Vector.h(1943,88): warning C4458: declaration of 'radius' hides class member
+D:\projects\PreyDoom\code\idlib\math\Vector.h(1918,10): message : see declaration of 'idPolar3::radius'
+D:\projects\PreyDoom\code\idlib\math\Vector.h(1943,88): warning C4458: declaration of 'theta' hides class member
+D:\projects\PreyDoom\code\idlib\math\Vector.h(1918,18): message : see declaration of 'idPolar3::theta'
+D:\projects\PreyDoom\code\idlib\math\Vector.h(1943,88): warning C4458: declaration of 'phi' hides class member
+D:\projects\PreyDoom\code\idlib\math\Vector.h(1918,25): message : see declaration of 'idPolar3::phi'
+D:\projects\PreyDoom\code\idlib\math\Angles.h(95,68): warning C4458: declaration of 'pitch' hides class member
+D:\projects\PreyDoom\code\idlib\math\Angles.h(28,10): message : see declaration of 'idAngles::pitch'
+D:\projects\PreyDoom\code\idlib\math\Angles.h(95,68): warning C4458: declaration of 'yaw' hides class member
+D:\projects\PreyDoom\code\idlib\math\Angles.h(29,10): message : see declaration of 'idAngles::yaw'
+D:\projects\PreyDoom\code\idlib\math\Angles.h(95,68): warning C4458: declaration of 'roll' hides class member
+D:\projects\PreyDoom\code\idlib\math\Angles.h(30,10): message : see declaration of 'idAngles::roll'
+D:\projects\PreyDoom\code\idlib\math\Quat.h(222,66): warning C4458: declaration of 'x' hides class member
+D:\projects\PreyDoom\code\idlib\math\Quat.h(25,10): message : see declaration of 'idQuat::x'
+D:\projects\PreyDoom\code\idlib\math\Quat.h(222,66): warning C4458: declaration of 'y' hides class member
+D:\projects\PreyDoom\code\idlib\math\Quat.h(26,10): message : see declaration of 'idQuat::y'
+D:\projects\PreyDoom\code\idlib\math\Quat.h(222,66): warning C4458: declaration of 'z' hides class member
+D:\projects\PreyDoom\code\idlib\math\Quat.h(27,10): message : see declaration of 'idQuat::z'
+D:\projects\PreyDoom\code\idlib\math\Quat.h(222,66): warning C4458: declaration of 'w' hides class member
+D:\projects\PreyDoom\code\idlib\math\Quat.h(28,10): message : see declaration of 'idQuat::w'
+D:\projects\PreyDoom\code\idlib\math\Quat.h(321,58): warning C4458: declaration of 'x' hides class member
+D:\projects\PreyDoom\code\idlib\math\Quat.h(283,10): message : see declaration of 'idCQuat::x'
+D:\projects\PreyDoom\code\idlib\math\Quat.h(321,58): warning C4458: declaration of 'y' hides class member
+D:\projects\PreyDoom\code\idlib\math\Quat.h(284,10): message : see declaration of 'idCQuat::y'
+D:\projects\PreyDoom\code\idlib\math\Quat.h(321,58): warning C4458: declaration of 'z' hides class member
+D:\projects\PreyDoom\code\idlib\math\Quat.h(285,10): message : see declaration of 'idCQuat::z'
+D:\projects\PreyDoom\code\idlib\math\prey_interpolate.h(164,86): warning C4458: declaration of 'tension' hides class member
+D:\projects\PreyDoom\code\idlib\math\prey_interpolate.h(144,10): message : see declaration of 'hhTCBSpline::tension'
+D:\projects\PreyDoom\code\idlib\math\prey_interpolate.h(164,86): warning C4458: declaration of 'continuity' hides class member
+D:\projects\PreyDoom\code\idlib\math\prey_interpolate.h(145,10): message : see declaration of 'hhTCBSpline::continuity'
+D:\projects\PreyDoom\code\idlib\math\prey_interpolate.h(164,86): warning C4458: declaration of 'bias' hides class member
+D:\projects\PreyDoom\code\idlib\math\prey_interpolate.h(146,10): message : see declaration of 'hhTCBSpline::bias'
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(127,61): warning C4458: declaration of 'origin' hides class member
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(93,11): message : see declaration of 'idFrustum::origin'
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(131,57): warning C4458: declaration of 'axis' hides class member
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(94,11): message : see declaration of 'idFrustum::axis'
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(135,86): warning C4458: declaration of 'dNear' hides class member
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(95,10): message : see declaration of 'idFrustum::dNear'
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(135,86): warning C4458: declaration of 'dFar' hides class member
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(96,10): message : see declaration of 'idFrustum::dFar'
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(135,86): warning C4458: declaration of 'dLeft' hides class member
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(97,10): message : see declaration of 'idFrustum::dLeft'
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(135,86): warning C4458: declaration of 'dUp' hides class member
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(98,10): message : see declaration of 'idFrustum::dUp'
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(144,65): warning C4458: declaration of 'dNear' hides class member
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(95,10): message : see declaration of 'idFrustum::dNear'
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(144,65): warning C4458: declaration of 'dFar' hides class member
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(96,10): message : see declaration of 'idFrustum::dFar'
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(153,59): warning C4458: declaration of 'dNear' hides class member
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(95,10): message : see declaration of 'idFrustum::dNear'
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(158,57): warning C4458: declaration of 'dFar' hides class member
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(96,10): message : see declaration of 'idFrustum::dFar'
+D:\projects\PreyDoom\code\idlib\geometry\DrawVert.h(74,52): warning C4458: declaration of 'color' hides class member
+D:\projects\PreyDoom\code\idlib\geometry\DrawVert.h(21,9): message : see declaration of 'idDrawVert::color'
+D:\projects\PreyDoom\code\idlib\Str.h(852,67): warning C4458: declaration of 'len' hides class member
+D:\projects\PreyDoom\code\idlib\Str.h(274,10): message : see declaration of 'idStr::len'
+D:\projects\PreyDoom\code\idlib\Str.h(856,68): warning C4458: declaration of 'len' hides class member
+D:\projects\PreyDoom\code\idlib\Str.h(274,10): message : see declaration of 'idStr::len'
+D:\projects\PreyDoom\code\idlib\Str.h(864,46): warning C4458: declaration of 'len' hides class member
+D:\projects\PreyDoom\code\idlib\Str.h(274,10): message : see declaration of 'idStr::len'
+D:\projects\PreyDoom\code\idlib\Str.h(868,47): warning C4458: declaration of 'len' hides class member
+D:\projects\PreyDoom\code\idlib\Str.h(274,10): message : see declaration of 'idStr::len'
+D:\projects\PreyDoom\code\idlib\Lexer.h(273,47): warning C4458: declaration of 'flags' hides class member
+D:\projects\PreyDoom\code\idlib\Lexer.h(234,9): message : see declaration of 'idLexer::flags'
+D:\projects\PreyDoom\code\idlib\containers\StrPool.h(70,66): warning C4458: declaration of 'caseSensitive' hides class member
+D:\projects\PreyDoom\code\idlib\containers\StrPool.h(60,10): message : see declaration of 'idStrPool::caseSensitive'
+D:\projects\PreyDoom\code\idlib\BitMsg.h(566,96): warning C4458: declaration of 'base' hides class member
+D:\projects\PreyDoom\code\idlib\BitMsg.h(537,18): message : see declaration of 'idBitMsgDelta::base'
+D:\projects\PreyDoom\code\idlib\BitMsg.h(566,96): warning C4458: declaration of 'newBase' hides class member
+D:\projects\PreyDoom\code\idlib\BitMsg.h(538,14): message : see declaration of 'idBitMsgDelta::newBase'
+D:\projects\PreyDoom\code\idlib\BitMsg.h(574,102): warning C4458: declaration of 'base' hides class member
+D:\projects\PreyDoom\code\idlib\BitMsg.h(537,18): message : see declaration of 'idBitMsgDelta::base'
+D:\projects\PreyDoom\code\idlib\BitMsg.h(574,102): warning C4458: declaration of 'newBase' hides class member
+D:\projects\PreyDoom\code\idlib\BitMsg.h(538,14): message : see declaration of 'idBitMsgDelta::newBase'
+D:\projects\PreyDoom\code\framework\CVarSystem.h(146,42): warning C4458: declaration of 'value' hides class member
+D:\projects\PreyDoom\code\framework\CVarSystem.h(157,17): message : see declaration of 'idCVar::value'
+D:\projects\PreyDoom\code\framework\CVarSystem.h(147,39): warning C4458: declaration of 'value' hides class member
+D:\projects\PreyDoom\code\framework\CVarSystem.h(157,17): message : see declaration of 'idCVar::value'
+D:\projects\PreyDoom\code\framework\CVarSystem.h(148,41): warning C4458: declaration of 'value' hides class member
+D:\projects\PreyDoom\code\framework\CVarSystem.h(157,17): message : see declaration of 'idCVar::value'
+D:\projects\PreyDoom\code\framework\CVarSystem.h(149,41): warning C4458: declaration of 'value' hides class member
+D:\projects\PreyDoom\code\framework\CVarSystem.h(157,17): message : see declaration of 'idCVar::value'
+D:\projects\PreyDoom\code\framework\CVarSystem.h(278,42): warning C4458: declaration of 'name' hides class member
+D:\projects\PreyDoom\code\framework\CVarSystem.h(156,17): message : see declaration of 'idCVar::name'
+D:\projects\PreyDoom\code\framework\CVarSystem.h(278,60): warning C4458: declaration of 'value' hides class member
+D:\projects\PreyDoom\code\framework\CVarSystem.h(157,17): message : see declaration of 'idCVar::value'
+D:\projects\PreyDoom\code\framework\CVarSystem.h(278,71): warning C4458: declaration of 'flags' hides class member
+D:\projects\PreyDoom\code\framework\CVarSystem.h(159,11): message : see declaration of 'idCVar::flags'
+D:\projects\PreyDoom\code\framework\CVarSystem.h(278,90): warning C4458: declaration of 'description' hides class member
+D:\projects\PreyDoom\code\framework\CVarSystem.h(158,17): message : see declaration of 'idCVar::description'
+D:\projects\PreyDoom\code\framework\CVarSystem.h(279,101): warning C4458: declaration of 'valueMin' hides class member
+D:\projects\PreyDoom\code\framework\CVarSystem.h(160,12): message : see declaration of 'idCVar::valueMin'
+D:\projects\PreyDoom\code\framework\CVarSystem.h(279,101): warning C4458: declaration of 'valueMax' hides class member
+D:\projects\PreyDoom\code\framework\CVarSystem.h(161,12): message : see declaration of 'idCVar::valueMax'
+D:\projects\PreyDoom\code\framework\CVarSystem.h(279,101): warning C4458: declaration of 'valueStrings' hides class member
+D:\projects\PreyDoom\code\framework\CVarSystem.h(162,18): message : see declaration of 'idCVar::valueStrings'
+D:\projects\PreyDoom\code\framework\CVarSystem.h(279,101): warning C4458: declaration of 'valueCompletion' hides class member
+D:\projects\PreyDoom\code\framework\CVarSystem.h(163,20): message : see declaration of 'idCVar::valueCompletion'
+  prey_math.cpp
+  BitMsg.cpp
+  CmdArgs.cpp
+  Dict.cpp
+  Heap.cpp
+  LangDict.cpp
+  Lexer.cpp
+D:\projects\PreyDoom\code\idlib\Lexer.cpp(95,75): warning C4458: declaration of 'punctuations' hides class member
+D:\projects\PreyDoom\code\idlib\Lexer.h(235,23): message : see declaration of 'idLexer::punctuations'
+D:\projects\PreyDoom\code\idlib\Lexer.cpp(411,54): warning C4458: declaration of 'token' hides class member
+D:\projects\PreyDoom\code\idlib\Lexer.h(238,12): message : see declaration of 'idLexer::token'
+D:\projects\PreyDoom\code\idlib\Lexer.cpp(509,41): warning C4458: declaration of 'token' hides class member
+D:\projects\PreyDoom\code\idlib\Lexer.h(238,12): message : see declaration of 'idLexer::token'
+D:\projects\PreyDoom\code\idlib\Lexer.cpp(551,43): warning C4458: declaration of 'token' hides class member
+D:\projects\PreyDoom\code\idlib\Lexer.h(238,12): message : see declaration of 'idLexer::token'
+D:\projects\PreyDoom\code\idlib\Lexer.cpp(750,48): warning C4458: declaration of 'token' hides class member
+D:\projects\PreyDoom\code\idlib\Lexer.h(238,12): message : see declaration of 'idLexer::token'
+D:\projects\PreyDoom\code\idlib\Lexer.cpp(795,42): warning C4458: declaration of 'token' hides class member
+D:\projects\PreyDoom\code\idlib\Lexer.h(238,12): message : see declaration of 'idLexer::token'
+D:\projects\PreyDoom\code\idlib\Lexer.cpp(895,15): warning C4458: declaration of 'token' hides class member
+D:\projects\PreyDoom\code\idlib\Lexer.h(238,12): message : see declaration of 'idLexer::token'
+D:\projects\PreyDoom\code\idlib\Lexer.cpp(913,71): warning C4458: declaration of 'token' hides class member
+D:\projects\PreyDoom\code\idlib\Lexer.h(238,12): message : see declaration of 'idLexer::token'
+D:\projects\PreyDoom\code\idlib\Lexer.cpp(967,47): warning C4458: declaration of 'token' hides class member
+D:\projects\PreyDoom\code\idlib\Lexer.h(238,12): message : see declaration of 'idLexer::token'
+D:\projects\PreyDoom\code\idlib\Lexer.cpp(1003,70): warning C4458: declaration of 'token' hides class member
+D:\projects\PreyDoom\code\idlib\Lexer.h(238,12): message : see declaration of 'idLexer::token'
+D:\projects\PreyDoom\code\idlib\Lexer.cpp(1048,69): warning C4458: declaration of 'token' hides class member
+D:\projects\PreyDoom\code\idlib\Lexer.h(238,12): message : see declaration of 'idLexer::token'
+D:\projects\PreyDoom\code\idlib\Lexer.cpp(1073,15): warning C4458: declaration of 'token' hides class member
+D:\projects\PreyDoom\code\idlib\Lexer.h(238,12): message : see declaration of 'idLexer::token'
+D:\projects\PreyDoom\code\idlib\Lexer.cpp(1089,15): warning C4458: declaration of 'token' hides class member
+D:\projects\PreyDoom\code\idlib\Lexer.h(238,12): message : see declaration of 'idLexer::token'
+D:\projects\PreyDoom\code\idlib\Lexer.cpp(1110,15): warning C4458: declaration of 'token' hides class member
+D:\projects\PreyDoom\code\idlib\Lexer.h(238,12): message : see declaration of 'idLexer::token'
+D:\projects\PreyDoom\code\idlib\Lexer.cpp(1134,51): warning C4458: declaration of 'token' hides class member
+D:\projects\PreyDoom\code\idlib\Lexer.h(238,12): message : see declaration of 'idLexer::token'
+D:\projects\PreyDoom\code\idlib\Lexer.cpp(1147,48): warning C4458: declaration of 'token' hides class member
+D:\projects\PreyDoom\code\idlib\Lexer.h(238,12): message : see declaration of 'idLexer::token'
+D:\projects\PreyDoom\code\idlib\Lexer.cpp(1203,15): warning C4458: declaration of 'token' hides class member
+D:\projects\PreyDoom\code\idlib\Lexer.h(238,12): message : see declaration of 'idLexer::token'
+D:\projects\PreyDoom\code\idlib\Lexer.cpp(1225,15): warning C4458: declaration of 'token' hides class member
+D:\projects\PreyDoom\code\idlib\Lexer.h(238,12): message : see declaration of 'idLexer::token'
+D:\projects\PreyDoom\code\idlib\Lexer.cpp(1240,15): warning C4458: declaration of 'token' hides class member
+D:\projects\PreyDoom\code\idlib\Lexer.h(238,12): message : see declaration of 'idLexer::token'
+D:\projects\PreyDoom\code\idlib\Lexer.cpp(1423,15): warning C4458: declaration of 'token' hides class member
+D:\projects\PreyDoom\code\idlib\Lexer.h(238,12): message : see declaration of 'idLexer::token'
+D:\projects\PreyDoom\code\idlib\Lexer.cpp(1472,15): warning C4458: declaration of 'token' hides class member
+D:\projects\PreyDoom\code\idlib\Lexer.h(238,12): message : see declaration of 'idLexer::token'
+D:\projects\PreyDoom\code\idlib\Lexer.cpp(1566,60): warning C4458: declaration of 'filename' hides class member
+D:\projects\PreyDoom\code\idlib\Lexer.h(221,10): message : see declaration of 'idLexer::filename'
+D:\projects\PreyDoom\code\idlib\Lexer.cpp(1569,12): warning C4458: declaration of 'length' hides class member
+D:\projects\PreyDoom\code\idlib\Lexer.h(230,9): message : see declaration of 'idLexer::length'
+D:\projects\PreyDoom\code\idlib\Lexer.cpp(1621,89): warning C4458: declaration of 'length' hides class member
+D:\projects\PreyDoom\code\idlib\Lexer.h(230,9): message : see declaration of 'idLexer::length'
+  Lib.cpp
+  MapFile.cpp
+D:\projects\PreyDoom\code\idlib\MapFile.cpp(870,56): warning C4458: declaration of 'name' hides class member
+D:\projects\PreyDoom\code\idlib\MapFile.h(197,12): message : see declaration of 'idMapFile::name'
+  Parser.cpp
+D:\projects\PreyDoom\code\idlib\Parser.cpp(142,75): warning C4458: declaration of 'definehash' hides class member
+D:\projects\PreyDoom\code\idlib\Parser.h(166,15): message : see declaration of 'idParser::definehash'
+D:\projects\PreyDoom\code\idlib\Parser.cpp(155,81): warning C4458: declaration of 'definehash' hides class member
+D:\projects\PreyDoom\code\idlib\Parser.h(166,15): message : see declaration of 'idParser::definehash'
+D:\projects\PreyDoom\code\idlib\Parser.cpp(327,49): warning C4458: declaration of 'skip' hides class member
+D:\projects\PreyDoom\code\idlib\Parser.h(168,9): message : see declaration of 'idParser::skip'
+D:\projects\PreyDoom\code\idlib\Parser.cpp(344,50): warning C4458: declaration of 'skip' hides class member
+D:\projects\PreyDoom\code\idlib\Parser.h(168,9): message : see declaration of 'idParser::skip'
+D:\projects\PreyDoom\code\idlib\Parser.cpp(392,16): warning C4458: declaration of 'skip' hides class member
+D:\projects\PreyDoom\code\idlib\Parser.h(168,9): message : see declaration of 'idParser::skip'
+D:\projects\PreyDoom\code\idlib\Parser.cpp(553,66): warning C4458: declaration of 'tokens' hides class member
+D:\projects\PreyDoom\code\idlib\Parser.h(164,13): message : see declaration of 'idParser::tokens'
+D:\projects\PreyDoom\code\idlib\Parser.cpp(1185,10): warning C4458: declaration of 'skip' hides class member
+D:\projects\PreyDoom\code\idlib\Parser.h(168,9): message : see declaration of 'idParser::skip'
+D:\projects\PreyDoom\code\idlib\Parser.cpp(1226,16): warning C4458: declaration of 'skip' hides class member
+D:\projects\PreyDoom\code\idlib\Parser.h(168,9): message : see declaration of 'idParser::skip'
+D:\projects\PreyDoom\code\idlib\Parser.cpp(1247,16): warning C4458: declaration of 'skip' hides class member
+D:\projects\PreyDoom\code\idlib\Parser.h(168,9): message : see declaration of 'idParser::skip'
+D:\projects\PreyDoom\code\idlib\Parser.cpp(1343,109): warning C4458: declaration of 'tokens' hides class member
+D:\projects\PreyDoom\code\idlib\Parser.h(164,13): message : see declaration of 'idParser::tokens'
+D:\projects\PreyDoom\code\idlib\Parser.cpp(1962,16): warning C4458: declaration of 'skip' hides class member
+D:\projects\PreyDoom\code\idlib\Parser.h(168,9): message : see declaration of 'idParser::skip'
+D:\projects\PreyDoom\code\idlib\Parser.cpp(1984,10): warning C4458: declaration of 'skip' hides class member
+D:\projects\PreyDoom\code\idlib\Parser.h(168,9): message : see declaration of 'idParser::skip'
+D:\projects\PreyDoom\code\idlib\Parser.cpp(2965,38): warning C4458: declaration of 'flags' hides class member
+D:\projects\PreyDoom\code\idlib\Parser.h(162,9): message : see declaration of 'idParser::flags'
+D:\projects\PreyDoom\code\idlib\Parser.cpp(2988,61): warning C4458: declaration of 'filename' hides class member
+D:\projects\PreyDoom\code\idlib\Parser.h(158,10): message : see declaration of 'idParser::filename'
+D:\projects\PreyDoom\code\idlib\Parser.cpp(2988,61): warning C4458: declaration of 'OSPath' hides class member
+D:\projects\PreyDoom\code\idlib\Parser.h(160,9): message : see declaration of 'idParser::OSPath'
+  Str.cpp
+D:\projects\PreyDoom\code\idlib\Str.cpp(578,67): warning C4458: declaration of 'len' hides class member
+D:\projects\PreyDoom\code\idlib\Str.h(274,10): message : see declaration of 'idStr::len'
+D:\projects\PreyDoom\code\idlib\Str.cpp(601,46): warning C4458: declaration of 'len' hides class member
+D:\projects\PreyDoom\code\idlib\Str.h(274,10): message : see declaration of 'idStr::len'
+  Timer.cpp
+  Token.cpp
+  Bounds.cpp
+  Box.cpp
+  Frustum.cpp
+D:\projects\PreyDoom\code\idlib\bv\Frustum.cpp(1179,108): warning C4458: declaration of 'dFar' hides class member
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(96,10): message : see declaration of 'idFrustum::dFar'
+D:\projects\PreyDoom\code\idlib\bv\Frustum.cpp(1190,102): warning C4458: declaration of 'dFar' hides class member
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(96,10): message : see declaration of 'idFrustum::dFar'
+D:\projects\PreyDoom\code\idlib\bv\Frustum.cpp(1351,108): warning C4458: declaration of 'dFar' hides class member
+D:\projects\PreyDoom\code\idlib\bv\Frustum.h(96,10): message : see declaration of 'idFrustum::dFar'
+  Sphere.cpp
+  HashIndex.cpp
+  DrawVert.cpp
+  JointTransform.cpp
+  Generating Code...
+  Compiling...
+  Surface.cpp
+  Surface_Patch.cpp
+D:\projects\PreyDoom\code\idlib\geometry\Surface_Patch.cpp(452,163): warning C4458: declaration of 'width' hides class member
+D:\projects\PreyDoom\code\idlib\geometry\Surface_Patch.h(33,10): message : see declaration of 'idSurface_Patch::width'
+  Surface_Polytope.cpp
+  Surface_SweptSpline.cpp
+D:\projects\PreyDoom\code\idlib\geometry\Surface_SweptSpline.cpp(13,73): warning C4458: declaration of 'spline' hides class member
+D:\projects\PreyDoom\code\idlib\geometry\Surface_SweptSpline.h(29,26): message : see declaration of 'idSurface_SweptSpline::spline'
+D:\projects\PreyDoom\code\idlib\geometry\Surface_SweptSpline.cpp(25,83): warning C4458: declaration of 'sweptSpline' hides class member
+D:\projects\PreyDoom\code\idlib\geometry\Surface_SweptSpline.h(30,26): message : see declaration of 'idSurface_SweptSpline::sweptSpline'
+D:\projects\PreyDoom\code\idlib\math\Curve.h(2228,126): warning C4458: declaration of 'order' hides class member
+D:\projects\PreyDoom\code\idlib\math\Curve.h(1778,10): message : see declaration of 'idCurve_BSpline<type>::order'
+          with
+          [
+              type=idVec4
+          ]
+D:\projects\PreyDoom\code\idlib\math\Curve.h(2228): message : while compiling class template member function 'void idCurve_NonUniformBSpline<type>::Basis(const int,const int,const float,float *) const'
+          with
+          [
+              type=idVec4
+          ]
+D:\projects\PreyDoom\code\idlib\math\Curve.h(2382): message : see reference to function template instantiation 'void idCurve_NonUniformBSpline<type>::Basis(const int,const int,const float,float *) const' being compiled
+          with
+          [
+              type=idVec4
+          ]
+D:\projects\PreyDoom\code\idlib\math\Curve.h(2320): message : while compiling class template member function 'idCurve_NURBS<idVec4>::idCurve_NURBS(void)'
+D:\projects\PreyDoom\code\idlib\geometry\Surface_SweptSpline.cpp(40): message : see reference to function template instantiation 'idCurve_NURBS<idVec4>::idCurve_NURBS(void)' being compiled
+D:\projects\PreyDoom\code\idlib\geometry\Surface_SweptSpline.cpp(40): message : see reference to class template instantiation 'idCurve_NURBS<idVec4>' being compiled
+D:\projects\PreyDoom\code\idlib\math\Curve.h(2253,141): warning C4458: declaration of 'order' hides class member
+D:\projects\PreyDoom\code\idlib\math\Curve.h(1778,10): message : see declaration of 'idCurve_BSpline<type>::order'
+          with
+          [
+              type=idVec4
+          ]
+D:\projects\PreyDoom\code\idlib\math\Curve.h(2253): message : while compiling class template member function 'void idCurve_NonUniformBSpline<type>::BasisFirstDerivative(const int,const int,const float,float *) const'
+          with
+          [
+              type=idVec4
+          ]
+D:\projects\PreyDoom\code\idlib\math\Curve.h(2417): message : see reference to function template instantiation 'void idCurve_NonUniformBSpline<type>::BasisFirstDerivative(const int,const int,const float,float *) const' being compiled
+          with
+          [
+              type=idVec4
+          ]
+D:\projects\PreyDoom\code\idlib\math\Curve.h(2273,142): warning C4458: declaration of 'order' hides class member
+D:\projects\PreyDoom\code\idlib\math\Curve.h(1778,10): message : see declaration of 'idCurve_BSpline<type>::order'
+          with
+          [
+              type=idVec4
+          ]
+D:\projects\PreyDoom\code\idlib\math\Curve.h(2273): message : while compiling class template member function 'void idCurve_NonUniformBSpline<type>::BasisSecondDerivative(const int,const int,const float,float *) const'
+          with
+          [
+              type=idVec4
+          ]
+D:\projects\PreyDoom\code\idlib\math\Curve.h(2459): message : see reference to function template instantiation 'void idCurve_NonUniformBSpline<type>::BasisSecondDerivative(const int,const int,const float,float *) const' being compiled
+          with
+          [
+              type=idVec4
+          ]
+D:\projects\PreyDoom\code\idlib\math\Curve.h(1884,103): warning C4458: declaration of 'order' hides class member
+D:\projects\PreyDoom\code\idlib\math\Curve.h(1778,10): message : see declaration of 'idCurve_BSpline<type>::order'
+          with
+          [
+              type=idVec4
+          ]
+D:\projects\PreyDoom\code\idlib\math\Curve.h(1884): message : while compiling class template member function 'float idCurve_BSpline<type>::Basis(const int,const int,const float) const'
+          with
+          [
+              type=idVec4
+          ]
+D:\projects\PreyDoom\code\idlib\math\Curve.h(1817): message : see reference to function template instantiation 'float idCurve_BSpline<type>::Basis(const int,const int,const float) const' being compiled
+          with
+          [
+              type=idVec4
+          ]
+D:\projects\PreyDoom\code\idlib\math\Curve.h(1803): message : while compiling class template member function 'type idCurve_BSpline<type>::GetCurrentValue(const float) const'
+          with
+          [
+              type=idVec4
+          ]
+D:\projects\PreyDoom\code\idlib\math\Curve.h(2110): message : see reference to class template instantiation 'idCurve_BSpline<type>' being compiled
+          with
+          [
+              type=idVec4
+          ]
+D:\projects\PreyDoom\code\idlib\math\Curve.h(2295): message : see reference to class template instantiation 'idCurve_NonUniformBSpline<type>' being compiled
+          with
+          [
+              type=idVec4
+          ]
+D:\projects\PreyDoom\code\idlib\math\Curve.h(1914,118): warning C4458: declaration of 'order' hides class member
+D:\projects\PreyDoom\code\idlib\math\Curve.h(1778,10): message : see declaration of 'idCurve_BSpline<type>::order'
+          with
+          [
+              type=idVec4
+          ]
+D:\projects\PreyDoom\code\idlib\math\Curve.h(1914): message : while compiling class template member function 'float idCurve_BSpline<type>::BasisFirstDerivative(const int,const int,const float) const'
+          with
+          [
+              type=idVec4
+          ]
+D:\projects\PreyDoom\code\idlib\math\Curve.h(1844): message : see reference to function template instantiation 'float idCurve_BSpline<type>::BasisFirstDerivative(const int,const int,const float) const' being compiled
+          with
+          [
+              type=idVec4
+          ]
+D:\projects\PreyDoom\code\idlib\math\Curve.h(1927,119): warning C4458: declaration of 'order' hides class member
+D:\projects\PreyDoom\code\idlib\math\Curve.h(1778,10): message : see declaration of 'idCurve_BSpline<type>::order'
+          with
+          [
+              type=idVec4
+          ]
+D:\projects\PreyDoom\code\idlib\math\Curve.h(1927): message : while compiling class template member function 'float idCurve_BSpline<type>::BasisSecondDerivative(const int,const int,const float) const'
+          with
+          [
+              type=idVec4
+          ]
+D:\projects\PreyDoom\code\idlib\math\Curve.h(1871): message : see reference to function template instantiation 'float idCurve_BSpline<type>::BasisSecondDerivative(const int,const int,const float) const' being compiled
+          with
+          [
+              type=idVec4
+          ]
+  TraceModel.cpp
+D:\projects\PreyDoom\code\idlib\geometry\TraceModel.cpp(896,15): warning C4458: declaration of 'verts' hides class member
+D:\projects\PreyDoom\code\idlib\geometry\TraceModel.h(63,19): message : see declaration of 'idTraceModel::verts'
+  Winding.cpp
+  Winding2D.cpp
+  CRC16.cpp
+  CRC32.cpp
+  CRC8.cpp
+  Honeyman.cpp
+  MD4.cpp
+  MD5.cpp
+  Angles.cpp
+  Complex.cpp
+  Lcp.cpp
+D:\projects\PreyDoom\code\idlib\math\Lcp.cpp(97,62): warning C4458: declaration of 'b' hides class member
+D:\projects\PreyDoom\code\idlib\math\Lcp.cpp(28,11): message : see declaration of 'idLCP_Square::b'
+D:\projects\PreyDoom\code\idlib\math\Lcp.cpp(835,65): warning C4458: declaration of 'b' hides class member
+D:\projects\PreyDoom\code\idlib\math\Lcp.cpp(785,11): message : see declaration of 'idLCP_Symmetric::b'
+  Math.cpp
+  Matrix.cpp
+D:\projects\PreyDoom\code\idlib\math\Matrix.cpp(932,15): warning C4458: declaration of 'mat' hides class member
+D:\projects\PreyDoom\code\idlib\math\Matrix.h(1147,11): message : see declaration of 'idMat4::mat'
+D:\projects\PreyDoom\code\idlib\math\Matrix.cpp(1603,15): warning C4458: declaration of 'mat' hides class member
+D:\projects\PreyDoom\code\idlib\math\Matrix.h(1529,11): message : see declaration of 'idMat5::mat'
+D:\projects\PreyDoom\code\idlib\math\Matrix.cpp(2750,15): warning C4458: declaration of 'mat' hides class member
+D:\projects\PreyDoom\code\idlib\math\Matrix.h(1828,11): message : see declaration of 'idMat6::mat'
+D:\projects\PreyDoom\code\idlib\math\Matrix.cpp(6604,28): warning C4456: declaration of 'm' hides previous local declaration
+D:\projects\PreyDoom\code\idlib\math\Matrix.cpp(6545,12): message : see declaration of 'm'
+  Ode.cpp
+  Plane.cpp
+  Generating Code...
+  Compiling...
+  Pluecker.cpp
+  Polynomial.cpp
+D:\projects\PreyDoom\code\idlib\math\Polynomial.cpp(14,89): warning C4458: declaration of 'degree' hides class member
+D:\projects\PreyDoom\code\idlib\math\Polynomial.h(71,9): message : see declaration of 'idPolynomial::degree'
+  Quat.cpp
+  Rotation.cpp
+  Simd.cpp
+D:\projects\PreyDoom\code\idlib\math\Simd.cpp(95,3): warning C5205: delete of an abstract class 'idSIMDProcessor' that has a non-virtual destructor results in undefined behavior
+D:\projects\PreyDoom\code\idlib\math\Simd.h(74): message : see declaration of 'idSIMDProcessor'
+D:\projects\PreyDoom\code\idlib\math\Simd.cpp(97,2): warning C5205: delete of an abstract class 'idSIMDProcessor' that has a non-virtual destructor results in undefined behavior
+D:\projects\PreyDoom\code\idlib\math\Simd.h(74): message : see declaration of 'idSIMDProcessor'
+D:\projects\PreyDoom\code\idlib\math\Simd.cpp(4192,3): warning C5205: delete of an abstract class 'idSIMDProcessor' that has a non-virtual destructor results in undefined behavior
+D:\projects\PreyDoom\code\idlib\math\Simd.h(74): message : see declaration of 'idSIMDProcessor'
+  Simd_3DNow.cpp
+  Simd_Generic.cpp
+  Simd_MMX.cpp
+  Simd_SSE.cpp
+  Simd_SSE2.cpp
+  Simd_SSE3.cpp
+  Vector.cpp
+  Generating Code...
+  2005idlib.vcxproj -> D:\projects\PreyDoom\code\./DebugDLL\idLib.lib

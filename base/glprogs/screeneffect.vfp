@@ -1,0 +1,113 @@
+!!ARBvp1.0 OPTION ARB_position_invariant ;
+
+# texture 0 takes the texture coordinates unmodified
+MOV		result.texcoord[0], vertex.texcoord[0];
+MOV		result.color, vertex.color;
+
+END
+
+#======================================================================
+
+!!ARBfp1.0 
+OPTION ARB_precision_hint_fastest;
+
+# texture 0 is _currentRender
+# texture 1 is a normal map that we will use to deform texture 0
+#
+# env[0] is the 1.0 to _currentRender conversion
+# env[1] is the fragment.position to 0.0 - 1.0 conversion
+
+TEMP	color, R0, R1,pos;
+
+PARAM	p1={-0.326212, -0.405805};
+PARAM	p2={-0.840144, -0.073580};
+PARAM	p3={-0.695914,  0.457137};
+PARAM	p4={-0.203345,  0.620716};
+PARAM	p5={0.962340, -0.194983};
+PARAM	p6={0.473434, -0.480026};
+PARAM	p7={0.519456,  0.767022};
+PARAM	p8={0.185461, -0.893124};
+PARAM	p9={0.507431,  0.064425};
+PARAM	p10={0.896420,  0.412458};
+PARAM	p11={-0.321940, -0.932615};
+PARAM	p12={-0.791559, -0.597705};
+
+PARAM	size=program.local[0];
+PARAM	strength=program.local[0];
+
+# calculate the screen texcoord in the 0.0 to 1.0 range
+MOV		R0, fragment.texcoord[0];
+
+# scale by the screen non-power-of-two-adjust
+MUL		pos, R0, program.env[0];
+
+MOV		color, 0.0;
+
+MAD		R0, p1, size.x, pos;
+TEX		R0, R0, texture[0], 2D;
+MAD		color, R0, strength.y, color;
+
+MAD		R0, p2, size.x, pos;
+TEX		R0, R0, texture[0], 2D;
+MAD		color, R0, strength.y, color;
+
+MAD		R0, p3, size.x, pos;
+TEX		R0, R0, texture[0], 2D;
+MAD		color, R0, strength.y, color;
+
+MAD		R0, p4, size.x, pos;
+TEX		R0, R0, texture[0], 2D;
+MAD		color, R0, strength.y, color;
+
+MAD		R0, p5, size.x, pos;
+TEX		R0, R0, texture[0], 2D;
+MAD		color, R0, strength.y, color;
+
+MAD		R0, p6, size.x, pos;
+TEX		R0, R0, texture[0], 2D;
+MAD		color, R0, strength.y, color;
+
+MAD		R0, p7, size.x, pos;
+TEX		R0, R0, texture[0], 2D;
+MAD		color, R0, strength.y, color;
+
+MAD		R0, p8, size.x, pos;
+TEX		R0, R0, texture[0], 2D;
+MAD		color, R0, strength.y, color;
+
+MAD		R0, p9, size.x, pos;
+TEX		R0, R0, texture[0], 2D;
+MAD		color, R0, strength.y, color;
+
+MAD		R0, p10, size.x, pos;
+TEX		R0, R0, texture[0], 2D;
+MAD		color, R0, strength.y, color;
+
+MAD		R0, p11, size.x, pos;
+TEX		R0, R0, texture[0], 2D;
+MAD		color, R0, strength.y, color;
+
+MAD		R0, p12, size.x, pos;
+TEX		R0, R0, texture[0], 2D;
+MAD		color, R0, strength.y, color;
+
+TEX		R0, pos, texture[0], 2D;
+
+MAD_SAT		color, program.local[1].x, color, program.local[1].y;
+
+LRP		color, program.local[0].z, R0, color;
+
+DP3		R1, color, {0.3,0.5,0.1};
+LRP		color, program.local[2].x, color, R1;
+LRP		color, program.local[3].x, color, program.local[3].y;
+MUL		R1, R1, program.local[4].a;
+LRP		color, R1, program.local[4], color;
+MAD		color, color, 0.95, program.local[5];
+
+TEX		R1, fragment.texcoord[0], texture[2], 2D;
+LRP		color, R1, color, R0;
+
+MOV		result.color.xyz, color;
+
+END
+

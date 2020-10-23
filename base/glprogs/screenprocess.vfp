@@ -1,0 +1,35 @@
+!!ARBvp1.0 OPTION ARB_position_invariant ;
+
+# texture 0 takes the texture coordinates unmodified
+MOV		result.texcoord[0], vertex.texcoord[0];
+
+END
+
+#======================================================================
+
+!!ARBfp1.0 
+OPTION ARB_precision_hint_fastest;
+
+# texture 0 is _currentRender
+# texture 1 is a normal map that we will use to deform texture 0
+#
+# env[0] is the 1.0 to _currentRender conversion
+# env[1] is the fragment.position to 0.0 - 1.0 conversion
+
+TEMP	color, R0;
+
+# scale by the screen non-power-of-two-adjust
+MUL		R0, fragment.texcoord[0], program.env[0];
+
+TEX		color, R0, texture[0], 2D;
+
+DP3		R0, color, {0.3,0.5,0.1};
+LRP		color, program.local[0], color, R0;
+LRP		color, program.local[1].x, color, program.local[1].y;
+MAD		color, color, program.local[2], program.local[3];
+
+MOV		color.a, 0.2;
+MOV		result.color, color;
+
+END
+

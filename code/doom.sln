@@ -1,0 +1,109 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libs", "libs", "{347D107C-D787-4408-A60D-86FA45997F9B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "exes", "exes", "{003B01AB-152D-45C8-BF45-E5A035042D7F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dlls", "dlls", "{1E2B3940-65F8-4D8F-9EEE-85E94EBBC6DF}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CurlLib", "curllib.vcxproj", "{F46F5D4E-C1D4-4ADE-9FAA-5F0CE3AA07F1}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DoomDLL", "doomdll.vcxproj", "{49BEC5C6-B964-417A-851E-808886B57420}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MayaImport", "MayaImport.vcxproj", "{49BEC5C6-B964-417A-851E-808886B574F1}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game", "2005game.vcxproj", "{49BEC5C6-B964-417A-851E-808886B57430}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "idLib", "2005idlib.vcxproj", "{49BEC5C6-B964-417A-851E-808886B57400}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug with inlines and memory log|Win32 = Debug with inlines and memory log|Win32
+		Debug with inlines|Win32 = Debug with inlines|Win32
+		Debug|Win32 = Debug|Win32
+		Dedicated Debug with inlines|Win32 = Dedicated Debug with inlines|Win32
+		Dedicated Debug|Win32 = Dedicated Debug|Win32
+		Dedicated Release|Win32 = Dedicated Release|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F46F5D4E-C1D4-4ADE-9FAA-5F0CE3AA07F1}.Debug with inlines and memory log|Win32.ActiveCfg = Debug|Win32
+		{F46F5D4E-C1D4-4ADE-9FAA-5F0CE3AA07F1}.Debug with inlines and memory log|Win32.Build.0 = Debug|Win32
+		{F46F5D4E-C1D4-4ADE-9FAA-5F0CE3AA07F1}.Debug with inlines|Win32.ActiveCfg = Debug|Win32
+		{F46F5D4E-C1D4-4ADE-9FAA-5F0CE3AA07F1}.Debug with inlines|Win32.Build.0 = Debug|Win32
+		{F46F5D4E-C1D4-4ADE-9FAA-5F0CE3AA07F1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F46F5D4E-C1D4-4ADE-9FAA-5F0CE3AA07F1}.Debug|Win32.Build.0 = Debug|Win32
+		{F46F5D4E-C1D4-4ADE-9FAA-5F0CE3AA07F1}.Dedicated Debug with inlines|Win32.ActiveCfg = Debug|Win32
+		{F46F5D4E-C1D4-4ADE-9FAA-5F0CE3AA07F1}.Dedicated Debug with inlines|Win32.Build.0 = Debug|Win32
+		{F46F5D4E-C1D4-4ADE-9FAA-5F0CE3AA07F1}.Dedicated Debug|Win32.ActiveCfg = Debug|Win32
+		{F46F5D4E-C1D4-4ADE-9FAA-5F0CE3AA07F1}.Dedicated Debug|Win32.Build.0 = Debug|Win32
+		{F46F5D4E-C1D4-4ADE-9FAA-5F0CE3AA07F1}.Dedicated Release|Win32.ActiveCfg = Release|Win32
+		{F46F5D4E-C1D4-4ADE-9FAA-5F0CE3AA07F1}.Dedicated Release|Win32.Build.0 = Release|Win32
+		{F46F5D4E-C1D4-4ADE-9FAA-5F0CE3AA07F1}.Release|Win32.ActiveCfg = Release|Win32
+		{F46F5D4E-C1D4-4ADE-9FAA-5F0CE3AA07F1}.Release|Win32.Build.0 = Release|Win32
+		{49BEC5C6-B964-417A-851E-808886B57420}.Debug with inlines and memory log|Win32.ActiveCfg = Debug with inlines and memory log|Win32
+		{49BEC5C6-B964-417A-851E-808886B57420}.Debug with inlines and memory log|Win32.Build.0 = Debug with inlines and memory log|Win32
+		{49BEC5C6-B964-417A-851E-808886B57420}.Debug with inlines|Win32.ActiveCfg = Debug with inlines|Win32
+		{49BEC5C6-B964-417A-851E-808886B57420}.Debug with inlines|Win32.Build.0 = Debug with inlines|Win32
+		{49BEC5C6-B964-417A-851E-808886B57420}.Debug|Win32.ActiveCfg = Debug|Win32
+		{49BEC5C6-B964-417A-851E-808886B57420}.Debug|Win32.Build.0 = Debug|Win32
+		{49BEC5C6-B964-417A-851E-808886B57420}.Dedicated Debug with inlines|Win32.ActiveCfg = Dedicated Debug with inlines|Win32
+		{49BEC5C6-B964-417A-851E-808886B57420}.Dedicated Debug with inlines|Win32.Build.0 = Dedicated Debug with inlines|Win32
+		{49BEC5C6-B964-417A-851E-808886B57420}.Dedicated Debug|Win32.ActiveCfg = Dedicated Debug|Win32
+		{49BEC5C6-B964-417A-851E-808886B57420}.Dedicated Debug|Win32.Build.0 = Dedicated Debug|Win32
+		{49BEC5C6-B964-417A-851E-808886B57420}.Dedicated Release|Win32.ActiveCfg = Dedicated Release|Win32
+		{49BEC5C6-B964-417A-851E-808886B57420}.Dedicated Release|Win32.Build.0 = Dedicated Release|Win32
+		{49BEC5C6-B964-417A-851E-808886B57420}.Release|Win32.ActiveCfg = Release|Win32
+		{49BEC5C6-B964-417A-851E-808886B57420}.Release|Win32.Build.0 = Release|Win32
+		{49BEC5C6-B964-417A-851E-808886B574F1}.Debug with inlines and memory log|Win32.ActiveCfg = Debug with inlines and memory log|Win32
+		{49BEC5C6-B964-417A-851E-808886B574F1}.Debug with inlines|Win32.ActiveCfg = Debug with inlines|Win32
+		{49BEC5C6-B964-417A-851E-808886B574F1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{49BEC5C6-B964-417A-851E-808886B574F1}.Dedicated Debug with inlines|Win32.ActiveCfg = Dedicated Debug with inlines|Win32
+		{49BEC5C6-B964-417A-851E-808886B574F1}.Dedicated Debug|Win32.ActiveCfg = Dedicated Debug|Win32
+		{49BEC5C6-B964-417A-851E-808886B574F1}.Dedicated Release|Win32.ActiveCfg = Dedicated Release|Win32
+		{49BEC5C6-B964-417A-851E-808886B574F1}.Release|Win32.ActiveCfg = Release|Win32
+		{49BEC5C6-B964-417A-851E-808886B57430}.Debug with inlines and memory log|Win32.ActiveCfg = Debug with inlines and memory log|Win32
+		{49BEC5C6-B964-417A-851E-808886B57430}.Debug with inlines and memory log|Win32.Build.0 = Debug with inlines and memory log|Win32
+		{49BEC5C6-B964-417A-851E-808886B57430}.Debug with inlines|Win32.ActiveCfg = Debug with inlines|Win32
+		{49BEC5C6-B964-417A-851E-808886B57430}.Debug with inlines|Win32.Build.0 = Debug with inlines|Win32
+		{49BEC5C6-B964-417A-851E-808886B57430}.Debug|Win32.ActiveCfg = Debug|Win32
+		{49BEC5C6-B964-417A-851E-808886B57430}.Debug|Win32.Build.0 = Debug|Win32
+		{49BEC5C6-B964-417A-851E-808886B57430}.Dedicated Debug with inlines|Win32.ActiveCfg = Dedicated Debug with Inlines|Win32
+		{49BEC5C6-B964-417A-851E-808886B57430}.Dedicated Debug with inlines|Win32.Build.0 = Dedicated Debug with Inlines|Win32
+		{49BEC5C6-B964-417A-851E-808886B57430}.Dedicated Debug|Win32.ActiveCfg = Dedicated Debug with Inlines|Win32
+		{49BEC5C6-B964-417A-851E-808886B57430}.Dedicated Debug|Win32.Build.0 = Dedicated Debug with Inlines|Win32
+		{49BEC5C6-B964-417A-851E-808886B57430}.Dedicated Release|Win32.ActiveCfg = Dedicated Release|Win32
+		{49BEC5C6-B964-417A-851E-808886B57430}.Dedicated Release|Win32.Build.0 = Dedicated Release|Win32
+		{49BEC5C6-B964-417A-851E-808886B57430}.Release|Win32.ActiveCfg = Release|Win32
+		{49BEC5C6-B964-417A-851E-808886B57430}.Release|Win32.Build.0 = Release|Win32
+		{49BEC5C6-B964-417A-851E-808886B57400}.Debug with inlines and memory log|Win32.ActiveCfg = Debug with inlines and memory log|Win32
+		{49BEC5C6-B964-417A-851E-808886B57400}.Debug with inlines and memory log|Win32.Build.0 = Debug with inlines and memory log|Win32
+		{49BEC5C6-B964-417A-851E-808886B57400}.Debug with inlines|Win32.ActiveCfg = Debug with inlines|Win32
+		{49BEC5C6-B964-417A-851E-808886B57400}.Debug with inlines|Win32.Build.0 = Debug with inlines|Win32
+		{49BEC5C6-B964-417A-851E-808886B57400}.Debug|Win32.ActiveCfg = Debug|Win32
+		{49BEC5C6-B964-417A-851E-808886B57400}.Debug|Win32.Build.0 = Debug|Win32
+		{49BEC5C6-B964-417A-851E-808886B57400}.Dedicated Debug with inlines|Win32.ActiveCfg = Dedicated Debug with Inlines|Win32
+		{49BEC5C6-B964-417A-851E-808886B57400}.Dedicated Debug with inlines|Win32.Build.0 = Dedicated Debug with Inlines|Win32
+		{49BEC5C6-B964-417A-851E-808886B57400}.Dedicated Debug|Win32.ActiveCfg = Dedicated Debug with Inlines|Win32
+		{49BEC5C6-B964-417A-851E-808886B57400}.Dedicated Debug|Win32.Build.0 = Dedicated Debug with Inlines|Win32
+		{49BEC5C6-B964-417A-851E-808886B57400}.Dedicated Release|Win32.ActiveCfg = Dedicated Release|Win32
+		{49BEC5C6-B964-417A-851E-808886B57400}.Dedicated Release|Win32.Build.0 = Dedicated Release|Win32
+		{49BEC5C6-B964-417A-851E-808886B57400}.Release|Win32.ActiveCfg = Release|Win32
+		{49BEC5C6-B964-417A-851E-808886B57400}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F46F5D4E-C1D4-4ADE-9FAA-5F0CE3AA07F1} = {347D107C-D787-4408-A60D-86FA45997F9B}
+		{49BEC5C6-B964-417A-851E-808886B57420} = {003B01AB-152D-45C8-BF45-E5A035042D7F}
+		{49BEC5C6-B964-417A-851E-808886B574F1} = {1E2B3940-65F8-4D8F-9EEE-85E94EBBC6DF}
+		{49BEC5C6-B964-417A-851E-808886B57430} = {1E2B3940-65F8-4D8F-9EEE-85E94EBBC6DF}
+		{49BEC5C6-B964-417A-851E-808886B57400} = {347D107C-D787-4408-A60D-86FA45997F9B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {754CFEC6-DA68-4561-8BB5-18845C08B000}
+	EndGlobalSection
+EndGlobal
