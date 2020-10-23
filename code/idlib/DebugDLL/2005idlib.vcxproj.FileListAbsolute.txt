@@ -1,2 +1,0 @@
-D:\projects\PreyDoom\code\DebugDLL\idLib.pdb
-D:\projects\PreyDoom\code\idLib\DebugDLL\idLib.pdb
