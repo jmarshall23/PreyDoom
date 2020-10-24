@@ -538,7 +538,6 @@
     <ClInclude Include="renderer\Image.h" />
     <ClInclude Include="renderer\Interaction.h" />
     <ClInclude Include="renderer\Material.h" />
-    <ClInclude Include="renderer\MegaTexture.h" />
     <ClInclude Include="renderer\Model.h" />
     <ClInclude Include="renderer\Model_ase.h" />
     <ClInclude Include="renderer\Model_local.h" />
@@ -712,12 +711,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Dedicated Debug with inlines|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="renderer\Cinematic.cpp" />
-    <ClCompile Include="renderer\draw_arb.cpp" />
-    <ClCompile Include="renderer\draw_arb2.cpp" />
     <ClCompile Include="renderer\draw_common.cpp" />
-    <ClCompile Include="renderer\draw_nv10.cpp" />
-    <ClCompile Include="renderer\draw_nv20.cpp" />
-    <ClCompile Include="renderer\draw_r200.cpp" />
     <ClCompile Include="renderer\GuiModel.cpp" />
     <ClCompile Include="renderer\Image_files.cpp" />
     <ClCompile Include="renderer\Image_init.cpp" />
@@ -726,7 +720,6 @@
     <ClCompile Include="renderer\Image_program.cpp" />
     <ClCompile Include="renderer\Interaction.cpp" />
     <ClCompile Include="renderer\Material.cpp" />
-    <ClCompile Include="renderer\MegaTexture.cpp" />
     <ClCompile Include="renderer\Model.cpp" />
     <ClCompile Include="renderer\Model_ase.cpp" />
     <ClCompile Include="renderer\Model_beam.cpp" />

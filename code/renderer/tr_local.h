@@ -30,7 +30,6 @@ If you have questions concerning this license or the applicable additional terms
 #define __TR_LOCAL_H__
 
 #include "Image.h"
-#include "MegaTexture.h"
 
 class idRenderWorldLocal;
 
@@ -484,7 +483,7 @@ typedef struct {
 
 typedef struct {
 	renderCommand_t		commandId, *next;
-	GLenum	buffer;
+	//GLenum	buffer;
 	int		frameCount;
 } setBufferCommand_t;
 
@@ -1303,22 +1302,6 @@ DRAW_*
 ============================================================
 */
 
-void	RB_ARB_DrawInteractions( void );
-
-void	R_R200_Init( void );
-void	RB_R200_DrawInteractions( void );
-
-void	R_NV10_Init( void );
-void	RB_NV10_DrawInteractions( void );
-
-void	R_NV20_Init( void );
-void	RB_NV20_DrawInteractions( void );
-
-void	R_ARB2_Init( void );
-void	RB_ARB2_DrawInteractions( void );
-void	R_ReloadARBPrograms_f( const idCmdArgs &args );
-int		R_FindARBProgram( GLenum target, const char *program );
-
 typedef enum {
 	PROG_INVALID,
 	VPROG_INTERACTION,
@@ -1589,20 +1572,20 @@ RENDERER DEBUG TOOLS
 =============================================================
 */
 
-float RB_DrawTextLength( const char *text, float scale, int len );
-void RB_AddDebugText( const char *text, const idVec3 &origin, float scale, const idVec4 &color, const idMat3 &viewAxis, const int align, const int lifetime, const bool depthTest );
-void RB_ClearDebugText( int time );
-void RB_AddDebugLine( const idVec4 &color, const idVec3 &start, const idVec3 &end, const int lifeTime, const bool depthTest );
-void RB_ClearDebugLines( int time );
-void RB_AddDebugPolygon( const idVec4 &color, const idWinding &winding, const int lifeTime, const bool depthTest );
-void RB_ClearDebugPolygons( int time );
+//float RB_DrawTextLength( const char *text, float scale, int len );
+//void RB_AddDebugText( const char *text, const idVec3 &origin, float scale, const idVec4 &color, const idMat3 &viewAxis, const int align, const int lifetime, const bool depthTest );
+//void RB_ClearDebugText( int time );
+//void RB_AddDebugLine( const idVec4 &color, const idVec3 &start, const idVec3 &end, const int lifeTime, const bool depthTest );
+//void RB_ClearDebugLines( int time );
+//void RB_AddDebugPolygon( const idVec4 &color, const idWinding &winding, const int lifeTime, const bool depthTest );
+//void RB_ClearDebugPolygons( int time );
 void RB_DrawBounds( const idBounds &bounds );
 void RB_ShowLights( drawSurf_t **drawSurfs, int numDrawSurfs );
 void RB_ShowLightCount( drawSurf_t **drawSurfs, int numDrawSurfs );
 void RB_PolygonClear( void );
 void RB_ScanStencilBuffer( void );
 void RB_ShowDestinationAlpha( void );
-void RB_ShowOverdraw( void );
+//void RB_ShowOverdraw( void );
 void RB_RenderDebugTools( drawSurf_t **drawSurfs, int numDrawSurfs );
 void RB_ShutdownDebugTools( void );
 

@@ -330,43 +330,7 @@ static void R_BlackImage( idImage *image ) {
 // the size determines how far away from the edge the blocks start fading
 static const int BORDER_CLAMP_SIZE = 32;
 static void R_BorderClampImage( idImage *image ) {
-	byte	data[BORDER_CLAMP_SIZE][BORDER_CLAMP_SIZE][4];
-
-	// solid white texture with a single pixel black border
-	memset( data, 255, sizeof( data ) );
-	for ( int i = 0 ; i < BORDER_CLAMP_SIZE ; i++ ) {
-		data[i][0][0] = 
-		data[i][0][1] = 
-		data[i][0][2] = 
-		data[i][0][3] = 
-
-		data[i][BORDER_CLAMP_SIZE-1][0] = 
-		data[i][BORDER_CLAMP_SIZE-1][1] = 
-		data[i][BORDER_CLAMP_SIZE-1][2] = 
-		data[i][BORDER_CLAMP_SIZE-1][3] = 
-
-		data[0][i][0] = 
-		data[0][i][1] = 
-		data[0][i][2] = 
-		data[0][i][3] = 
-
-		data[BORDER_CLAMP_SIZE-1][i][0] = 
-		data[BORDER_CLAMP_SIZE-1][i][1] = 
-		data[BORDER_CLAMP_SIZE-1][i][2] = 
-		data[BORDER_CLAMP_SIZE-1][i][3] = 0;
-	}
-
-	image->GenerateImage( (byte *)data, BORDER_CLAMP_SIZE, BORDER_CLAMP_SIZE, 
-		TF_LINEAR /* TF_NEAREST */, false, TR_CLAMP_TO_BORDER, TD_DEFAULT );
-
-	if ( !glConfig.isInitialized ) {
-		// can't call qglTexParameterfv yet
-		return;
-	}
-	// explicit zero border
-	float	color[4];
-	color[0] = color[1] = color[2] = color[3] = 0;
-	qglTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, color );
+	
 }
 
 static void R_RGBA8Image( idImage *image ) {
@@ -646,32 +610,7 @@ static void getCubeVector(int i, int cubesize, int x, int y, float *vector) {
  * access the cube map.
  */
 static void makeNormalizeVectorCubeMap( idImage *image ) {
-	float vector[3];
-	int i, x, y;
-	byte	*pixels[6];
-	int		size;
 
-	size = NORMAL_MAP_SIZE;
-
-	pixels[0] = (GLubyte*) Mem_Alloc(size*size*4*6);
-
-	for (i = 0; i < 6; i++) {
-		pixels[i] = pixels[0] + i*size*size*4;
-		for (y = 0; y < size; y++) {
-		  for (x = 0; x < size; x++) {
-			getCubeVector(i, size, x, y, vector);
-			pixels[i][4*(y*size+x) + 0] = (byte)(128 + 127*vector[0]);
-			pixels[i][4*(y*size+x) + 1] = (byte)(128 + 127*vector[1]);
-			pixels[i][4*(y*size+x) + 2] = (byte)(128 + 127*vector[2]);
-			pixels[i][4*(y*size+x) + 3] = 255;
-		  }
-		}
-	}
-
-	image->GenerateCubeImage( (const byte **)pixels, size,
-						   TF_LINEAR, false, TD_HIGH_QUALITY ); 
-
-	Mem_Free(pixels[0]);
 }
 
 
@@ -926,82 +865,7 @@ New images will automatically pick up the current values.
 ===============
 */
 void idImageManager::ChangeTextureFilter( void ) {
-	int		i;
-	idImage	*glt;
-	const char	*string;
-static filterName_t textureFilters[] = {
-	{"GL_LINEAR_MIPMAP_NEAREST", GL_LINEAR_MIPMAP_NEAREST, GL_LINEAR},
-	{"GL_LINEAR_MIPMAP_LINEAR", GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR},
-	{"GL_NEAREST", GL_NEAREST, GL_NEAREST},
-	{"GL_LINEAR", GL_LINEAR, GL_LINEAR},
-	{"GL_NEAREST_MIPMAP_NEAREST", GL_NEAREST_MIPMAP_NEAREST, GL_NEAREST},
-	{"GL_NEAREST_MIPMAP_LINEAR", GL_NEAREST_MIPMAP_LINEAR, GL_NEAREST}
-};
-
-	// if these are changed dynamically, it will force another ChangeTextureFilter
-	image_filter.ClearModified();
-	image_anisotropy.ClearModified();
-	image_lodbias.ClearModified();
-
-	string = image_filter.GetString();
-	for ( i = 0; i < 6; i++ ) {
-		if ( !idStr::Icmp( textureFilters[i].name, string ) ) {
-			break;
-		}
-	}
-
-	if ( i == 6 ) {
-		common->Warning( "bad r_textureFilter: '%s'", string);
-		// default to LINEAR_MIPMAP_NEAREST
-		i = 0;
-	}
-
-	// set the values for future images
-	textureMinFilter = textureFilters[i].minimize;
-	textureMaxFilter = textureFilters[i].maximize;
-	textureAnisotropy = image_anisotropy.GetFloat();
-	if ( textureAnisotropy < 1 ) {
-		textureAnisotropy = 1;
-	} else if ( textureAnisotropy > glConfig.maxTextureAnisotropy ) {
-		textureAnisotropy = glConfig.maxTextureAnisotropy;
-	}
-	textureLODBias = image_lodbias.GetFloat();
-
-	// change all the existing mipmap texture objects with default filtering
-
-	for ( i = 0 ; i < images.Num() ; i++ ) {
-		unsigned int	texEnum = GL_TEXTURE_2D;
-
-		glt = images[ i ];
-
-		switch( glt->type ) {
-		case TT_2D:
-			texEnum = GL_TEXTURE_2D;
-			break;
-		case TT_3D:
-			texEnum = GL_TEXTURE_3D;
-			break;
-		case TT_CUBIC:
-			texEnum = GL_TEXTURE_CUBE_MAP_EXT;
-			break;
-		}
-
-		// make sure we don't start a background load
-		if ( glt->texnum == idImage::TEXTURE_NOT_LOADED ) {
-			continue;
-		}
-		glt->Bind();
-		if ( glt->filter == TF_DEFAULT ) {
-			qglTexParameterf(texEnum, GL_TEXTURE_MIN_FILTER, globalImages->textureMinFilter );
-			qglTexParameterf(texEnum, GL_TEXTURE_MAG_FILTER, globalImages->textureMaxFilter );
-		}
-		if ( glConfig.anisotropicAvailable ) {
-			qglTexParameterf(texEnum, GL_TEXTURE_MAX_ANISOTROPY_EXT, globalImages->textureAnisotropy );
-		}	
-		if ( glConfig.textureLODBiasAvailable ) {
-			qglTexParameterf(texEnum, GL_TEXTURE_LOD_BIAS_EXT, globalImages->textureLODBias );
-		}
-	}
+	
 }
 
 /*
@@ -1116,177 +980,7 @@ R_ListImages_f
 ===============
 */
 void R_ListImages_f( const idCmdArgs &args ) {
-	int		i, j, partialSize;
-	idImage	*image;
-	int		totalSize;
-	int		count = 0;
-	int		matchTag = 0;
-	bool	uncompressedOnly = false;
-	bool	unloaded = false;
-	bool	partial = false;
-	bool	cached = false;
-	bool	uncached = false;
-	bool	failed = false;
-	bool	touched = false;
-	bool	sorted = false;
-	bool	duplicated = false;
-	bool	byClassification = false;
-	bool	overSized = false;
 
-	if ( args.Argc() == 1 ) {
-
-	} else if ( args.Argc() == 2 ) {
-		if ( idStr::Icmp( args.Argv( 1 ), "uncompressed" ) == 0 ) {
-			uncompressedOnly = true;
-		} else if ( idStr::Icmp( args.Argv( 1 ), "sorted" ) == 0 ) {
-			sorted = true;
-		} else if ( idStr::Icmp( args.Argv( 1 ), "partial" ) == 0 ) {
-			partial = true;
-		} else if ( idStr::Icmp( args.Argv( 1 ), "unloaded" ) == 0 ) {
-			unloaded = true;
-		} else if ( idStr::Icmp( args.Argv( 1 ), "cached" ) == 0 ) {
-			cached = true;
-		} else if ( idStr::Icmp( args.Argv( 1 ), "uncached" ) == 0 ) {
-			uncached = true;
-		} else if ( idStr::Icmp( args.Argv( 1 ), "tagged" ) == 0 ) {
-			matchTag = 1;
-		} else if ( idStr::Icmp( args.Argv( 1 ), "duplicated" ) == 0 ) {
-			duplicated = true;
-		} else if ( idStr::Icmp( args.Argv( 1 ), "touched" ) == 0 ) {
-			touched = true;
-		} else if ( idStr::Icmp( args.Argv( 1 ), "classify" ) == 0 ) {
-			byClassification = true;
-			sorted = true;
-		} else if ( idStr::Icmp( args.Argv( 1 ), "oversized" ) == 0 ) {
-			byClassification = true;
-			sorted = true;
-			overSized = true;
-		} else {
-			failed = true;
-		}
-	} else {
-		failed = true;
-	}
-
-	if ( failed ) {
-		common->Printf( "usage: listImages [ sorted | partial | unloaded | cached | uncached | tagged | duplicated | touched | classify | showOverSized ]\n" );
-		return;
-	}
-
-	const char *header = "       -w-- -h-- filt -fmt-- wrap  size --name-------\n";
-	common->Printf( "\n%s", header );
-
-	totalSize = 0;
-
-	sortedImage_t	*sortedArray = (sortedImage_t *)alloca( sizeof( sortedImage_t ) * globalImages->images.Num() );
-
-	for ( i = 0 ; i < globalImages->images.Num() ; i++ ) {
-		image = globalImages->images[ i ];
-
-		if ( uncompressedOnly ) {
-			if ( ( image->internalFormat >= GL_COMPRESSED_RGB_S3TC_DXT1_EXT && image->internalFormat <= GL_COMPRESSED_RGBA_S3TC_DXT5_EXT )
-				|| image->internalFormat == GL_COLOR_INDEX8_EXT ) {
-				continue;
-			}
-		}
-
-		if ( matchTag && image->classification != matchTag ) {
-			continue;
-		}
-		if ( unloaded && image->texnum != idImage::TEXTURE_NOT_LOADED ) {
-			continue;
-		}
-		if ( partial && !image->isPartialImage ) {
-			continue;
-		}
-		if ( cached && ( !image->partialImage || image->texnum == idImage::TEXTURE_NOT_LOADED ) ) {
-			continue;
-		}
-		if ( uncached && ( !image->partialImage || image->texnum != idImage::TEXTURE_NOT_LOADED ) ) {
-			continue;
-		}
-
-		// only print duplicates (from mismatched wrap / clamp, etc)
-		if ( duplicated ) {
-			int j;
-			for ( j = i+1 ; j < globalImages->images.Num() ; j++ ) {
-				if ( idStr::Icmp( image->imgName, globalImages->images[ j ]->imgName ) == 0 ) {
-					break;
-				}
-			}
-			if ( j == globalImages->images.Num() ) {
-				continue;
-			}
-		}
-
-		// "listimages touched" will list only images bound since the last "listimages touched" call
-		if ( touched ) {
-			if ( image->bindCount == 0 ) {
-				continue;
-			}
-			image->bindCount = 0;
-		}
-
-		if ( sorted ) {
-			sortedArray[count].image = image;
-			sortedArray[count].size = image->StorageSize();
-		} else {
-			common->Printf( "%4i:",	i );
-			image->Print();
-		}
-		totalSize += image->StorageSize();
-		count++;
-	}
-
-	if ( sorted ) {
-		qsort( sortedArray, count, sizeof( sortedImage_t ), R_QsortImageSizes );
-		partialSize = 0;
-		for ( i = 0 ; i < count ; i++ ) {
-			common->Printf( "%4i:",	i );
-			sortedArray[i].image->Print();
-			partialSize += sortedArray[i].image->StorageSize();
-			if ( ( (i+1) % 10 ) == 0 ) {
-				common->Printf( "-------- %5.1f of %5.1f megs --------\n", 
-					partialSize / (1024*1024.0), totalSize / (1024*1024.0) );
-			}
-		}
-	}
-
-	common->Printf( "%s", header );
-	common->Printf( " %i images (%i total)\n", count, globalImages->images.Num() );
-	common->Printf( " %5.1f total megabytes of images\n\n\n", totalSize / (1024*1024.0) );
-
-	if ( byClassification ) {
-
-		idList< int > classifications[IC_COUNT];
-
-		for ( i = 0 ; i < count ; i++ ) {
-			int cl = ClassifyImage( sortedArray[i].image->imgName );
-			classifications[ cl ].Append( i );
-		}
-
-		for ( i = 0; i < IC_COUNT; i++ ) {
-			partialSize = 0;
-			idList< int > overSizedList;
-			for ( j = 0; j < classifications[ i ].Num(); j++ ) {
-				partialSize += sortedArray[ classifications[ i ][ j ] ].image->StorageSize();
-				if ( overSized ) {
-					if ( sortedArray[ classifications[ i ][ j ] ].image->uploadWidth > IC_Info[i].maxWidth && sortedArray[ classifications[ i ][ j ] ].image->uploadHeight > IC_Info[i].maxHeight ) {
-						overSizedList.Append( classifications[ i ][ j ] );
-					}
-				}
-			}
-			common->Printf ( " Classification %s contains %i images using %5.1f megabytes\n", IC_Info[i].desc, classifications[i].Num(), partialSize / ( 1024*1024.0 ) );
-			if ( overSized && overSizedList.Num() ) {
-				common->Printf( "  The following images may be oversized\n" );
-				for ( j = 0; j < overSizedList.Num(); j++ ) {
-					common->Printf( "    " );
-					sortedArray[ overSizedList[ j ] ].image->Print();
-					common->Printf( "\n" );
-				}
-			}
-		}
-	}
 
 }
 
@@ -1298,99 +992,7 @@ Create a 256 color palette to be used by compressed normal maps
 ==================
 */
 void idImageManager::SetNormalPalette( void ) {
-	int		i, j;
-	idVec3	v;
-	float	t;
-	//byte temptable[768];
-	byte	*temptable = compressedPalette;
-	int		compressedToOriginal[16];
-
-	// make an ad-hoc separable compression mapping scheme
-	for ( i = 0 ; i < 8 ; i++ ) {
-		float	f, y;
-
-		f = ( i + 1 ) / 8.5;
-		y = idMath::Sqrt( 1.0 - f * f );
-		y = 1.0 - y;
-
-		compressedToOriginal[7-i] = 127 - (int)( y * 127 + 0.5 );
-		compressedToOriginal[8+i] = 128 + (int)( y * 127 + 0.5 );
-	}
-
-	for ( i = 0 ; i < 256 ; i++ ) {
-		if ( i <= compressedToOriginal[0] ) {
-			originalToCompressed[i] = 0;
-		} else if ( i >= compressedToOriginal[15] ) {
-			originalToCompressed[i] = 15;
-		} else {
-			for ( j = 0 ; j < 14 ; j++ ) {
-				if ( i <= compressedToOriginal[j+1] ) {
-					break;
-				}
-			}
-			if ( i - compressedToOriginal[j] < compressedToOriginal[j+1] - i ) {
-				originalToCompressed[i] = j;
-			} else {
-				originalToCompressed[i] = j + 1;
-			}
-		}
-	}
-
-#if 0
-	for ( i = 0; i < 16; i++ ) {
-		for ( j = 0 ; j < 16 ; j++ ) {
-
-			v[0] = ( i - 7.5 ) / 8;
-			v[1] = ( j - 7.5 ) / 8;
-
-			t = 1.0 - ( v[0]*v[0] + v[1]*v[1] );
-			if ( t < 0 ) {
-				t = 0;
-			}
-			v[2] = idMath::Sqrt( t );
-
-			temptable[(i*16+j)*3+0] = 128 + floor( 127 * v[0] + 0.5 );
-			temptable[(i*16+j)*3+1] = 128 + floor( 127 * v[1] );
-			temptable[(i*16+j)*3+2] = 128 + floor( 127 * v[2] );
-		}
-	}
-#else
-	for ( i = 0; i < 16; i++ ) {
-		for ( j = 0 ; j < 16 ; j++ ) {
-
-			v[0] = ( compressedToOriginal[i] - 127.5 ) / 128;
-			v[1] = ( compressedToOriginal[j] - 127.5 ) / 128;
-
-			t = 1.0 - ( v[0]*v[0] + v[1]*v[1] );
-			if ( t < 0 ) {
-				t = 0;
-			}
-			v[2] = idMath::Sqrt( t );
-
-			temptable[(i*16+j)*3+0] = (byte)(128 + floor( 127 * v[0] + 0.5 ));
-			temptable[(i*16+j)*3+1] = (byte)(128 + floor( 127 * v[1] ));
-			temptable[(i*16+j)*3+2] = (byte)(128 + floor( 127 * v[2] ));
-		}
-	}
-#endif
-
-	// color 255 will be the "nullnormal" color for no reflection
-	temptable[255*3+0] =
-	temptable[255*3+1] =
-	temptable[255*3+2] = 128;
-
-	if ( !glConfig.sharedTexturePaletteAvailable ) {
-		return;
-	}
-
-	qglColorTableEXT( GL_SHARED_TEXTURE_PALETTE_EXT,
-					   GL_RGB,
-					   256,
-					   GL_RGB,
-					   GL_UNSIGNED_BYTE,
-					   temptable );
-
-	qglEnable( GL_SHARED_TEXTURE_PALETTE_EXT );
+	
 }
 
 /*
@@ -1916,19 +1518,7 @@ BindNull
 ===============
 */
 void idImageManager::BindNull() {
-	tmu_t			*tmu;
-
-	tmu = &backEnd.glState.tmu[backEnd.glState.currenttmu];
-
-	RB_LogComment( "BindNull()\n" );
-	if ( tmu->textureType == TT_CUBIC ) {
-		qglDisable( GL_TEXTURE_CUBE_MAP_EXT );
-	} else if ( tmu->textureType == TT_3D ) {
-		qglDisable( GL_TEXTURE_3D );
-	} else if ( tmu->textureType == TT_2D ) {
-		qglDisable( GL_TEXTURE_2D );
-	}
-	tmu->textureType = TT_DISABLED;
+	
 }
 
 /*

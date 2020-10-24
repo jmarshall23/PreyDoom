@@ -681,11 +681,11 @@ void idRenderSystemLocal::BeginFrame( int windowWidth, int windowHeight ) {
 	cmd->commandId = RC_SET_BUFFER;
 	cmd->frameCount = frameCount;
 
-	if ( r_frontBuffer.GetBool() ) {
-		cmd->buffer = (int)GL_FRONT;
-	} else {
-		cmd->buffer = (int)GL_BACK;
-	}
+	//if ( r_frontBuffer.GetBool() ) {
+	//	cmd->buffer = (int)GL_FRONT;
+	//} else {
+	//	cmd->buffer = (int)GL_BACK;
+	//}
 }
 
 void idRenderSystemLocal::WriteDemoPics() {
@@ -950,37 +950,37 @@ CaptureRenderToFile
 ==============
 */
 void idRenderSystemLocal::CaptureRenderToFile( const char *fileName, bool fixAlpha ) {
-	if ( !glConfig.isInitialized ) {
-		return;
-	}
-
-	renderCrop_t *rc = &renderCrops[currentRenderCrop];
-
-	guiModel->EmitFullScreen();
-	guiModel->Clear();
-	R_IssueRenderCommands();
-
-	qglReadBuffer( GL_BACK );
-
-	// include extra space for OpenGL padding to word boundaries
-	int	c = ( rc->width + 3 ) * rc->height;
-	byte *data = (byte *)R_StaticAlloc( c * 3 );
-	
-	qglReadPixels( rc->x, rc->y, rc->width, rc->height, GL_RGB, GL_UNSIGNED_BYTE, data ); 
-
-	byte *data2 = (byte *)R_StaticAlloc( c * 4 );
-
-	for ( int i = 0 ; i < c ; i++ ) {
-		data2[ i * 4 ] = data[ i * 3 ];
-		data2[ i * 4 + 1 ] = data[ i * 3 + 1 ];
-		data2[ i * 4 + 2 ] = data[ i * 3 + 2 ];
-		data2[ i * 4 + 3 ] = 0xff;
-	}
-
-	R_WriteTGA( fileName, data2, rc->width, rc->height, true );
-
-	R_StaticFree( data );
-	R_StaticFree( data2 );
+	//if ( !glConfig.isInitialized ) {
+	//	return;
+	//}
+	//
+	//renderCrop_t *rc = &renderCrops[currentRenderCrop];
+	//
+	//guiModel->EmitFullScreen();
+	//guiModel->Clear();
+	//R_IssueRenderCommands();
+	//
+	//qglReadBuffer( GL_BACK );
+	//
+	//// include extra space for OpenGL padding to word boundaries
+	//int	c = ( rc->width + 3 ) * rc->height;
+	//byte *data = (byte *)R_StaticAlloc( c * 3 );
+	//
+	//qglReadPixels( rc->x, rc->y, rc->width, rc->height, GL_RGB, GL_UNSIGNED_BYTE, data ); 
+	//
+	//byte *data2 = (byte *)R_StaticAlloc( c * 4 );
+	//
+	//for ( int i = 0 ; i < c ; i++ ) {
+	//	data2[ i * 4 ] = data[ i * 3 ];
+	//	data2[ i * 4 + 1 ] = data[ i * 3 + 1 ];
+	//	data2[ i * 4 + 2 ] = data[ i * 3 + 2 ];
+	//	data2[ i * 4 + 3 ] = 0xff;
+	//}
+	//
+	//R_WriteTGA( fileName, data2, rc->width, rc->height, true );
+	//
+	//R_StaticFree( data );
+	//R_StaticFree( data2 );
 }
 
 

@@ -1489,36 +1489,36 @@ void idMaterial::ParseStage( idLexer &src, const textureRepeat_t trpDefault ) {
 		}
 		if ( !token.Icmp( "program" ) ) {
 			if ( src.ReadTokenOnLine( &token ) ) {
-				newStage.vertexProgram = R_FindARBProgram( GL_VERTEX_PROGRAM_ARB, token.c_str() );
-				newStage.fragmentProgram = R_FindARBProgram( GL_FRAGMENT_PROGRAM_ARB, token.c_str() );
+				//newStage.vertexProgram = R_FindARBProgram( GL_VERTEX_PROGRAM_ARB, token.c_str() );
+				//newStage.fragmentProgram = R_FindARBProgram( GL_FRAGMENT_PROGRAM_ARB, token.c_str() );
 			}
 			continue;
 		}
 		if ( !token.Icmp( "fragmentProgram" ) ) {
 			if ( src.ReadTokenOnLine( &token ) ) {
-				newStage.fragmentProgram = R_FindARBProgram( GL_FRAGMENT_PROGRAM_ARB, token.c_str() );
+				//newStage.fragmentProgram = R_FindARBProgram( GL_FRAGMENT_PROGRAM_ARB, token.c_str() );
 			}
 			continue;
 		}
 		if ( !token.Icmp( "vertexProgram" ) ) {
 			if ( src.ReadTokenOnLine( &token ) ) {
-				newStage.vertexProgram = R_FindARBProgram( GL_VERTEX_PROGRAM_ARB, token.c_str() );
+				//newStage.vertexProgram = R_FindARBProgram( GL_VERTEX_PROGRAM_ARB, token.c_str() );
 			}
 			continue;
 		}
-		if ( !token.Icmp( "megaTexture" ) ) {
-			if ( src.ReadTokenOnLine( &token ) ) {
-				newStage.megaTexture = new idMegaTexture;
-				if ( !newStage.megaTexture->InitFromMegaFile( token.c_str() ) ) {
-					delete newStage.megaTexture;
-					SetMaterialFlag( MF_DEFAULTED );
-					continue;
-				}
-				newStage.vertexProgram = R_FindARBProgram( GL_VERTEX_PROGRAM_ARB, "megaTexture.vfp" );
-				newStage.fragmentProgram = R_FindARBProgram( GL_FRAGMENT_PROGRAM_ARB, "megaTexture.vfp" );
-				continue;
-			}
-		}
+		//if ( !token.Icmp( "megaTexture" ) ) {
+		//	if ( src.ReadTokenOnLine( &token ) ) {
+		//		newStage.megaTexture = new idMegaTexture;
+		//		if ( !newStage.megaTexture->InitFromMegaFile( token.c_str() ) ) {
+		//			delete newStage.megaTexture;
+		//			SetMaterialFlag( MF_DEFAULTED );
+		//			continue;
+		//		}
+		//		newStage.vertexProgram = R_FindARBProgram( GL_VERTEX_PROGRAM_ARB, "megaTexture.vfp" );
+		//		newStage.fragmentProgram = R_FindARBProgram( GL_FRAGMENT_PROGRAM_ARB, "megaTexture.vfp" );
+		//		continue;
+		//	}
+		//}
 
 
 		if ( !token.Icmp( "vertexParm" ) ) {

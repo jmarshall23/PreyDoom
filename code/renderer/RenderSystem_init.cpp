@@ -31,11 +31,6 @@ If you have questions concerning this license or the applicable additional terms
 
 #include "tr_local.h"
 
-// Vista OpenGL wrapper check
-#ifdef _WIN32
-#include "../sys/win32/win_local.h"
-#endif
-
 // functions that are not called every frame
 
 glconfig_t	glConfig;
@@ -221,94 +216,6 @@ idCVar r_materialOverride( "r_materialOverride", "", CVAR_RENDERER, "overrides a
 
 idCVar r_debugRenderToTexture( "r_debugRenderToTexture", "0", CVAR_RENDERER | CVAR_INTEGER, "" );
 
-void ( APIENTRY * qglMultiTexCoord2fARB )( GLenum texture, GLfloat s, GLfloat t );
-void ( APIENTRY * qglMultiTexCoord2fvARB )( GLenum texture, GLfloat *st );
-void ( APIENTRY * qglActiveTextureARB )( GLenum texture );
-void ( APIENTRY * qglClientActiveTextureARB )( GLenum texture );
-
-void ( APIENTRY *qglCombinerParameterfvNV )( GLenum pname, const GLfloat *params );
-void ( APIENTRY *qglCombinerParameterivNV )( GLenum pname, const GLint *params );
-void ( APIENTRY *qglCombinerParameterfNV )( GLenum pname, const GLfloat param );
-void ( APIENTRY *qglCombinerParameteriNV )( GLenum pname, const GLint param );
-void ( APIENTRY *qglCombinerInputNV )( GLenum stage, GLenum portion, GLenum variable, GLenum input,
-											  GLenum mapping, GLenum componentUsage );
-void ( APIENTRY *qglCombinerOutputNV )( GLenum stage, GLenum portion, GLenum abOutput, GLenum cdOutput, 
-											   GLenum sumOutput, GLenum scale, GLenum bias, GLboolean abDotProduct,
-											   GLboolean cdDotProduct, GLboolean muxSum );
-void ( APIENTRY *qglFinalCombinerInputNV )( GLenum variable, GLenum input, GLenum mapping, GLenum componentUsage );
-
-
-void (APIENTRY *qglVertexArrayRangeNV)( GLsizei length, void *pointer );
-// TTimo: wgl vs glX
-// http://oss.sgi.com/projects/ogl-sample/registry/NV/vertex_array_range.txt
-// since APIs are the same anyway, let's be wgl/glX agnostic
-void *(APIENTRY *qAllocateMemoryNV)( GLsizei size, float readFrequency, float writeFrequency, float priority);
-void (APIENTRY *qFreeMemoryNV)( void *pointer );
-#ifdef GLX_VERSION_1_1
-#define Q_ALLOCATE_MEMORY_NV "glXAllocateMemoryNV"
-#define Q_FREE_MEMORY_NV "glXFreeMemoryNV"
-#else
-#define Q_ALLOCATE_MEMORY_NV "wglAllocateMemoryNV"
-#define Q_FREE_MEMORY_NV "wglFreeMemoryNV"
-#endif
-
-void (APIENTRY *qglTexImage3D)(GLenum, GLint, GLint, GLsizei, GLsizei, GLsizei, GLint, GLenum, GLenum, const GLvoid *);
-
-void (APIENTRY * qglColorTableEXT)( int, int, int, int, int, const void * );
-
-
-// ATI_fragment_shader
-PFNGLGENFRAGMENTSHADERSATIPROC			qglGenFragmentShadersATI;
-PFNGLBINDFRAGMENTSHADERATIPROC			qglBindFragmentShaderATI;
-PFNGLDELETEFRAGMENTSHADERATIPROC		qglDeleteFragmentShaderATI;
-PFNGLBEGINFRAGMENTSHADERATIPROC			qglBeginFragmentShaderATI;
-PFNGLENDFRAGMENTSHADERATIPROC			qglEndFragmentShaderATI;
-PFNGLPASSTEXCOORDATIPROC				qglPassTexCoordATI;
-PFNGLSAMPLEMAPATIPROC					qglSampleMapATI;
-PFNGLCOLORFRAGMENTOP1ATIPROC			qglColorFragmentOp1ATI;
-PFNGLCOLORFRAGMENTOP2ATIPROC			qglColorFragmentOp2ATI;
-PFNGLCOLORFRAGMENTOP3ATIPROC			qglColorFragmentOp3ATI;
-PFNGLALPHAFRAGMENTOP1ATIPROC			qglAlphaFragmentOp1ATI;
-PFNGLALPHAFRAGMENTOP2ATIPROC			qglAlphaFragmentOp2ATI;
-PFNGLALPHAFRAGMENTOP3ATIPROC			qglAlphaFragmentOp3ATI;
-PFNGLSETFRAGMENTSHADERCONSTANTATIPROC	qglSetFragmentShaderConstantATI;
-
-// EXT_stencil_two_side
-PFNGLACTIVESTENCILFACEEXTPROC			qglActiveStencilFaceEXT;
-
-// ATI_separate_stencil
-PFNGLSTENCILOPSEPARATEATIPROC			qglStencilOpSeparateATI;
-PFNGLSTENCILFUNCSEPARATEATIPROC			qglStencilFuncSeparateATI;
-
-// ARB_texture_compression
-PFNGLCOMPRESSEDTEXIMAGE2DARBPROC		qglCompressedTexImage2DARB;
-PFNGLGETCOMPRESSEDTEXIMAGEARBPROC		qglGetCompressedTexImageARB;
-
-// ARB_vertex_buffer_object
-PFNGLBINDBUFFERARBPROC					qglBindBufferARB;
-PFNGLDELETEBUFFERSARBPROC				qglDeleteBuffersARB;
-PFNGLGENBUFFERSARBPROC					qglGenBuffersARB;
-PFNGLISBUFFERARBPROC					qglIsBufferARB;
-PFNGLBUFFERDATAARBPROC					qglBufferDataARB;
-PFNGLBUFFERSUBDATAARBPROC				qglBufferSubDataARB;
-PFNGLGETBUFFERSUBDATAARBPROC			qglGetBufferSubDataARB;
-PFNGLMAPBUFFERARBPROC					qglMapBufferARB;
-PFNGLUNMAPBUFFERARBPROC					qglUnmapBufferARB;
-PFNGLGETBUFFERPARAMETERIVARBPROC		qglGetBufferParameterivARB;
-PFNGLGETBUFFERPOINTERVARBPROC			qglGetBufferPointervARB;
-
-// ARB_vertex_program / ARB_fragment_program
-PFNGLVERTEXATTRIBPOINTERARBPROC			qglVertexAttribPointerARB;
-PFNGLENABLEVERTEXATTRIBARRAYARBPROC		qglEnableVertexAttribArrayARB;
-PFNGLDISABLEVERTEXATTRIBARRAYARBPROC	qglDisableVertexAttribArrayARB;
-PFNGLPROGRAMSTRINGARBPROC				qglProgramStringARB;
-PFNGLBINDPROGRAMARBPROC					qglBindProgramARB;
-PFNGLGENPROGRAMSARBPROC					qglGenProgramsARB;
-PFNGLPROGRAMENVPARAMETER4FVARBPROC		qglProgramEnvParameter4fvARB;
-PFNGLPROGRAMLOCALPARAMETER4FVARBPROC	qglProgramLocalParameter4fvARB;
-
-// GL_EXT_depth_bounds_test
-PFNGLDEPTHBOUNDSEXTPROC                 qglDepthBoundsEXT;
 
 /*
 =================
@@ -332,209 +239,7 @@ R_CheckPortableExtensions
 ==================
 */
 static void R_CheckPortableExtensions( void ) {
-	glConfig.glVersion = atof( glConfig.version_string );
-
-	// GL_ARB_multitexture
-	glConfig.multitextureAvailable = R_CheckExtension( "GL_ARB_multitexture" );
-	if ( glConfig.multitextureAvailable ) {
-		qglMultiTexCoord2fARB = (void(APIENTRY *)(GLenum, GLfloat, GLfloat))GLimp_ExtensionPointer( "glMultiTexCoord2fARB" );
-		qglMultiTexCoord2fvARB = (void(APIENTRY *)(GLenum, GLfloat *))GLimp_ExtensionPointer( "glMultiTexCoord2fvARB" );
-		qglActiveTextureARB = (void(APIENTRY *)(GLenum))GLimp_ExtensionPointer( "glActiveTextureARB" );
-		qglClientActiveTextureARB = (void(APIENTRY *)(GLenum))GLimp_ExtensionPointer( "glClientActiveTextureARB" );
-		qglGetIntegerv( GL_MAX_TEXTURE_UNITS_ARB, (GLint *)&glConfig.maxTextureUnits );
-		if ( glConfig.maxTextureUnits > MAX_MULTITEXTURE_UNITS ) {
-			glConfig.maxTextureUnits = MAX_MULTITEXTURE_UNITS;
-		}
-		if ( glConfig.maxTextureUnits < 2 ) {
-			glConfig.multitextureAvailable = false;	// shouldn't ever happen
-		}
-		qglGetIntegerv( GL_MAX_TEXTURE_COORDS_ARB, (GLint *)&glConfig.maxTextureCoords );
-		qglGetIntegerv( GL_MAX_TEXTURE_IMAGE_UNITS_ARB, (GLint *)&glConfig.maxTextureImageUnits );
-	}
-
-	// GL_ARB_texture_env_combine
-	glConfig.textureEnvCombineAvailable = R_CheckExtension( "GL_ARB_texture_env_combine" );
-
-	// GL_ARB_texture_cube_map
-	glConfig.cubeMapAvailable = R_CheckExtension( "GL_ARB_texture_cube_map" );
-
-	// GL_ARB_texture_env_dot3
-	glConfig.envDot3Available = R_CheckExtension( "GL_ARB_texture_env_dot3" );
-
-	// GL_ARB_texture_env_add
-	glConfig.textureEnvAddAvailable = R_CheckExtension( "GL_ARB_texture_env_add" );
-
-	// GL_ARB_texture_non_power_of_two
-	glConfig.textureNonPowerOfTwoAvailable = R_CheckExtension( "GL_ARB_texture_non_power_of_two" );
-
-	// GL_ARB_texture_compression + GL_S3_s3tc
-	// DRI drivers may have GL_ARB_texture_compression but no GL_EXT_texture_compression_s3tc
-	if ( R_CheckExtension( "GL_ARB_texture_compression" ) && R_CheckExtension( "GL_EXT_texture_compression_s3tc" ) ) {
-		glConfig.textureCompressionAvailable = true;
-		qglCompressedTexImage2DARB = (PFNGLCOMPRESSEDTEXIMAGE2DARBPROC)GLimp_ExtensionPointer( "glCompressedTexImage2DARB" );
-		qglGetCompressedTexImageARB = (PFNGLGETCOMPRESSEDTEXIMAGEARBPROC)GLimp_ExtensionPointer( "glGetCompressedTexImageARB" );
-	} else {
-		glConfig.textureCompressionAvailable = false;
-	}
-
-	// GL_EXT_texture_filter_anisotropic
-	glConfig.anisotropicAvailable = R_CheckExtension( "GL_EXT_texture_filter_anisotropic" );
-	if ( glConfig.anisotropicAvailable ) {
-		qglGetFloatv( GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &glConfig.maxTextureAnisotropy );
-		common->Printf( "   maxTextureAnisotropy: %f\n", glConfig.maxTextureAnisotropy );
-	} else {
-		glConfig.maxTextureAnisotropy = 1;
-	}
-
-	// GL_EXT_texture_lod_bias
-	// The actual extension is broken as specificed, storing the state in the texture unit instead
-	// of the texture object.  The behavior in GL 1.4 is the behavior we use.
-	if ( glConfig.glVersion >= 1.4 || R_CheckExtension( "GL_EXT_texture_lod" ) ) {
-		common->Printf( "...using %s\n", "GL_1.4_texture_lod_bias" );
-		glConfig.textureLODBiasAvailable = true;
-	} else {
-		common->Printf( "X..%s not found\n", "GL_1.4_texture_lod_bias" );
-		glConfig.textureLODBiasAvailable = false;
-	}
-
-	// GL_EXT_shared_texture_palette
-	glConfig.sharedTexturePaletteAvailable = R_CheckExtension( "GL_EXT_shared_texture_palette" );
-	if ( glConfig.sharedTexturePaletteAvailable ) {
-		qglColorTableEXT = ( void ( APIENTRY * ) ( int, int, int, int, int, const void * ) ) GLimp_ExtensionPointer( "glColorTableEXT" );
-	}
-
-	// GL_EXT_texture3D (not currently used for anything)
-	glConfig.texture3DAvailable = R_CheckExtension( "GL_EXT_texture3D" );
-	if ( glConfig.texture3DAvailable ) {
-		qglTexImage3D = 
-			(void (APIENTRY *)(GLenum, GLint, GLint, GLsizei, GLsizei, GLsizei, GLint, GLenum, GLenum, const GLvoid *) )
-			GLimp_ExtensionPointer( "glTexImage3D" );
-	}
-
-	// EXT_stencil_wrap
-	// This isn't very important, but some pathological case might cause a clamp error and give a shadow bug.
-	// Nvidia also believes that future hardware may be able to run faster with this enabled to avoid the
-	// serialization of clamping.
-	if ( R_CheckExtension( "GL_EXT_stencil_wrap" ) ) {
-		tr.stencilIncr = GL_INCR_WRAP_EXT;
-		tr.stencilDecr = GL_DECR_WRAP_EXT;
-	} else {
-		tr.stencilIncr = GL_INCR;
-		tr.stencilDecr = GL_DECR;
-	}
-
-	// GL_NV_register_combiners
-	glConfig.registerCombinersAvailable = R_CheckExtension( "GL_NV_register_combiners" );
-	if ( glConfig.registerCombinersAvailable ) {
-		qglCombinerParameterfvNV = (void (APIENTRY *)( GLenum pname, const GLfloat *params ))
-			GLimp_ExtensionPointer( "glCombinerParameterfvNV" );
-		qglCombinerParameterivNV = (void (APIENTRY *)( GLenum pname, const GLint *params ))
-			GLimp_ExtensionPointer( "glCombinerParameterivNV" );
-		qglCombinerParameterfNV = (void (APIENTRY *)( GLenum pname, const GLfloat param ))
-			GLimp_ExtensionPointer( "glCombinerParameterfNV" );
-		qglCombinerParameteriNV = (void (APIENTRY *)( GLenum pname, const GLint param ))
-			GLimp_ExtensionPointer( "glCombinerParameteriNV" );
-		qglCombinerInputNV = (void (APIENTRY *)( GLenum stage, GLenum portion, GLenum variable, GLenum input,
-											  GLenum mapping, GLenum componentUsage ))
-			GLimp_ExtensionPointer( "glCombinerInputNV" );
-		qglCombinerOutputNV = (void (APIENTRY *)( GLenum stage, GLenum portion, GLenum abOutput, GLenum cdOutput, 
-											   GLenum sumOutput, GLenum scale, GLenum bias, GLboolean abDotProduct,
-											   GLboolean cdDotProduct, GLboolean muxSum ))
-			GLimp_ExtensionPointer( "glCombinerOutputNV" );
-		qglFinalCombinerInputNV = (void (APIENTRY *)( GLenum variable, GLenum input, GLenum mapping, GLenum componentUsage ))
-			GLimp_ExtensionPointer( "glFinalCombinerInputNV" );
-	}
-
-	// GL_EXT_stencil_two_side
-	glConfig.twoSidedStencilAvailable = R_CheckExtension( "GL_EXT_stencil_two_side" );
-	if ( glConfig.twoSidedStencilAvailable ) {
-		qglActiveStencilFaceEXT = (PFNGLACTIVESTENCILFACEEXTPROC)GLimp_ExtensionPointer( "glActiveStencilFaceEXT" );
-	} else {
-		glConfig.atiTwoSidedStencilAvailable = R_CheckExtension( "GL_ATI_separate_stencil" );
-		if ( glConfig.atiTwoSidedStencilAvailable ) {
-			qglStencilFuncSeparateATI  = (PFNGLSTENCILFUNCSEPARATEATIPROC)GLimp_ExtensionPointer( "glStencilFuncSeparateATI" );
-			qglStencilOpSeparateATI = (PFNGLSTENCILOPSEPARATEATIPROC)GLimp_ExtensionPointer( "glStencilOpSeparateATI" );
-		}
-	}
-
-	// GL_ATI_fragment_shader
-	glConfig.atiFragmentShaderAvailable = R_CheckExtension( "GL_ATI_fragment_shader" );
-	if (! glConfig.atiFragmentShaderAvailable ) {
-		// only on OSX: ATI_fragment_shader is faked through ATI_text_fragment_shader (macosx_glimp.cpp)
-		glConfig.atiFragmentShaderAvailable = R_CheckExtension( "GL_ATI_text_fragment_shader" );
-	}
-	if ( glConfig.atiFragmentShaderAvailable ) {
-		qglGenFragmentShadersATI = (PFNGLGENFRAGMENTSHADERSATIPROC)GLimp_ExtensionPointer( "glGenFragmentShadersATI" );
-		qglBindFragmentShaderATI = (PFNGLBINDFRAGMENTSHADERATIPROC)GLimp_ExtensionPointer( "glBindFragmentShaderATI" );
-		qglDeleteFragmentShaderATI = (PFNGLDELETEFRAGMENTSHADERATIPROC)GLimp_ExtensionPointer( "glDeleteFragmentShaderATI" );
-		qglBeginFragmentShaderATI = (PFNGLBEGINFRAGMENTSHADERATIPROC)GLimp_ExtensionPointer( "glBeginFragmentShaderATI" );
-		qglEndFragmentShaderATI = (PFNGLENDFRAGMENTSHADERATIPROC)GLimp_ExtensionPointer( "glEndFragmentShaderATI" );
-		qglPassTexCoordATI = (PFNGLPASSTEXCOORDATIPROC)GLimp_ExtensionPointer( "glPassTexCoordATI" );
-		qglSampleMapATI = (PFNGLSAMPLEMAPATIPROC)GLimp_ExtensionPointer( "glSampleMapATI" );
-		qglColorFragmentOp1ATI = (PFNGLCOLORFRAGMENTOP1ATIPROC)GLimp_ExtensionPointer( "glColorFragmentOp1ATI" );
-		qglColorFragmentOp2ATI = (PFNGLCOLORFRAGMENTOP2ATIPROC)GLimp_ExtensionPointer( "glColorFragmentOp2ATI" );
-		qglColorFragmentOp3ATI = (PFNGLCOLORFRAGMENTOP3ATIPROC)GLimp_ExtensionPointer( "glColorFragmentOp3ATI" );
-		qglAlphaFragmentOp1ATI = (PFNGLALPHAFRAGMENTOP1ATIPROC)GLimp_ExtensionPointer( "glAlphaFragmentOp1ATI" );
-		qglAlphaFragmentOp2ATI = (PFNGLALPHAFRAGMENTOP2ATIPROC)GLimp_ExtensionPointer( "glAlphaFragmentOp2ATI" );
-		qglAlphaFragmentOp3ATI = (PFNGLALPHAFRAGMENTOP3ATIPROC)GLimp_ExtensionPointer( "glAlphaFragmentOp3ATI" );
-		qglSetFragmentShaderConstantATI = (PFNGLSETFRAGMENTSHADERCONSTANTATIPROC)GLimp_ExtensionPointer( "glSetFragmentShaderConstantATI" );
-	}
-
-	// ARB_vertex_buffer_object
-	glConfig.ARBVertexBufferObjectAvailable = R_CheckExtension( "GL_ARB_vertex_buffer_object" );
-	if(glConfig.ARBVertexBufferObjectAvailable) {
-		qglBindBufferARB = (PFNGLBINDBUFFERARBPROC)GLimp_ExtensionPointer( "glBindBufferARB");
-		qglDeleteBuffersARB = (PFNGLDELETEBUFFERSARBPROC)GLimp_ExtensionPointer( "glDeleteBuffersARB");
-		qglGenBuffersARB = (PFNGLGENBUFFERSARBPROC)GLimp_ExtensionPointer( "glGenBuffersARB");
-		qglIsBufferARB = (PFNGLISBUFFERARBPROC)GLimp_ExtensionPointer( "glIsBufferARB");
-		qglBufferDataARB = (PFNGLBUFFERDATAARBPROC)GLimp_ExtensionPointer( "glBufferDataARB");
-		qglBufferSubDataARB = (PFNGLBUFFERSUBDATAARBPROC)GLimp_ExtensionPointer( "glBufferSubDataARB");
-		qglGetBufferSubDataARB = (PFNGLGETBUFFERSUBDATAARBPROC)GLimp_ExtensionPointer( "glGetBufferSubDataARB");
-		qglMapBufferARB = (PFNGLMAPBUFFERARBPROC)GLimp_ExtensionPointer( "glMapBufferARB");
-		qglUnmapBufferARB = (PFNGLUNMAPBUFFERARBPROC)GLimp_ExtensionPointer( "glUnmapBufferARB");
-		qglGetBufferParameterivARB = (PFNGLGETBUFFERPARAMETERIVARBPROC)GLimp_ExtensionPointer( "glGetBufferParameterivARB");
-		qglGetBufferPointervARB = (PFNGLGETBUFFERPOINTERVARBPROC)GLimp_ExtensionPointer( "glGetBufferPointervARB");
-	}
-
-	// ARB_vertex_program
-	glConfig.ARBVertexProgramAvailable = R_CheckExtension( "GL_ARB_vertex_program" );
-	if (glConfig.ARBVertexProgramAvailable) {
-		qglVertexAttribPointerARB = (PFNGLVERTEXATTRIBPOINTERARBPROC)GLimp_ExtensionPointer( "glVertexAttribPointerARB" );
-		qglEnableVertexAttribArrayARB = (PFNGLENABLEVERTEXATTRIBARRAYARBPROC)GLimp_ExtensionPointer( "glEnableVertexAttribArrayARB" );
-		qglDisableVertexAttribArrayARB = (PFNGLDISABLEVERTEXATTRIBARRAYARBPROC)GLimp_ExtensionPointer( "glDisableVertexAttribArrayARB" );
-		qglProgramStringARB = (PFNGLPROGRAMSTRINGARBPROC)GLimp_ExtensionPointer( "glProgramStringARB" );
-		qglBindProgramARB = (PFNGLBINDPROGRAMARBPROC)GLimp_ExtensionPointer( "glBindProgramARB" );
-		qglGenProgramsARB = (PFNGLGENPROGRAMSARBPROC)GLimp_ExtensionPointer( "glGenProgramsARB" );
-		qglProgramEnvParameter4fvARB = (PFNGLPROGRAMENVPARAMETER4FVARBPROC)GLimp_ExtensionPointer( "glProgramEnvParameter4fvARB" );
-		qglProgramLocalParameter4fvARB = (PFNGLPROGRAMLOCALPARAMETER4FVARBPROC)GLimp_ExtensionPointer( "glProgramLocalParameter4fvARB" );
-	}
-
-	// ARB_fragment_program
-	if ( r_inhibitFragmentProgram.GetBool() ) {
-		glConfig.ARBFragmentProgramAvailable = false;
-	} else {
-		glConfig.ARBFragmentProgramAvailable = R_CheckExtension( "GL_ARB_fragment_program" );
-		if (glConfig.ARBFragmentProgramAvailable) {
-			// these are the same as ARB_vertex_program
-			qglProgramStringARB = (PFNGLPROGRAMSTRINGARBPROC)GLimp_ExtensionPointer( "glProgramStringARB" );
-			qglBindProgramARB = (PFNGLBINDPROGRAMARBPROC)GLimp_ExtensionPointer( "glBindProgramARB" );
-			qglProgramEnvParameter4fvARB = (PFNGLPROGRAMENVPARAMETER4FVARBPROC)GLimp_ExtensionPointer( "glProgramEnvParameter4fvARB" );
-			qglProgramLocalParameter4fvARB = (PFNGLPROGRAMLOCALPARAMETER4FVARBPROC)GLimp_ExtensionPointer( "glProgramLocalParameter4fvARB" );
-		}
-	}
-
-	// check for minimum set
-	if ( !glConfig.multitextureAvailable || !glConfig.textureEnvCombineAvailable || !glConfig.cubeMapAvailable
-		|| !glConfig.envDot3Available ) {
-			common->Error( common->GetLanguageDict()->GetString( "#str_06780" ) );
-	}
-
- 	// GL_EXT_depth_bounds_test
- 	glConfig.depthBoundsTestAvailable = R_CheckExtension( "EXT_depth_bounds_test" );
- 	if ( glConfig.depthBoundsTestAvailable ) {
- 		qglDepthBoundsEXT = (PFNGLDEPTHBOUNDSEXTPROC)GLimp_ExtensionPointer( "glDepthBoundsEXT" );
- 	}
-
+	
 }
 
 
@@ -616,7 +321,6 @@ and model information functions.
 ==================
 */
 void R_InitOpenGL( void ) {
-	GLint			temp;
 	glimpParms_t	parms;
 	int				i;
 
@@ -666,14 +370,13 @@ void R_InitOpenGL( void ) {
 	soundSystem->InitHW();
 
 	// get our config strings
-	glConfig.vendor_string = (const char *)qglGetString(GL_VENDOR);
-	glConfig.renderer_string = (const char *)qglGetString(GL_RENDERER);
-	glConfig.version_string = (const char *)qglGetString(GL_VERSION);
-	glConfig.extensions_string = (const char *)qglGetString(GL_EXTENSIONS);
+	glConfig.vendor_string = "";
+	glConfig.renderer_string = "";
+	glConfig.version_string = "";
+	glConfig.extensions_string = "";
 
 	// OpenGL driver constants
-	qglGetIntegerv( GL_MAX_TEXTURE_SIZE, &temp );
-	glConfig.maxTextureSize = temp;
+	glConfig.maxTextureSize = 16384;
 
 	// stubbed or broken drivers may have reported 0...
 	if ( glConfig.maxTextureSize <= 0 ) {
@@ -685,15 +388,8 @@ void R_InitOpenGL( void ) {
 	// recheck all the extensions (FIXME: this might be dangerous)
 	R_CheckPortableExtensions();
 
-	// parse our vertex and fragment programs, possibly disably support for
-	// one of the paths if there was an error
-	R_NV10_Init();
-	R_NV20_Init();
-	R_R200_Init();
-	R_ARB2_Init();
-
-	cmdSystem->AddCommand( "reloadARBprograms", R_ReloadARBPrograms_f, CMD_FL_RENDERER, "reloads ARB programs" );
-	R_ReloadARBPrograms_f( idCmdArgs() );
+	//cmdSystem->AddCommand( "reloadARBprograms", R_ReloadARBPrograms_f, CMD_FL_RENDERER, "reloads ARB programs" );
+	//R_ReloadARBPrograms_f( idCmdArgs() );
 
 	// allocate the vertex array range or vertex objects
 	vertexCache.Init();
@@ -707,28 +403,6 @@ void R_InitOpenGL( void ) {
 
 	// Reset our gamma
 	R_SetColorMappings();
-
-#ifdef _WIN32
-	static bool glCheck = false;
-	if ( !glCheck && win32.osversion.dwMajorVersion == 6 ) {
-		glCheck = true;
-		if ( !idStr::Icmp( glConfig.vendor_string, "Microsoft" ) && idStr::FindText( glConfig.renderer_string, "OpenGL-D3D" ) != -1 ) {
-			if ( cvarSystem->GetCVarBool( "r_fullscreen" ) ) {
-				cmdSystem->BufferCommandText( CMD_EXEC_NOW, "vid_restart partial windowed\n" );
-				Sys_GrabMouseCursor( false );
-			}
-			int ret = MessageBox( NULL, "Please install OpenGL drivers from your graphics hardware vendor to run " GAME_NAME ".\nYour OpenGL functionality is limited.",
-				"Insufficient OpenGL capabilities", MB_OKCANCEL | MB_ICONWARNING | MB_TASKMODAL );
-			if ( ret == IDCANCEL ) {
-				cmdSystem->BufferCommandText( CMD_EXEC_APPEND, "quit\n" );
-				cmdSystem->ExecuteCommandBuffer();
-			}
-			if ( cvarSystem->GetCVarBool( "r_fullscreen" ) ) {
-				cmdSystem->BufferCommandText( CMD_EXEC_APPEND, "vid_restart\n" );
-			}
-		}
-	}
-#endif
 }
 
 /*
@@ -737,44 +411,7 @@ GL_CheckErrors
 ==================
 */
 void GL_CheckErrors( void ) {
-    int		err;
-    char	s[64];
-	int		i;
-
-	// check for up to 10 errors pending
-	for ( i = 0 ; i < 10 ; i++ ) {
-		err = qglGetError();
-		if ( err == GL_NO_ERROR ) {
-			return;
-		}
-		switch( err ) {
-			case GL_INVALID_ENUM:
-				strcpy( s, "GL_INVALID_ENUM" );
-				break;
-			case GL_INVALID_VALUE:
-				strcpy( s, "GL_INVALID_VALUE" );
-				break;
-			case GL_INVALID_OPERATION:
-				strcpy( s, "GL_INVALID_OPERATION" );
-				break;
-			case GL_STACK_OVERFLOW:
-				strcpy( s, "GL_STACK_OVERFLOW" );
-				break;
-			case GL_STACK_UNDERFLOW:
-				strcpy( s, "GL_STACK_UNDERFLOW" );
-				break;
-			case GL_OUT_OF_MEMORY:
-				strcpy( s, "GL_OUT_OF_MEMORY" );
-				break;
-			default:
-				idStr::snPrintf( s, sizeof(s), "%i", err);
-				break;
-		}
-
-		if ( !r_ignoreGLErrors.GetBool() ) {
-			common->Printf( "GL_CheckErrors: %s\n", s );
-		}
-	}
+   
 }
 
 /*
@@ -1068,8 +705,6 @@ R_RenderingFPS
 ================
 */
 static float R_RenderingFPS( const renderView_t *renderView ) {
-	qglFinish();
-
 	int		start = Sys_Milliseconds();
 	static const int SAMPLE_MSEC = 1000;
 	int		end;
@@ -1080,7 +715,6 @@ static float R_RenderingFPS( const renderView_t *renderView ) {
 		renderSystem->BeginFrame( glConfig.vidWidth, glConfig.vidHeight );
 		tr.primaryWorld->RenderScene( renderView );
 		renderSystem->EndFrame( NULL, NULL );
-		qglFinish();
 		count++;
 		end = Sys_Milliseconds();
 		if ( end - start > SAMPLE_MSEC ) {
@@ -1152,63 +786,7 @@ If ref isn't specified, the full session UpdateScreen will be done.
 ====================
 */
 void R_ReadTiledPixels( int width, int height, byte *buffer, renderView_t *ref = NULL ) {
-	// include extra space for OpenGL padding to word boundaries
-	byte	*temp = (byte *)R_StaticAlloc( (glConfig.vidWidth+3) * glConfig.vidHeight * 3 );
 
-	int	oldWidth = glConfig.vidWidth;
-	int oldHeight = glConfig.vidHeight;
-
-	tr.tiledViewport[0] = width;
-	tr.tiledViewport[1] = height;
-
-	// disable scissor, so we don't need to adjust all those rects
-	r_useScissor.SetBool( false );
-
-	for ( int xo = 0 ; xo < width ; xo += oldWidth ) {
-		for ( int yo = 0 ; yo < height ; yo += oldHeight ) {
-			tr.viewportOffset[0] = -xo;
-			tr.viewportOffset[1] = -yo;
-
-			if ( ref ) {
-				tr.BeginFrame( oldWidth, oldHeight );
-				tr.primaryWorld->RenderScene( ref );
-				tr.EndFrame( NULL, NULL );
-			} else {
-				session->UpdateScreen();
-			}
-
-			int w = oldWidth;
-			if ( xo + w > width ) {
-				w = width - xo;
-			}
-			int h = oldHeight;
-			if ( yo + h > height ) {
-				h = height - yo;
-			}
-
-			qglReadBuffer( GL_FRONT );
-			qglReadPixels( 0, 0, w, h, GL_RGB, GL_UNSIGNED_BYTE, temp ); 
-
-			int	row = ( w * 3 + 3 ) & ~3;		// OpenGL pads to dword boundaries
-
-			for ( int y = 0 ; y < h ; y++ ) {
-				memcpy( buffer + ( ( yo + y )* width + xo ) * 3,
-					temp + y * row, w * 3 );
-			}
-		}
-	}
-
-	r_useScissor.SetBool( true );
-
-	tr.viewportOffset[0] = 0;
-	tr.viewportOffset[1] = 0;
-	tr.tiledViewport[0] = 0;
-	tr.tiledViewport[1] = 0;
-
-	R_StaticFree( temp );
-
-	glConfig.vidWidth = oldWidth;
-	glConfig.vidHeight = oldHeight;
 }
 
 
@@ -1224,68 +802,7 @@ If ref == NULL, session->updateScreen will be used
 ================== 
 */  
 void idRenderSystemLocal::TakeScreenshot( int width, int height, const char *fileName, int blends, renderView_t *ref ) {
-	byte		*buffer;
-	int			i, j, c, temp;
-
-	takingScreenshot = true;
-
-	int	pix = width * height;
-
-	buffer = (byte *)R_StaticAlloc(pix*3 + 18);
-	memset (buffer, 0, 18);
-
-	if ( blends <= 1 ) {
-		R_ReadTiledPixels( width, height, buffer + 18, ref );
-	} else {
-		unsigned short *shortBuffer = (unsigned short *)R_StaticAlloc(pix*2*3);
-		memset (shortBuffer, 0, pix*2*3);
-
-		// enable anti-aliasing jitter
-		r_jitter.SetBool( true );
-
-		for ( i = 0 ; i < blends ; i++ ) {
-			R_ReadTiledPixels( width, height, buffer + 18, ref );
-
-			for ( j = 0 ; j < pix*3 ; j++ ) {
-				shortBuffer[j] += buffer[18+j];
-			}
-		}
-
-		// divide back to bytes
-		for ( i = 0 ; i < pix*3 ; i++ ) {
-			buffer[18+i] = shortBuffer[i] / blends;
-		}
-
-		R_StaticFree( shortBuffer );
-		r_jitter.SetBool( false );
-	}
-
-	// fill in the header (this is vertically flipped, which qglReadPixels emits)
-	buffer[2] = 2;		// uncompressed type
-	buffer[12] = width & 255;
-	buffer[13] = width >> 8;
-	buffer[14] = height & 255;
-	buffer[15] = height >> 8;
-	buffer[16] = 24;	// pixel size
-
-	// swap rgb to bgr
-	c = 18 + width * height * 3;
-	for (i=18 ; i<c ; i+=3) {
-		temp = buffer[i];
-		buffer[i] = buffer[i+2];
-		buffer[i+2] = temp;
-	}
-
-	// _D3XP adds viewnote screenie save to cdpath
-	if ( strstr( fileName, "viewnote" ) ) {
-		fileSystem->WriteFile( fileName, buffer, c, "fs_cdpath" );
-	} else {
-		fileSystem->WriteFile( fileName, buffer, c );
-	}
-
-	R_StaticFree( buffer );
-
-	takingScreenshot = false;
+	
 
 }
 
@@ -1348,57 +865,7 @@ screenshot [width] [height] [samples]
 */ 
 #define	MAX_BLENDS	256	// to keep the accumulation in shorts
 void R_ScreenShot_f( const idCmdArgs &args ) {
-	static int lastNumber = 0;
-	idStr checkname;
-
-	int width = glConfig.vidWidth;
-	int height = glConfig.vidHeight;
-	int	x = 0;
-	int y = 0;
-	int	blends = 0;
-
-	switch ( args.Argc() ) {
-	case 1:
-		width = glConfig.vidWidth;
-		height = glConfig.vidHeight;
-		blends = 1;
-		R_ScreenshotFilename( lastNumber, "screenshots/shot", checkname );
-		break;
-	case 2:
-		width = glConfig.vidWidth;
-		height = glConfig.vidHeight;
-		blends = 1;
-		checkname = args.Argv( 1 );
-		break;
-	case 3:
-		width = atoi( args.Argv( 1 ) );
-		height = atoi( args.Argv( 2 ) );
-		blends = 1;
-		R_ScreenshotFilename( lastNumber, "screenshots/shot", checkname );
-		break;
-	case 4:
-		width = atoi( args.Argv( 1 ) );
-		height = atoi( args.Argv( 2 ) );
-		blends = atoi( args.Argv( 3 ) );
-		if ( blends < 1 ) {
-			blends = 1;
-		}
-		if ( blends > MAX_BLENDS ) {
-			blends = MAX_BLENDS;
-		}
-		R_ScreenshotFilename( lastNumber, "screenshots/shot", checkname );
-		break;
-	default:
-		common->Printf( "usage: screenshot\n       screenshot <filename>\n       screenshot <width> <height>\n       screenshot <width> <height> <blends>\n" );
-		return;
-	}
-
-	// put the console away
-	console->Close();
-
-	tr.TakeScreenshot( width, height, checkname, blends, NULL );
-
-	common->Printf( "Wrote %s\n", checkname.c_str() );
+	
 }
 
 /*
@@ -1408,41 +875,7 @@ Save out a screenshot showing the stencil buffer expanded by 16x range
 ===============
 */
 void R_StencilShot( void ) {
-	byte		*buffer;
-	int			i, c;
 
-	int	width = tr.GetScreenWidth();
-	int	height = tr.GetScreenHeight();
-
-	int	pix = width * height;
-
-	c = pix * 3 + 18;
-	buffer = (byte *)Mem_Alloc(c);
-	memset (buffer, 0, 18);
-
-	byte *byteBuffer = (byte *)Mem_Alloc(pix);
-
-	qglReadPixels( 0, 0, width, height, GL_STENCIL_INDEX , GL_UNSIGNED_BYTE, byteBuffer ); 
-
-	for ( i = 0 ; i < pix ; i++ ) {
-		buffer[18+i*3] =
-		buffer[18+i*3+1] =
-			//		buffer[18+i*3+2] = ( byteBuffer[i] & 15 ) * 16;
-		buffer[18+i*3+2] = byteBuffer[i];
-	}
-
-	// fill in the header (this is vertically flipped, which qglReadPixels emits)
-	buffer[2] = 2;		// uncompressed type
-	buffer[12] = width & 255;
-	buffer[13] = width >> 8;
-	buffer[14] = height & 255;
-	buffer[15] = height >> 8;
-	buffer[16] = 24;	// pixel size
-
-	fileSystem->WriteFile( "screenshots/stencilShot.tga", buffer, c, "fs_savepath" );
-
-	Mem_Free( buffer );
-	Mem_Free( byteBuffer );	
 }
 
 /* 
@@ -1838,17 +1271,17 @@ void GfxInfo_f( const idCmdArgs &args ) {
 		common->Printf( "glFinish not forced\n" );
 	}
 
-#ifdef _WIN32	
-// WGL_EXT_swap_interval
-typedef BOOL (WINAPI * PFNWGLSWAPINTERVALEXTPROC) (int interval);
-extern	PFNWGLSWAPINTERVALEXTPROC wglSwapIntervalEXT;
-
-	if ( r_swapInterval.GetInteger() && wglSwapIntervalEXT ) {
-		common->Printf( "Forcing swapInterval %i\n", r_swapInterval.GetInteger() );
-	} else {
-		common->Printf( "swapInterval not forced\n" );
-	}
-#endif
+//#ifdef _WIN32	
+//// WGL_EXT_swap_interval
+//typedef BOOL (WINAPI * PFNWGLSWAPINTERVALEXTPROC) (int interval);
+//extern	PFNWGLSWAPINTERVALEXTPROC wglSwapIntervalEXT;
+//
+//	if ( r_swapInterval.GetInteger() && wglSwapIntervalEXT ) {
+//		common->Printf( "Forcing swapInterval %i\n", r_swapInterval.GetInteger() );
+//	} else {
+//		common->Printf( "swapInterval not forced\n" );
+//	}
+//#endif
 	
 	bool tss = glConfig.twoSidedStencilAvailable || glConfig.atiTwoSidedStencilAvailable;
 
@@ -1950,12 +1383,6 @@ void R_VidRestart_f( const idCmdArgs &args ) {
 	// regenerate all necessary interactions
 	R_RegenerateWorld_f( idCmdArgs() );
 
-	// check for problems
-	err = qglGetError();
-	if ( err != GL_NO_ERROR ) {
-		common->Printf( "glGetError() = 0x%x\n", err );
-	}
-
 	// start sound playing again
 	soundSystem->SetMute( false );
 }
@@ -2046,7 +1473,7 @@ R_InitCommands
 =================
 */
 void R_InitCommands( void ) {
-	cmdSystem->AddCommand( "MakeMegaTexture", idMegaTexture::MakeMegaTexture_f, CMD_FL_RENDERER|CMD_FL_CHEAT, "processes giant images" );
+	//cmdSystem->AddCommand( "MakeMegaTexture", idMegaTexture::MakeMegaTexture_f, CMD_FL_RENDERER|CMD_FL_CHEAT, "processes giant images" );
 	cmdSystem->AddCommand( "sizeUp", R_SizeUp_f, CMD_FL_RENDERER, "makes the rendered view larger" );
 	cmdSystem->AddCommand( "sizeDown", R_SizeDown_f, CMD_FL_RENDERER, "makes the rendered view smaller" );
 	cmdSystem->AddCommand( "reloadGuis", R_ReloadGuis_f, CMD_FL_RENDERER, "reloads guis" );
@@ -2252,12 +1679,7 @@ void idRenderSystemLocal::InitOpenGL( void ) {
 
 		R_InitOpenGL();
 
-		globalImages->ReloadAllImages();
-
-		err = qglGetError();
-		if ( err != GL_NO_ERROR ) {
-			common->Printf( "glGetError() = 0x%x\n", err );
-		}
+		globalImages->ReloadAllImages();		
 	}
 }
 

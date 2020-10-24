@@ -206,14 +206,14 @@ public:
 	void		StartBackgroundImageLoad();
 	int			BitsForInternalFormat( int internalFormat ) const;
 	void		UploadCompressedNormalMap( int width, int height, const byte *rgba, int mipLevel );
-	GLenum		SelectInternalFormat( const byte **dataPtrs, int numDataPtrs, int width, int height,
-									 textureDepth_t minimumDepth, bool *monochromeResult ) const;
+	//GLenum		SelectInternalFormat( const byte **dataPtrs, int numDataPtrs, int width, int height,
+	//								 textureDepth_t minimumDepth, bool *monochromeResult ) const;
 	void		ImageProgramStringToCompressedFileName( const char *imageProg, char *fileName ) const;
 	int			NumLevelsForImageSize( int width, int height ) const;
 
 	// data commonly accessed is grouped here
 	static const int TEXTURE_NOT_LOADED = -1;
-	GLuint				texnum;					// gl texture binding, will be TEXTURE_NOT_LOADED if not loaded
+	unsigned int		texnum;					// gl texture binding, will be TEXTURE_NOT_LOADED if not loaded
 	textureType_t		type;
 	int					frameUsed;				// for texture usage in frame statistics
 	int					bindCount;				// incremented each bind
@@ -427,8 +427,8 @@ public:
 	byte				compressedPalette[768];		// the palette that normal maps use
 
 	// default filter modes for images
-	GLenum				textureMinFilter;
-	GLenum				textureMaxFilter;
+	//GLenum				textureMinFilter;
+	//GLenum				textureMaxFilter;
 	float				textureAnisotropy;
 	float				textureLODBias;
 

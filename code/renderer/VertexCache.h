@@ -38,7 +38,7 @@ typedef enum {
 } vertBlockTag_t;
 
 typedef struct vertCache_s {
-	GLuint			vbo;
+	//GLuint			vbo;
 	void			*virtMem;			// only one of vbo / virtMem will be set
 	bool			indexBuffer;		// holds indexes instead of vertexes
 

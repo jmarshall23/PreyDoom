@@ -48,91 +48,6 @@ If you have questions concerning this license or the applicable additional terms
 #include "rc/doom_resource.h"
 #include "../../renderer/tr_local.h"
 
-static void		GLW_InitExtensions( void );
-
-
-// WGL_ARB_extensions_string
-PFNWGLGETEXTENSIONSSTRINGARBPROC wglGetExtensionsStringARB;
-
-// WGL_EXT_swap_interval
-PFNWGLSWAPINTERVALEXTPROC wglSwapIntervalEXT;
-
-// WGL_ARB_pixel_format
-PFNWGLGETPIXELFORMATATTRIBIVARBPROC wglGetPixelFormatAttribivARB;
-PFNWGLGETPIXELFORMATATTRIBFVARBPROC wglGetPixelFormatAttribfvARB;
-PFNWGLCHOOSEPIXELFORMATARBPROC wglChoosePixelFormatARB;
-
-// WGL_ARB_pbuffer
-PFNWGLCREATEPBUFFERARBPROC	wglCreatePbufferARB;
-PFNWGLGETPBUFFERDCARBPROC	wglGetPbufferDCARB;
-PFNWGLRELEASEPBUFFERDCARBPROC	wglReleasePbufferDCARB;
-PFNWGLDESTROYPBUFFERARBPROC	wglDestroyPbufferARB;
-PFNWGLQUERYPBUFFERARBPROC	wglQueryPbufferARB;
-
-// WGL_ARB_render_texture 
-PFNWGLBINDTEXIMAGEARBPROC		wglBindTexImageARB;
-PFNWGLRELEASETEXIMAGEARBPROC	wglReleaseTexImageARB;
-PFNWGLSETPBUFFERATTRIBARBPROC	wglSetPbufferAttribARB;
-
-
-
-/* ARB_pixel_format */
-#define WGL_NUMBER_PIXEL_FORMATS_ARB       0x2000
-#define WGL_DRAW_TO_WINDOW_ARB             0x2001
-#define WGL_DRAW_TO_BITMAP_ARB             0x2002
-#define WGL_ACCELERATION_ARB               0x2003
-#define WGL_NEED_PALETTE_ARB               0x2004
-#define WGL_NEED_SYSTEM_PALETTE_ARB        0x2005
-#define WGL_SWAP_LAYER_BUFFERS_ARB         0x2006
-#define WGL_SWAP_METHOD_ARB                0x2007
-#define WGL_NUMBER_OVERLAYS_ARB            0x2008
-#define WGL_NUMBER_UNDERLAYS_ARB           0x2009
-#define WGL_TRANSPARENT_ARB                0x200A
-#define WGL_SHARE_DEPTH_ARB                0x200C
-#define WGL_SHARE_STENCIL_ARB              0x200D
-#define WGL_SHARE_ACCUM_ARB                0x200E
-#define WGL_SUPPORT_GDI_ARB                0x200F
-#define WGL_SUPPORT_OPENGL_ARB             0x2010
-#define WGL_DOUBLE_BUFFER_ARB              0x2011
-#define WGL_STEREO_ARB                     0x2012
-#define WGL_PIXEL_TYPE_ARB                 0x2013
-#define WGL_COLOR_BITS_ARB                 0x2014
-#define WGL_RED_BITS_ARB                   0x2015
-#define WGL_RED_SHIFT_ARB                  0x2016
-#define WGL_GREEN_BITS_ARB                 0x2017
-#define WGL_GREEN_SHIFT_ARB                0x2018
-#define WGL_BLUE_BITS_ARB                  0x2019
-#define WGL_BLUE_SHIFT_ARB                 0x201A
-#define WGL_ALPHA_BITS_ARB                 0x201B
-#define WGL_ALPHA_SHIFT_ARB                0x201C
-#define WGL_ACCUM_BITS_ARB                 0x201D
-#define WGL_ACCUM_RED_BITS_ARB             0x201E
-#define WGL_ACCUM_GREEN_BITS_ARB           0x201F
-#define WGL_ACCUM_BLUE_BITS_ARB            0x2020
-#define WGL_ACCUM_ALPHA_BITS_ARB           0x2021
-#define WGL_DEPTH_BITS_ARB                 0x2022
-#define WGL_STENCIL_BITS_ARB               0x2023
-#define WGL_AUX_BUFFERS_ARB                0x2024
-#define WGL_NO_ACCELERATION_ARB            0x2025
-#define WGL_GENERIC_ACCELERATION_ARB       0x2026
-#define WGL_FULL_ACCELERATION_ARB          0x2027
-#define WGL_SWAP_EXCHANGE_ARB              0x2028
-#define WGL_SWAP_COPY_ARB                  0x2029
-#define WGL_SWAP_UNDEFINED_ARB             0x202A
-#define WGL_TYPE_RGBA_ARB                  0x202B
-#define WGL_TYPE_COLORINDEX_ARB            0x202C
-#define WGL_TRANSPARENT_RED_VALUE_ARB      0x2037
-#define WGL_TRANSPARENT_GREEN_VALUE_ARB    0x2038
-#define WGL_TRANSPARENT_BLUE_VALUE_ARB     0x2039
-#define WGL_TRANSPARENT_ALPHA_VALUE_ARB    0x203A
-#define WGL_TRANSPARENT_INDEX_VALUE_ARB    0x203B
-
-/* ARB_multisample */
-#define WGL_SAMPLE_BUFFERS_ARB             0x2041
-#define WGL_SAMPLES_ARB                    0x2042
-
-
-
 //
 // function declaration
 //
@@ -147,13 +62,7 @@ GLimp_GetOldGammaRamp
 ========================
 */
 static void GLimp_SaveGamma( void ) {
-	HDC			hDC;
-	BOOL		success;
 
-	hDC = GetDC( GetDesktopWindow() );
-	success = GetDeviceGammaRamp( hDC, win32.oldHardwareGamma );
-	common->DPrintf( "...getting default gamma ramp: %s\n", success ? "success" : "failed" );
-	ReleaseDC( GetDesktopWindow(), hDC );
 }
 
 /*
@@ -162,19 +71,7 @@ GLimp_RestoreGamma
 ========================
 */
 static void GLimp_RestoreGamma( void ) {
-	HDC hDC;
-	BOOL success;
-
-	// if we never read in a reasonable looking
-	// table, don't write it out
-	if ( win32.oldHardwareGamma[0][255] == 0 ) {
-		return;
-	}
-
-	hDC = GetDC( GetDesktopWindow() );
-	success = SetDeviceGammaRamp( hDC, win32.oldHardwareGamma );
-	common->DPrintf ( "...restoring hardware gamma: %s\n", success ? "success" : "failed" );
-	ReleaseDC( GetDesktopWindow(), hDC );
+	
 }
 
 
@@ -186,165 +83,8 @@ The renderer calls this when the user adjusts r_gamma or r_brightness
 ========================
 */
 void GLimp_SetGamma( unsigned short red[256], unsigned short green[256], unsigned short blue[256] ) {
-	unsigned short table[3][256];
-	int i;
 
-	if ( !win32.hDC ) {
-		return;
-	}
-
-	for ( i = 0; i < 256; i++ ) {
-		table[0][i] = red[i];
-		table[1][i] = green[i];
-		table[2][i] = blue[i];
-	}
-
-	if ( !SetDeviceGammaRamp( win32.hDC, table ) ) {
-		common->Printf( "WARNING: SetDeviceGammaRamp failed.\n" );
-	}
 }
-
-/*
-=============================================================================
-
-WglExtension Grabbing
-
-This is gross -- creating a window just to get a context to get the wgl extensions
-
-=============================================================================
-*/
-
-/*
-====================
-FakeWndProc
-
-Only used to get wglExtensions
-====================
-*/
-LONG WINAPI FakeWndProc (
-    HWND    hWnd,
-    UINT    uMsg,
-    WPARAM  wParam,
-    LPARAM  lParam) {
-
-	if ( uMsg == WM_DESTROY ) {
-        PostQuitMessage(0);
-	}
-
-	if ( uMsg != WM_CREATE ) {
-	    return DefWindowProc(hWnd, uMsg, wParam, lParam);
-	}
-
-	const static PIXELFORMATDESCRIPTOR pfd = {
-		sizeof(PIXELFORMATDESCRIPTOR),
-		1,
-		PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER,
-		PFD_TYPE_RGBA,
-		24,
-		0, 0, 0, 0, 0, 0,
-		8, 0,
-		0, 0, 0, 0,
-		24, 8,
-		0,
-		PFD_MAIN_PLANE,
-		0,
-		0,
-		0,
-		0,
-	};
-	int		pixelFormat;
-	HDC hDC;
-	HGLRC hGLRC;
-
-    hDC = GetDC(hWnd);
-
-    // Set up OpenGL
-    pixelFormat = ChoosePixelFormat(hDC, &pfd);
-    SetPixelFormat(hDC, pixelFormat, &pfd);
-    hGLRC = qwglCreateContext(hDC);
-    qwglMakeCurrent(hDC, hGLRC);
-
-	// free things
-    wglMakeCurrent(NULL, NULL);
-    wglDeleteContext(hGLRC);
-    ReleaseDC(hWnd, hDC);
-
-    return DefWindowProc(hWnd, uMsg, wParam, lParam);
-}
-
-
-/*
-==================
-GLW_GetWGLExtensionsWithFakeWindow
-==================
-*/
-void GLW_CheckWGLExtensions( HDC hDC ) {
-	wglGetExtensionsStringARB = (PFNWGLGETEXTENSIONSSTRINGARBPROC)
-							  GLimp_ExtensionPointer("wglGetExtensionsStringARB");
-	if ( wglGetExtensionsStringARB ) {
-		glConfig.wgl_extensions_string = (const char *) wglGetExtensionsStringARB(hDC);
-	} else {
-		glConfig.wgl_extensions_string = "";
-	}
-
-	// WGL_EXT_swap_control
-	wglSwapIntervalEXT = (PFNWGLSWAPINTERVALEXTPROC) GLimp_ExtensionPointer( "wglSwapIntervalEXT" );
-	r_swapInterval.SetModified();	// force a set next frame
-
-	// WGL_ARB_pixel_format
-	wglGetPixelFormatAttribivARB = (PFNWGLGETPIXELFORMATATTRIBIVARBPROC)GLimp_ExtensionPointer("wglGetPixelFormatAttribivARB");
-	wglGetPixelFormatAttribfvARB = (PFNWGLGETPIXELFORMATATTRIBFVARBPROC)GLimp_ExtensionPointer("wglGetPixelFormatAttribfvARB");
-	wglChoosePixelFormatARB = (PFNWGLCHOOSEPIXELFORMATARBPROC)GLimp_ExtensionPointer("wglChoosePixelFormatARB");
-
-	// WGL_ARB_pbuffer
-	wglCreatePbufferARB = (PFNWGLCREATEPBUFFERARBPROC)GLimp_ExtensionPointer("wglCreatePbufferARB");
-	wglGetPbufferDCARB = (PFNWGLGETPBUFFERDCARBPROC)GLimp_ExtensionPointer("wglGetPbufferDCARB");
-	wglReleasePbufferDCARB = (PFNWGLRELEASEPBUFFERDCARBPROC)GLimp_ExtensionPointer("wglReleasePbufferDCARB");
-	wglDestroyPbufferARB = (PFNWGLDESTROYPBUFFERARBPROC)GLimp_ExtensionPointer("wglDestroyPbufferARB");
-	wglQueryPbufferARB = (PFNWGLQUERYPBUFFERARBPROC)GLimp_ExtensionPointer("wglQueryPbufferARB");
-
-	// WGL_ARB_render_texture 
-	wglBindTexImageARB = (PFNWGLBINDTEXIMAGEARBPROC)GLimp_ExtensionPointer("wglBindTexImageARB");
-	wglReleaseTexImageARB = (PFNWGLRELEASETEXIMAGEARBPROC)GLimp_ExtensionPointer("wglReleaseTexImageARB");
-	wglSetPbufferAttribARB = (PFNWGLSETPBUFFERATTRIBARBPROC)GLimp_ExtensionPointer("wglSetPbufferAttribARB");
-}
-
-/*
-==================
-GLW_GetWGLExtensionsWithFakeWindow
-==================
-*/
-static void GLW_GetWGLExtensionsWithFakeWindow( void ) {
-	HWND	hWnd;
-    MSG		msg;
-
-    // Create a window for the sole purpose of getting
-	// a valid context to get the wglextensions
-    hWnd = CreateWindow(WIN32_FAKE_WINDOW_CLASS_NAME, GAME_NAME,
-        WS_OVERLAPPEDWINDOW,
-        40, 40,
-        640,
-        480,
-        NULL, NULL, win32.hInstance, NULL );
-    if ( !hWnd ) {
-        common->FatalError( "GLW_GetWGLExtensionsWithFakeWindow: Couldn't create fake window" );
-    }
-
-    HDC hDC = GetDC( hWnd );
-	HGLRC gRC = wglCreateContext( hDC );
-	wglMakeCurrent( hDC, gRC );
-	GLW_CheckWGLExtensions( hDC );
-	wglDeleteContext( gRC );
-	ReleaseDC( hWnd, hDC );
-
-    DestroyWindow( hWnd );
-    while ( GetMessage( &msg, NULL, 0, 0 ) ) {
-        TranslateMessage( &msg );
-        DispatchMessage( &msg );
-    }
-}
-
-//=============================================================================
 
 /*
 ====================
@@ -354,143 +94,6 @@ GLW_WM_CREATE
 void GLW_WM_CREATE( HWND hWnd ) {
 }
 
-
-
-/*
-====================
-GLW_InitDriver
-
-Set the pixelformat for the window before it is
-shown, and create the rendering context
-====================
-*/
-static bool GLW_InitDriver( glimpParms_t parms ) {
-    PIXELFORMATDESCRIPTOR src = 
-	{
-		sizeof(PIXELFORMATDESCRIPTOR),	// size of this pfd
-		1,								// version number
-		PFD_DRAW_TO_WINDOW |			// support window
-		PFD_SUPPORT_OPENGL |			// support OpenGL
-		PFD_DOUBLEBUFFER,				// double buffered
-		PFD_TYPE_RGBA,					// RGBA type
-		32,								// 32-bit color depth
-		0, 0, 0, 0, 0, 0,				// color bits ignored
-		8,								// 8 bit destination alpha
-		0,								// shift bit ignored
-		0,								// no accumulation buffer
-		0, 0, 0, 0, 					// accum bits ignored
-		24,								// 24-bit z-buffer	
-		8,								// 8-bit stencil buffer
-		0,								// no auxiliary buffer
-		PFD_MAIN_PLANE,					// main layer
-		0,								// reserved
-		0, 0, 0							// layer masks ignored
-    };
-
-	common->Printf( "Initializing OpenGL driver\n" );
-
-	//
-	// get a DC for our window if we don't already have one allocated
-	//
-	if ( win32.hDC == NULL ) {
-		common->Printf( "...getting DC: " );
-
-		if ( ( win32.hDC = GetDC( win32.hWnd ) ) == NULL ) {
-			common->Printf( "^3failed^0\n" );
-			return false;
-		}
-		common->Printf( "succeeded\n" );
-	}
-
-	// the multisample path uses the wgl 
-	if ( wglChoosePixelFormatARB && parms.multiSamples > 1 ) {
-		int		iAttributes[20];
-		FLOAT	fAttributes[] = {0, 0};
-		UINT	numFormats;
-
-		// FIXME: specify all the other stuff
-		iAttributes[0] = WGL_SAMPLE_BUFFERS_ARB;
-		iAttributes[1] = 1;
-		iAttributes[2] = WGL_SAMPLES_ARB;
-		iAttributes[3] = parms.multiSamples;
-		iAttributes[4] = WGL_DOUBLE_BUFFER_ARB;
-		iAttributes[5] = TRUE;
-		iAttributes[6] = WGL_STENCIL_BITS_ARB;
-		iAttributes[7] = 8;
-		iAttributes[8] = WGL_DEPTH_BITS_ARB;
-		iAttributes[9] = 24;
-		iAttributes[10] = WGL_RED_BITS_ARB;
-		iAttributes[11] = 8;
-		iAttributes[12] = WGL_BLUE_BITS_ARB;
-		iAttributes[13] = 8;
-		iAttributes[14] = WGL_GREEN_BITS_ARB;
-		iAttributes[15] = 8;
-		iAttributes[16] = WGL_ALPHA_BITS_ARB;
-		iAttributes[17] = 8;
-		iAttributes[18] = 0;
-		iAttributes[19] = 0;
-
-		wglChoosePixelFormatARB( win32.hDC, iAttributes, fAttributes, 1, &win32.pixelformat, &numFormats );
-	} else {
-		// this is the "classic" choose pixel format path
-
-		// eventually we may need to have more fallbacks, but for
-		// now, ask for everything
-		if ( parms.stereo ) {
-			common->Printf( "...attempting to use stereo\n" );
-			src.dwFlags |= PFD_STEREO;
-		}
-
-		//
-		// choose, set, and describe our desired pixel format.  If we're
-		// using a minidriver then we need to bypass the GDI functions,
-		// otherwise use the GDI functions.
-		//
-		if ( ( win32.pixelformat = ChoosePixelFormat( win32.hDC, &src ) ) == 0 ) {
-			common->Printf( "...^3GLW_ChoosePFD failed^0\n");
-			return false;
-		}
-		common->Printf( "...PIXELFORMAT %d selected\n", win32.pixelformat );
-	}
-
-	// get the full info
-	DescribePixelFormat( win32.hDC, win32.pixelformat, sizeof( win32.pfd ), &win32.pfd );
-	glConfig.colorBits = win32.pfd.cColorBits;
-	glConfig.depthBits = win32.pfd.cDepthBits;
-	glConfig.stencilBits = win32.pfd.cStencilBits;
-
-	// XP seems to set this incorrectly
-	if ( !glConfig.stencilBits ) {
-		glConfig.stencilBits = 8;
-	}
-
-	// the same SetPixelFormat is used either way
-	if ( SetPixelFormat( win32.hDC, win32.pixelformat, &win32.pfd ) == FALSE ) {
-		common->Printf( "...^3SetPixelFormat failed^0\n", win32.hDC );
-		return false;
-	}
-
-	//
-	// startup the OpenGL subsystem by creating a context and making it current
-	//
-	common->Printf( "...creating GL context: " );
-	if ( ( win32.hGLRC = qwglCreateContext( win32.hDC ) ) == 0 ) {
-		common->Printf( "^3failed^0\n" );
-		return false;
-	}
-	common->Printf( "succeeded\n" );
-
-	common->Printf( "...making context current: " );
-	if ( !qwglMakeCurrent( win32.hDC, win32.hGLRC ) ) {
-		qwglDeleteContext( win32.hGLRC );
-		win32.hGLRC = NULL;
-		common->Printf( "^3failed^0\n" );
-		return false;
-	}
-	common->Printf( "succeeded\n" );
-
-	return true;
-}
 
 /*
 ====================
@@ -524,24 +127,6 @@ static void GLW_CreateWindowClasses( void ) {
 		common->FatalError( "GLW_CreateWindow: could not register window class" );
 	}
 	common->Printf( "...registered window class\n" );
-
-	// now register the fake window class that is only used
-	// to get wgl extensions
-	wc.style         = 0;
-	wc.lpfnWndProc   = (WNDPROC) FakeWndProc;
-	wc.cbClsExtra    = 0;
-	wc.cbWndExtra    = 0;
-	wc.hInstance     = win32.hInstance;
-	wc.hIcon         = LoadIcon( win32.hInstance, MAKEINTRESOURCE(IDI_ICON1));
-	wc.hCursor       = LoadCursor (NULL,IDC_ARROW);
-	wc.hbrBackground = (struct HBRUSH__ *)COLOR_GRAYTEXT;
-	wc.lpszMenuName  = 0;
-	wc.lpszClassName = WIN32_FAKE_WINDOW_CLASS_NAME;
-
-	if ( !RegisterClass( &wc ) ) {
-		common->FatalError( "GLW_CreateWindow: could not register window class" );
-	}
-	common->Printf( "...registered fake window class\n" );
 
 	win32.windowClassRegistered = true;
 }
@@ -626,13 +211,6 @@ static bool GLW_CreateWindow( glimpParms_t parms ) {
 	ShowWindow( win32.hWnd, SW_SHOW );
 	UpdateWindow( win32.hWnd );
 	common->Printf( "...created window @ %d,%d (%dx%d)\n", x, y, w, h );
-
-	if ( !GLW_InitDriver( parms ) ) {
-		ShowWindow( win32.hWnd, SW_HIDE );
-		DestroyWindow( win32.hWnd );
-		win32.hWnd = NULL;
-		return false;
-	}
 
 	SetForegroundWindow( win32.hWnd );
 	SetFocus( win32.hWnd );
@@ -830,7 +408,7 @@ bool GLimp_Init( glimpParms_t parms ) {
 
 	// getting the wgl extensions involves creating a fake window to get a context,
 	// which is pretty disgusting, and seems to mess with the AGP VAR allocation
-	GLW_GetWGLExtensionsWithFakeWindow();
+	//GLW_GetWGLExtensionsWithFakeWindow();
 
 	// try to change to fullscreen
 	if ( parms.fullScreen ) {
@@ -848,7 +426,7 @@ bool GLimp_Init( glimpParms_t parms ) {
 	}
 
 	// wglSwapinterval, etc
-	GLW_CheckWGLExtensions( win32.hDC );
+	//GLW_CheckWGLExtensions( win32.hDC );
 
 	// check logging
 	GLimp_EnableLogging( ( r_logFile.GetInteger() != 0 ) );
@@ -949,17 +527,17 @@ void GLimp_Shutdown( void ) {
 	common->Printf( "Shutting down OpenGL subsystem\n" );
 
 	// set current context to NULL
-	if ( qwglMakeCurrent ) {
-		retVal = qwglMakeCurrent( NULL, NULL ) != 0;
-		common->Printf( "...wglMakeCurrent( NULL, NULL ): %s\n", success[retVal] );
-	}
+	//if ( qwglMakeCurrent ) {
+	//	retVal = qwglMakeCurrent( NULL, NULL ) != 0;
+	//	common->Printf( "...wglMakeCurrent( NULL, NULL ): %s\n", success[retVal] );
+	//}
 
 	// delete HGLRC
-	if ( win32.hGLRC ) {
-		retVal = qwglDeleteContext( win32.hGLRC ) != 0;
-		common->Printf( "...deleting GL context: %s\n", success[retVal] );
-		win32.hGLRC = NULL;
-	}
+	//if ( win32.hGLRC ) {
+	//	retVal = qwglDeleteContext( win32.hGLRC ) != 0;
+	//	common->Printf( "...deleting GL context: %s\n", success[retVal] );
+	//	win32.hGLRC = NULL;
+	//}
 
 	// release DC
 	if ( win32.hDC ) {
@@ -1008,15 +586,15 @@ void GLimp_SwapBuffers( void ) {
 	// wglSwapinterval is a windows-private extension,
 	// so we must check for it here instead of portably
 	//
-	if ( r_swapInterval.IsModified() ) {
-		r_swapInterval.ClearModified();
-
-		if ( wglSwapIntervalEXT ) {
-			wglSwapIntervalEXT( r_swapInterval.GetInteger() );
-		}
-	}
-
-	qwglSwapBuffers( win32.hDC );
+	//if ( r_swapInterval.IsModified() ) {
+	//	r_swapInterval.ClearModified();
+	//
+	//	if ( wglSwapIntervalEXT ) {
+	//		wglSwapIntervalEXT( r_swapInterval.GetInteger() );
+	//	}
+	//}
+	//
+	//qwglSwapBuffers( win32.hDC );
 
 //Sys_DebugPrintf( "*** SwapBuffers() ***\n" );
 }
@@ -1038,9 +616,7 @@ GLimp_ActivateContext
 ===================
 */
 void GLimp_ActivateContext( void ) {
-	if ( !qwglMakeCurrent( win32.hDC, win32.hGLRC ) ) {
-		win32.wglErrors++;
-	}
+
 }
 
 /*
@@ -1050,17 +626,7 @@ GLimp_DeactivateContext
 ===================
 */
 void GLimp_DeactivateContext( void ) {
-	qglFinish();
-	if ( !qwglMakeCurrent( win32.hDC, NULL ) ) {
-		win32.wglErrors++;
-	}
-#ifdef REALLOC_DC
-	// makeCurrent NULL frees the DC, so get another
-	if ( ( win32.hDC = GetDC( win32.hWnd ) ) == NULL ) {
-		win32.wglErrors++;
-	}
-#endif
-
+	
 }
 
 /*
@@ -1070,10 +636,7 @@ GLimp_RenderThreadWrapper
 ===================
 */
 static void GLimp_RenderThreadWrapper( void ) {
-	win32.glimpRenderThread();
-
-	// unbind the context before we die
-	qwglMakeCurrent( win32.hDC, NULL );
+	
 }
 
 /*
@@ -1217,25 +780,3 @@ OutputDebugString( "-->GLimp_WakeBackEnd\n" );
 OutputDebugString( "<--GLimp_WakeBackEnd\n" );
 #endif
 }
-
-//===================================================================
-
-/*
-===================
-GLimp_ExtensionPointer
-
-Returns a function pointer for an OpenGL extension entry point
-===================
-*/
-GLExtension_t GLimp_ExtensionPointer( const char *name ) {
-	void	(*proc)(void);
-
-	proc = (GLExtension_t)qwglGetProcAddress( name );
-
-	if ( !proc ) {
-		common->Printf( "Couldn't find proc address for: %s\n", name );
-	}
-
-	return proc;
-}
-

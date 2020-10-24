@@ -358,7 +358,7 @@ bool idSoundShader::ParseShader( idLexer &src ) {
 			}
 		} else {
 			src.Warning( "unknown token '%s'", token.c_str() );
-			return false;
+			//return false;
 		}
 	}
 

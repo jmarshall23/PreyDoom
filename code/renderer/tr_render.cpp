@@ -60,13 +60,6 @@ void RB_DrawElementsImmediate( const srfTriangles_t *tri ) {
 			backEnd.pc.c_drawRefVertexes += tri->numVerts;
 		}
 	}
-
-	qglBegin( GL_TRIANGLES );
-	for ( int i = 0 ; i < tri->numIndexes ; i++ ) {
-		qglTexCoord2fv( tri->verts[ tri->indexes[i] ].st.ToFloatPtr() );
-		qglVertex3fv( tri->verts[ tri->indexes[i] ].xyz.ToFloatPtr() );
-	}
-	qglEnd();
 }
 
 
@@ -89,22 +82,6 @@ void RB_DrawElementsWithCounters( const srfTriangles_t *tri ) {
 			backEnd.pc.c_drawRefVertexes += tri->numVerts;
 		}
 	}
-
-	if ( tri->indexCache && r_useIndexBuffers.GetBool() ) {
-		qglDrawElements( GL_TRIANGLES, 
-						r_singleTriangle.GetBool() ? 3 : tri->numIndexes,
-						GL_INDEX_TYPE,
-						(int *)vertexCache.Position( tri->indexCache ) );
-		backEnd.pc.c_vboIndexes += tri->numIndexes;
-	} else {
-		if ( r_useIndexBuffers.GetBool() ) {
-			vertexCache.UnbindIndex();
-		}
-		qglDrawElements( GL_TRIANGLES, 
-						r_singleTriangle.GetBool() ? 3 : tri->numIndexes,
-						GL_INDEX_TYPE,
-						tri->indexes );
-	}
 }
 
 /*
@@ -118,22 +95,6 @@ void RB_DrawShadowElementsWithCounters( const srfTriangles_t *tri, int numIndexe
 	backEnd.pc.c_shadowElements++;
 	backEnd.pc.c_shadowIndexes += numIndexes;
 	backEnd.pc.c_shadowVertexes += tri->numVerts;
-
-	if ( tri->indexCache && r_useIndexBuffers.GetBool() ) {
-		qglDrawElements( GL_TRIANGLES, 
-						r_singleTriangle.GetBool() ? 3 : numIndexes,
-						GL_INDEX_TYPE,
-						(int *)vertexCache.Position( tri->indexCache ) );
-		backEnd.pc.c_vboIndexes += numIndexes;
-	} else {
-		if ( r_useIndexBuffers.GetBool() ) {
-			vertexCache.UnbindIndex();
-		}
-		qglDrawElements( GL_TRIANGLES, 
-						r_singleTriangle.GetBool() ? 3 : numIndexes,
-						GL_INDEX_TYPE,
-						tri->indexes );
-	}
 }
 
 
@@ -149,11 +110,6 @@ void RB_RenderTriangleSurface( const srfTriangles_t *tri ) {
 		RB_DrawElementsImmediate( tri );
 		return;
 	}
-
-
-	idDrawVert *ac = (idDrawVert *)vertexCache.Position( tri->ambientCache );
-	qglVertexPointer( 3, GL_FLOAT, sizeof( idDrawVert ), ac->xyz.ToFloatPtr() );
-	qglTexCoordPointer( 2, GL_FLOAT, sizeof( idDrawVert ), ac->st.ToFloatPtr() );
 
 	RB_DrawElementsWithCounters( tri );
 }
@@ -174,17 +130,7 @@ RB_EnterWeaponDepthHack
 ===============
 */
 void RB_EnterWeaponDepthHack() {
-	qglDepthRange( 0, 0.5 );
-
-	float	matrix[16];
-
-	memcpy( matrix, backEnd.viewDef->projectionMatrix, sizeof( matrix ) );
-
-	matrix[14] *= 0.25;
-
-	qglMatrixMode(GL_PROJECTION);
-	qglLoadMatrixf( matrix );
-	qglMatrixMode(GL_MODELVIEW);
+	
 }
 
 /*
@@ -193,17 +139,7 @@ RB_EnterModelDepthHack
 ===============
 */
 void RB_EnterModelDepthHack( float depth ) {
-	qglDepthRange( 0.0f, 1.0f );
-
-	float	matrix[16];
-
-	memcpy( matrix, backEnd.viewDef->projectionMatrix, sizeof( matrix ) );
-
-	matrix[14] -= depth;
-
-	qglMatrixMode(GL_PROJECTION);
-	qglLoadMatrixf( matrix );
-	qglMatrixMode(GL_MODELVIEW);
+	
 }
 
 /*
@@ -212,11 +148,7 @@ RB_LeaveDepthHack
 ===============
 */
 void RB_LeaveDepthHack() {
-	qglDepthRange( 0, 1 );
-
-	qglMatrixMode(GL_PROJECTION);
-	qglLoadMatrixf( backEnd.viewDef->projectionMatrix );
-	qglMatrixMode(GL_MODELVIEW);
+	
 }
 
 /*
@@ -236,40 +168,40 @@ void RB_RenderDrawSurfListWithFunction( drawSurf_t **drawSurfs, int numDrawSurfs
 
 	backEnd.currentSpace = NULL;
 
-	for (i = 0  ; i < numDrawSurfs ; i++ ) {
-		drawSurf = drawSurfs[i];
-
-		// change the matrix if needed
-		if ( drawSurf->space != backEnd.currentSpace ) {
-			qglLoadMatrixf( drawSurf->space->modelViewMatrix );
-		}
-
-		if ( drawSurf->space->weaponDepthHack ) {
-			RB_EnterWeaponDepthHack();
-		}
-
-		if ( drawSurf->space->modelDepthHack != 0.0f ) {
-			RB_EnterModelDepthHack( drawSurf->space->modelDepthHack );
-		}
-
-		// change the scissor if needed
-		if ( r_useScissor.GetBool() && !backEnd.currentScissor.Equals( drawSurf->scissorRect ) ) {
-			backEnd.currentScissor = drawSurf->scissorRect;
-			qglScissor( backEnd.viewDef->viewport.x1 + backEnd.currentScissor.x1, 
-				backEnd.viewDef->viewport.y1 + backEnd.currentScissor.y1,
-				backEnd.currentScissor.x2 + 1 - backEnd.currentScissor.x1,
-				backEnd.currentScissor.y2 + 1 - backEnd.currentScissor.y1 );
-		}
-
-		// render it
-		triFunc_( drawSurf );
-
-		if ( drawSurf->space->weaponDepthHack || drawSurf->space->modelDepthHack != 0.0f ) {
-			RB_LeaveDepthHack();
-		}
-
-		backEnd.currentSpace = drawSurf->space;
-	}
+	//for (i = 0  ; i < numDrawSurfs ; i++ ) {
+	//	drawSurf = drawSurfs[i];
+	//
+	//	// change the matrix if needed
+	//	if ( drawSurf->space != backEnd.currentSpace ) {
+	//		qglLoadMatrixf( drawSurf->space->modelViewMatrix );
+	//	}
+	//
+	//	if ( drawSurf->space->weaponDepthHack ) {
+	//		RB_EnterWeaponDepthHack();
+	//	}
+	//
+	//	if ( drawSurf->space->modelDepthHack != 0.0f ) {
+	//		RB_EnterModelDepthHack( drawSurf->space->modelDepthHack );
+	//	}
+	//
+	//	// change the scissor if needed
+	//	if ( r_useScissor.GetBool() && !backEnd.currentScissor.Equals( drawSurf->scissorRect ) ) {
+	//		backEnd.currentScissor = drawSurf->scissorRect;
+	//		qglScissor( backEnd.viewDef->viewport.x1 + backEnd.currentScissor.x1, 
+	//			backEnd.viewDef->viewport.y1 + backEnd.currentScissor.y1,
+	//			backEnd.currentScissor.x2 + 1 - backEnd.currentScissor.x1,
+	//			backEnd.currentScissor.y2 + 1 - backEnd.currentScissor.y1 );
+	//	}
+	//
+	//	// render it
+	//	triFunc_( drawSurf );
+	//
+	//	if ( drawSurf->space->weaponDepthHack || drawSurf->space->modelDepthHack != 0.0f ) {
+	//		RB_LeaveDepthHack();
+	//	}
+	//
+	//	backEnd.currentSpace = drawSurf->space;
+	//}
 }
 
 /*
@@ -283,38 +215,38 @@ void RB_RenderDrawSurfChainWithFunction( const drawSurf_t *drawSurfs,
 
 	backEnd.currentSpace = NULL;
 
-	for ( drawSurf = drawSurfs ; drawSurf ; drawSurf = drawSurf->nextOnLight ) {
-		// change the matrix if needed
-		if ( drawSurf->space != backEnd.currentSpace ) {
-			qglLoadMatrixf( drawSurf->space->modelViewMatrix );
-		}
-
-		if ( drawSurf->space->weaponDepthHack ) {
-			RB_EnterWeaponDepthHack();
-		}
-
-		if ( drawSurf->space->modelDepthHack ) {
-			RB_EnterModelDepthHack( drawSurf->space->modelDepthHack );
-		}
-
-		// change the scissor if needed
-		if ( r_useScissor.GetBool() && !backEnd.currentScissor.Equals( drawSurf->scissorRect ) ) {
-			backEnd.currentScissor = drawSurf->scissorRect;
-			qglScissor( backEnd.viewDef->viewport.x1 + backEnd.currentScissor.x1, 
-				backEnd.viewDef->viewport.y1 + backEnd.currentScissor.y1,
-				backEnd.currentScissor.x2 + 1 - backEnd.currentScissor.x1,
-				backEnd.currentScissor.y2 + 1 - backEnd.currentScissor.y1 );
-		}
-
-		// render it
-		triFunc_( drawSurf );
-
-		if ( drawSurf->space->weaponDepthHack || drawSurf->space->modelDepthHack != 0.0f ) {
-			RB_LeaveDepthHack();
-		}
-
-		backEnd.currentSpace = drawSurf->space;
-	}
+	//for ( drawSurf = drawSurfs ; drawSurf ; drawSurf = drawSurf->nextOnLight ) {
+	//	// change the matrix if needed
+	//	if ( drawSurf->space != backEnd.currentSpace ) {
+	//		qglLoadMatrixf( drawSurf->space->modelViewMatrix );
+	//	}
+	//
+	//	if ( drawSurf->space->weaponDepthHack ) {
+	//		RB_EnterWeaponDepthHack();
+	//	}
+	//
+	//	if ( drawSurf->space->modelDepthHack ) {
+	//		RB_EnterModelDepthHack( drawSurf->space->modelDepthHack );
+	//	}
+	//
+	//	// change the scissor if needed
+	//	if ( r_useScissor.GetBool() && !backEnd.currentScissor.Equals( drawSurf->scissorRect ) ) {
+	//		backEnd.currentScissor = drawSurf->scissorRect;
+	//		qglScissor( backEnd.viewDef->viewport.x1 + backEnd.currentScissor.x1, 
+	//			backEnd.viewDef->viewport.y1 + backEnd.currentScissor.y1,
+	//			backEnd.currentScissor.x2 + 1 - backEnd.currentScissor.x1,
+	//			backEnd.currentScissor.y2 + 1 - backEnd.currentScissor.y1 );
+	//	}
+	//
+	//	// render it
+	//	triFunc_( drawSurf );
+	//
+	//	if ( drawSurf->space->weaponDepthHack || drawSurf->space->modelDepthHack != 0.0f ) {
+	//		RB_LeaveDepthHack();
+	//	}
+	//
+	//	backEnd.currentSpace = drawSurf->space;
+	//}
 }
 
 /*
@@ -363,9 +295,9 @@ void RB_LoadShaderTextureMatrix( const float *shaderRegisters, const textureStag
 	float	matrix[16];
 
 	RB_GetShaderTextureMatrix( shaderRegisters, texture, matrix );
-	qglMatrixMode( GL_TEXTURE );
-	qglLoadMatrixf( matrix );
-	qglMatrixMode( GL_MODELVIEW );
+	//qglMatrixMode( GL_TEXTURE );
+	//qglLoadMatrixf( matrix );
+	//qglMatrixMode( GL_MODELVIEW );
 }
 
 /*
@@ -412,30 +344,30 @@ void RB_BindStageTexture( const float *shaderRegisters, const textureStage_t *te
 	RB_BindVariableStageImage( texture, shaderRegisters );
 
 	// texgens
-	if ( texture->texgen == TG_DIFFUSE_CUBE ) {
-		qglTexCoordPointer( 3, GL_FLOAT, sizeof( idDrawVert ), ((idDrawVert *)vertexCache.Position( surf->geo->ambientCache ))->normal.ToFloatPtr() );
-	}
-	if ( texture->texgen == TG_SKYBOX_CUBE || texture->texgen == TG_WOBBLESKY_CUBE ) {
-		qglTexCoordPointer( 3, GL_FLOAT, 0, vertexCache.Position( surf->dynamicTexCoords ) );
-	}
-	if ( texture->texgen == TG_REFLECT_CUBE ) {
-		qglEnable( GL_TEXTURE_GEN_S );
-		qglEnable( GL_TEXTURE_GEN_T );
-		qglEnable( GL_TEXTURE_GEN_R );
-		qglTexGenf( GL_S, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP_EXT );
-		qglTexGenf( GL_T, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP_EXT );
-		qglTexGenf( GL_R, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP_EXT );
-		qglEnableClientState( GL_NORMAL_ARRAY );
-		qglNormalPointer( GL_FLOAT, sizeof( idDrawVert ), ((idDrawVert *)vertexCache.Position( surf->geo->ambientCache ))->normal.ToFloatPtr() );
-
-		qglMatrixMode( GL_TEXTURE );
-		float	mat[16];
-
-		R_TransposeGLMatrix( backEnd.viewDef->worldSpace.modelViewMatrix, mat );
-
-		qglLoadMatrixf( mat );
-		qglMatrixMode( GL_MODELVIEW );
-	}
+	//if ( texture->texgen == TG_DIFFUSE_CUBE ) {
+	//	qglTexCoordPointer( 3, GL_FLOAT, sizeof( idDrawVert ), ((idDrawVert *)vertexCache.Position( surf->geo->ambientCache ))->normal.ToFloatPtr() );
+	//}
+	//if ( texture->texgen == TG_SKYBOX_CUBE || texture->texgen == TG_WOBBLESKY_CUBE ) {
+	//	qglTexCoordPointer( 3, GL_FLOAT, 0, vertexCache.Position( surf->dynamicTexCoords ) );
+	//}
+	//if ( texture->texgen == TG_REFLECT_CUBE ) {
+	//	qglEnable( GL_TEXTURE_GEN_S );
+	//	qglEnable( GL_TEXTURE_GEN_T );
+	//	qglEnable( GL_TEXTURE_GEN_R );
+	//	qglTexGenf( GL_S, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP_EXT );
+	//	qglTexGenf( GL_T, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP_EXT );
+	//	qglTexGenf( GL_R, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP_EXT );
+	//	qglEnableClientState( GL_NORMAL_ARRAY );
+	//	qglNormalPointer( GL_FLOAT, sizeof( idDrawVert ), ((idDrawVert *)vertexCache.Position( surf->geo->ambientCache ))->normal.ToFloatPtr() );
+	//
+	//	qglMatrixMode( GL_TEXTURE );
+	//	float	mat[16];
+	//
+	//	R_TransposeGLMatrix( backEnd.viewDef->worldSpace.modelViewMatrix, mat );
+	//
+	//	qglLoadMatrixf( mat );
+	//	qglMatrixMode( GL_MODELVIEW );
+	//}
 
 	// matrix
 	if ( texture->hasMatrix ) {
@@ -449,31 +381,31 @@ RB_FinishStageTexture
 ======================
 */
 void RB_FinishStageTexture( const textureStage_t *texture, const drawSurf_t *surf ) {
-	if ( texture->texgen == TG_DIFFUSE_CUBE || texture->texgen == TG_SKYBOX_CUBE 
-		|| texture->texgen == TG_WOBBLESKY_CUBE ) {
-		qglTexCoordPointer( 2, GL_FLOAT, sizeof( idDrawVert ), 
-			(void *)&(((idDrawVert *)vertexCache.Position( surf->geo->ambientCache ))->st) );
-	}
-
-	if ( texture->texgen == TG_REFLECT_CUBE ) {
-		qglDisable( GL_TEXTURE_GEN_S );
-		qglDisable( GL_TEXTURE_GEN_T );
-		qglDisable( GL_TEXTURE_GEN_R );
-		qglTexGenf( GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR );
-		qglTexGenf( GL_T, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR );
-		qglTexGenf( GL_R, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR );
-		qglDisableClientState( GL_NORMAL_ARRAY );
-
-		qglMatrixMode( GL_TEXTURE );
-		qglLoadIdentity();
-		qglMatrixMode( GL_MODELVIEW );
-	}
-
-	if ( texture->hasMatrix ) {
-		qglMatrixMode( GL_TEXTURE );
-		qglLoadIdentity();
-		qglMatrixMode( GL_MODELVIEW );
-	}
+	//if ( texture->texgen == TG_DIFFUSE_CUBE || texture->texgen == TG_SKYBOX_CUBE 
+	//	|| texture->texgen == TG_WOBBLESKY_CUBE ) {
+	//	qglTexCoordPointer( 2, GL_FLOAT, sizeof( idDrawVert ), 
+	//		(void *)&(((idDrawVert *)vertexCache.Position( surf->geo->ambientCache ))->st) );
+	//}
+	//
+	//if ( texture->texgen == TG_REFLECT_CUBE ) {
+	//	qglDisable( GL_TEXTURE_GEN_S );
+	//	qglDisable( GL_TEXTURE_GEN_T );
+	//	qglDisable( GL_TEXTURE_GEN_R );
+	//	qglTexGenf( GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR );
+	//	qglTexGenf( GL_T, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR );
+	//	qglTexGenf( GL_R, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR );
+	//	qglDisableClientState( GL_NORMAL_ARRAY );
+	//
+	//	qglMatrixMode( GL_TEXTURE );
+	//	qglLoadIdentity();
+	//	qglMatrixMode( GL_MODELVIEW );
+	//}
+	//
+	//if ( texture->hasMatrix ) {
+	//	qglMatrixMode( GL_TEXTURE );
+	//	qglLoadIdentity();
+	//	qglMatrixMode( GL_MODELVIEW );
+	//}
 }
 
 
@@ -554,38 +486,38 @@ to actually render the visible surfaces for this view
 */
 void RB_BeginDrawingView (void) {
 	// set the modelview matrix for the viewer
-	qglMatrixMode(GL_PROJECTION);
-	qglLoadMatrixf( backEnd.viewDef->projectionMatrix );
-	qglMatrixMode(GL_MODELVIEW);
-
-	// set the window clipping
-	qglViewport( tr.viewportOffset[0] + backEnd.viewDef->viewport.x1, 
-		tr.viewportOffset[1] + backEnd.viewDef->viewport.y1, 
-		backEnd.viewDef->viewport.x2 + 1 - backEnd.viewDef->viewport.x1,
-		backEnd.viewDef->viewport.y2 + 1 - backEnd.viewDef->viewport.y1 );
-
-	// the scissor may be smaller than the viewport for subviews
-	qglScissor( tr.viewportOffset[0] + backEnd.viewDef->viewport.x1 + backEnd.viewDef->scissor.x1, 
-		tr.viewportOffset[1] + backEnd.viewDef->viewport.y1 + backEnd.viewDef->scissor.y1, 
-		backEnd.viewDef->scissor.x2 + 1 - backEnd.viewDef->scissor.x1,
-		backEnd.viewDef->scissor.y2 + 1 - backEnd.viewDef->scissor.y1 );
+	//qglMatrixMode(GL_PROJECTION);
+	//qglLoadMatrixf( backEnd.viewDef->projectionMatrix );
+	//qglMatrixMode(GL_MODELVIEW);
+	//
+	//// set the window clipping
+	//qglViewport( tr.viewportOffset[0] + backEnd.viewDef->viewport.x1, 
+	//	tr.viewportOffset[1] + backEnd.viewDef->viewport.y1, 
+	//	backEnd.viewDef->viewport.x2 + 1 - backEnd.viewDef->viewport.x1,
+	//	backEnd.viewDef->viewport.y2 + 1 - backEnd.viewDef->viewport.y1 );
+	//
+	//// the scissor may be smaller than the viewport for subviews
+	//qglScissor( tr.viewportOffset[0] + backEnd.viewDef->viewport.x1 + backEnd.viewDef->scissor.x1, 
+	//	tr.viewportOffset[1] + backEnd.viewDef->viewport.y1 + backEnd.viewDef->scissor.y1, 
+	//	backEnd.viewDef->scissor.x2 + 1 - backEnd.viewDef->scissor.x1,
+	//	backEnd.viewDef->scissor.y2 + 1 - backEnd.viewDef->scissor.y1 );
 	backEnd.currentScissor = backEnd.viewDef->scissor;
 
 	// ensures that depth writes are enabled for the depth clear
 	GL_State( GLS_DEFAULT );
 
 	// we don't have to clear the depth / stencil buffer for 2D rendering
-	if ( backEnd.viewDef->viewEntitys ) {
-		qglStencilMask( 0xff );
-		// some cards may have 7 bit stencil buffers, so don't assume this
-		// should be 128
-		qglClearStencil( 1<<(glConfig.stencilBits-1) );
-		qglClear( GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
-		qglEnable( GL_DEPTH_TEST );
-	} else {
-		qglDisable( GL_DEPTH_TEST );
-		qglDisable( GL_STENCIL_TEST );
-	}
+	//if ( backEnd.viewDef->viewEntitys ) {
+	//	qglStencilMask( 0xff );
+	//	// some cards may have 7 bit stencil buffers, so don't assume this
+	//	// should be 128
+	//	qglClearStencil( 1<<(glConfig.stencilBits-1) );
+	//	qglClear( GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
+	//	qglEnable( GL_DEPTH_TEST );
+	//} else {
+	//	qglDisable( GL_DEPTH_TEST );
+	//	qglDisable( GL_STENCIL_TEST );
+	//}
 
 	backEnd.glState.faceCulling = -1;		// force face culling to set next time
 	GL_Cull( CT_FRONT_SIDED );
@@ -705,16 +637,16 @@ void RB_CreateSingleDrawInteractions( const drawSurf_t *surf, void (*DrawInterac
 	// change the matrix and light projection vectors if needed
 	if ( surf->space != backEnd.currentSpace ) {
 		backEnd.currentSpace = surf->space;
-		qglLoadMatrixf( surf->space->modelViewMatrix );
+		//qglLoadMatrixf( surf->space->modelViewMatrix );
 	}
 
 	// change the scissor if needed
 	if ( r_useScissor.GetBool() && !backEnd.currentScissor.Equals( surf->scissorRect ) ) {
 		backEnd.currentScissor = surf->scissorRect;
-		qglScissor( backEnd.viewDef->viewport.x1 + backEnd.currentScissor.x1, 
-			backEnd.viewDef->viewport.y1 + backEnd.currentScissor.y1,
-			backEnd.currentScissor.x2 + 1 - backEnd.currentScissor.x1,
-			backEnd.currentScissor.y2 + 1 - backEnd.currentScissor.y1 );
+		//qglScissor( backEnd.viewDef->viewport.x1 + backEnd.currentScissor.x1, 
+		//	backEnd.viewDef->viewport.y1 + backEnd.currentScissor.y1,
+		//	backEnd.currentScissor.x2 + 1 - backEnd.currentScissor.x1,
+		//	backEnd.currentScissor.y2 + 1 - backEnd.currentScissor.y1 );
 	}
 
 	// hack depth range if needed
@@ -877,7 +809,7 @@ void RB_DrawView( const void *data ) {
 
 	backEnd.pc.c_surfaces += backEnd.viewDef->numDrawSurfs;
 
-	RB_ShowOverdraw();
+	//RB_ShowOverdraw();
 
 	// render the scene, jumping to the hardware specific interaction renderers
 	RB_STD_DrawView();
