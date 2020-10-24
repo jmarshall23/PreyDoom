@@ -432,7 +432,11 @@ int sideOfPlane(float3 p, float3 pc, float3 pn){
 			float3 lightPos = (lightInfo[i].origin_radius.xyz);
 			float3 centerLightDir = lightPos - worldOrigin;
 			float lightDistance = length(centerLightDir);
-			float falloff = attenuation(lightInfo[i].origin_radius.w, 1.0, lightDistance, normal, normalize(centerLightDir)) - 0.1;  
+			float3 normalLightDir;
+			normalLightDir.x = dot(tangent, centerLightDir);
+			normalLightDir.y = dot(binormal, centerLightDir);
+			normalLightDir.z = dot(orig_normal, centerLightDir);
+			float falloff = attenuation(lightInfo[i].origin_radius.w, 1.0, lightDistance, hitNormalMap, normalize(normalLightDir)) - 0.1;  
 			
 			falloff = clamp(falloff, 0.0, 1.0);
 			
@@ -443,7 +447,7 @@ int sideOfPlane(float3 p, float3 pc, float3 pn){
 					if(!IsLightShadowed(worldOrigin, normalize(centerLightDir), lightDistance, normal))
 					{
 						float3 V = viewPos - worldOrigin;
-						float spec = CalcPBR(V, normal, normalize(centerLightDir), 0.5, float3(1, 1, 1), float3(0.5, 0.5, 0.5));
+						float spec = CalcPBR(V, hitNormalMap, normalize(normalLightDir), 0.5, float3(1, 1, 1), float3(0.5, 0.5, 0.5));
 						ndotl += lightInfo[i].light_color.xyz * falloff * 2; // normalize(centerLightDir); //max(0.f, dot(normal, normalize(centerLightDir))); 
 						spec_contrib += spec * falloff * 4;
 					}
@@ -479,13 +483,8 @@ int sideOfPlane(float3 p, float3 pc, float3 pn){
 			float lightDistance = length(centerLightDir);
 			
 			float falloff = 0;
-			
-			if(BTriVertex[vertId + 0].st.z == 0) {
-				falloff = attenuation(-lightInfo[i].origin_radius.w, 1.0, lightDistance, hitNormalMap, normalize(areaLightDir)) - 0.05;  			
-			}
-			else {
-				falloff = attenuation(-lightInfo[i].origin_radius.w, 1.0, lightDistance, normal, normalize(centerLightDir)) - 0.05;  			
-			}
+						
+			falloff = attenuation(-lightInfo[i].origin_radius.w, 1.0, lightDistance, hitNormalMap, normalize(areaLightDir)) - 0.05;  						
 			falloff = clamp(falloff, 0.0, 1.0);
 						
 			if(falloff > 0)
@@ -500,10 +499,9 @@ int sideOfPlane(float3 p, float3 pc, float3 pn){
 										
 					ndotl += clamp(falloff, 0.0, 1.0) * lightInfo[i].light_color2.xyz;
 					
-					if(BTriVertex[vertId + 0].st.z == 0) {
-						float spec = CalcPBR(V, hitNormalMap, normalize(areaLightDir), 0.5, float3(1, 1, 1), float3(0.5, 0.5, 0.5));
-						spec_lit += spec * falloff * pow(lightInfo[i].light_color2.xyz, 2);
-					}
+					
+					float spec = CalcPBR(V, hitNormalMap, normalize(areaLightDir), 0.5, float3(1, 1, 1), float3(0.5, 0.5, 0.5));
+					spec_lit += spec * falloff * pow(lightInfo[i].light_color2.xyz, 2);					
 				}
 			}
 		}

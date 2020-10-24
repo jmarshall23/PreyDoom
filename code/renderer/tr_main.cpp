@@ -1159,5 +1159,5 @@ void R_RenderView( viewDef_t *parms ) {
 	R_AddDrawViewCmd( parms );
 
 	// restore view in case we are a subview
-	tr.viewDef = oldView;
+	//tr.viewDef = oldView;
 }

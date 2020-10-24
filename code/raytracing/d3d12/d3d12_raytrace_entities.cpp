@@ -88,47 +88,49 @@ void GL_CreateTopLevelAccelerationStructs(bool forceUpdate) {
 		int numWorldVisMeshes = 0;
 
 		// Add in the BSP world.
-		for(int i = 0; i < tr.primaryWorld->localModels.Num(); i++)
-		{
-			idRenderModel* qmodel = tr.primaryWorld->localModels[i];
+		//for(int i = 0; i < tr.primaryWorld->localModels.Num(); i++)
+		//{
+		//	idRenderModel* qmodel = tr.primaryWorld->localModels[i];
+		//
+		//	if (qmodel->GetNumDXRFrames() <= 0)
+		//		continue;
+		//
+		//	dxrMesh_t* mesh = (dxrMesh_t*)qmodel->GetDXRFrame(0);
+		//	if (mesh == NULL)
+		//		continue;
+		//
+		//	meshInstanceData[i].startVertex = mesh->startSceneVertex;
+		//
+		//	// World matrix is always a identity.
+		//	static DirectX::XMMATRIX worldmatrix = DirectX::XMMatrixIdentity();
+		//	m_topLevelASGenerator.AddInstance(mesh->buffers.pResult.Get(), worldmatrix, i, 0xFF);
+		//
+		//	numVisMeshes++;
+		//	numWorldVisMeshes++;
+		//}
 
-			if (qmodel->GetNumDXRFrames() <= 0)
-				continue;
-
-			dxrMesh_t* mesh = (dxrMesh_t*)qmodel->GetDXRFrame(0);
-			if (mesh == NULL)
-				continue;
-
-			meshInstanceData[i].startVertex = mesh->startSceneVertex;
-
-			// World matrix is always a identity.
-			static DirectX::XMMATRIX worldmatrix = DirectX::XMMatrixIdentity();
-			m_topLevelASGenerator.AddInstance(mesh->buffers.pResult.Get(), worldmatrix, i, 0xFF);
-
-			numVisMeshes++;
-			numWorldVisMeshes++;
-		}
-
-		for (int i = 0; i < tr.primaryWorld->GetNumRenderEntities(); i++)
-		{
-			const renderEntity_t* currententity = tr.primaryWorld->GetRenderEntity(i);
+		viewEntity_t *vEntity;
+		int index = 0;
+		for (vEntity = tr.viewDef->viewEntitys; vEntity; vEntity = vEntity->next) {
+			const renderEntity_t* currententity = &vEntity->entityDef->parms;
 			if (currententity == NULL) {
 				continue;
 			}
-
+		
 			idRenderModel* qmodel = currententity->hModel;
-
+		
 			if (qmodel->GetNumDXRFrames() <= 0)
 				continue;
-
+		
 			dxrMesh_t* mesh = (dxrMesh_t*)qmodel->GetDXRFrame(0);
 			if (mesh == NULL)
 				continue;
-
-			meshInstanceData[i + numWorldVisMeshes].startVertex = mesh->startSceneVertex;
-
-			m_topLevelASGenerator.AddInstance(mesh->buffers.pResult.Get(), (DirectX::XMMATRIX&)currententity->dxrTransform, i + numWorldVisMeshes, 0xFF);
+		
+			meshInstanceData[index + numWorldVisMeshes].startVertex = mesh->startSceneVertex;
+		
+			m_topLevelASGenerator.AddInstance(mesh->buffers.pResult.Get(), (DirectX::XMMATRIX&)currententity->dxrTransform, index + numWorldVisMeshes, 0xFF);
 			numVisMeshes++;
+			index++;
 		}
 
 		if (numVisMeshes > MAX_VISEDICTS) {
