@@ -7,7 +7,7 @@
 #include "nv_helpers_dx12/TopLevelASGenerator.h"
 #include <vector>
 
-#define MAX_VISEDICTS 256
+#define MAX_VISEDICTS 4096
 
 nv_helpers_dx12::TopLevelASGenerator m_topLevelASGenerator;
 AccelerationStructureBuffers m_topLevelASBuffers;
@@ -84,6 +84,9 @@ void GL_CreateTopLevelAccelerationStructs(bool forceUpdate) {
 	{
 		m_topLevelASGenerator.Clear();
 
+		int numVisMeshes = 0;
+		int numWorldVisMeshes = 0;
+
 		// Add in the BSP world.
 		for(int i = 0; i < tr.primaryWorld->localModels.Num(); i++)
 		{
@@ -101,9 +104,11 @@ void GL_CreateTopLevelAccelerationStructs(bool forceUpdate) {
 			// World matrix is always a identity.
 			static DirectX::XMMATRIX worldmatrix = DirectX::XMMatrixIdentity();
 			m_topLevelASGenerator.AddInstance(mesh->buffers.pResult.Get(), worldmatrix, i, 0xFF);
+
+			numVisMeshes++;
+			numWorldVisMeshes++;
 		}
 
-		/*
 		for (int i = 0; i < tr.primaryWorld->GetNumRenderEntities(); i++)
 		{
 			const renderEntity_t* currententity = tr.primaryWorld->GetRenderEntity(i);
@@ -120,11 +125,15 @@ void GL_CreateTopLevelAccelerationStructs(bool forceUpdate) {
 			if (mesh == NULL)
 				continue;
 
-			meshInstanceData[i + 1].startVertex = mesh->startSceneVertex;
+			meshInstanceData[i + numWorldVisMeshes].startVertex = mesh->startSceneVertex;
 
-			m_topLevelASGenerator.AddInstance(mesh->buffers.pResult.Get(), (DirectX::XMMATRIX&)currententity->dxrTransform, i + 1, 0xFF);
+			m_topLevelASGenerator.AddInstance(mesh->buffers.pResult.Get(), (DirectX::XMMATRIX&)currententity->dxrTransform, i + numWorldVisMeshes, 0xFF);
+			numVisMeshes++;
 		}
-		*/
+
+		if (numVisMeshes > MAX_VISEDICTS) {
+			common->FatalError("MAX_VISEDICTS MAX, Make it bigger?");
+		}
 
 		// Add the view entity
 		//{
