@@ -300,7 +300,21 @@ RB_STD_DrawView
 =============
 */
 void	RB_STD_DrawView( void ) {
-	drawSurf_t	 **drawSurfs;
+	viewLight_t* vLight;
 
+	for (vLight = backEnd.viewDef->viewLights; vLight; vLight = vLight->next) {
+		backEnd.vLight = vLight;
 
+		//idVec3 dist = vLight->lightDef->parms.end - vLight->lightDef->parms.start;
+		float lightColor[4];
+
+		// backEnd.lightScale is calculated so that lightColor[] will never exceed
+		// tr.backEndRendererMaxLight
+		//lightColor[0] = backEnd.lightScale * lightRegs[lightStage->color.registers[0]];
+		//lightColor[1] = backEnd.lightScale * lightRegs[lightStage->color.registers[1]];
+		//lightColor[2] = backEnd.lightScale * lightRegs[lightStage->color.registers[2]];
+		//lightColor[3] = lightRegs[lightStage->color.registers[3]];		
+
+		GL_RegisterWorldLight(vLight->lightDef, vLight->lightDef->parms.origin.x, vLight->lightDef->parms.origin.y, vLight->lightDef->parms.origin.z, 300, 0, vLight->lightDef->parms.shaderParms[SHADERPARM_RED], vLight->lightDef->parms.shaderParms[SHADERPARM_GREEN], vLight->lightDef->parms.shaderParms[SHADERPARM_BLUE]);
+	}
 }
