@@ -52,6 +52,24 @@
     <Filter Include="AAS">
       <UniqueIdentifier>{ce8aaf31-b48e-40eb-a186-9263875270f5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Raytracing">
+      <UniqueIdentifier>{3fea2982-aeea-4ab9-9204-c028ea333db0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Raytracing\Math">
+      <UniqueIdentifier>{bbffd241-0331-47eb-9b45-a9b40069be11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Raytracing\libs">
+      <UniqueIdentifier>{d11e157d-3309-40fb-bb3f-e450a06edbfb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Raytracing\libs\xml">
+      <UniqueIdentifier>{15b78353-29c4-4d1b-b7a2-43d8f8ccae2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Raytracing\d3d12">
+      <UniqueIdentifier>{6ee9cf6e-716e-4412-8fc8-387a6afdbccc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Raytracing\d3d12\nv_helpers_dx12">
+      <UniqueIdentifier>{5ca56408-9814-4a20-bec1-35a951bc5e27}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cm\CollisionModel.h">
@@ -530,6 +548,42 @@
     </ClInclude>
     <ClInclude Include="tools\compilers\aas\AASFileManager.h">
       <Filter>AAS</Filter>
+    </ClInclude>
+    <ClInclude Include="raytracing\math\vectormath.h">
+      <Filter>Raytracing\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="raytracing\libs\xml\tinyxml2.h">
+      <Filter>Raytracing\libs\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="raytracing\d3d12\d3d12_local.h">
+      <Filter>Raytracing\d3d12</Filter>
+    </ClInclude>
+    <ClInclude Include="raytracing\d3d12\d3dx12.h">
+      <Filter>Raytracing\d3d12</Filter>
+    </ClInclude>
+    <ClInclude Include="raytracing\d3d12\DXRHelper.h">
+      <Filter>Raytracing\d3d12</Filter>
+    </ClInclude>
+    <ClInclude Include="raytracing\d3d12\DXSampleHelper.h">
+      <Filter>Raytracing\d3d12</Filter>
+    </ClInclude>
+    <ClInclude Include="raytracing\d3d12\tinydx.h">
+      <Filter>Raytracing\d3d12</Filter>
+    </ClInclude>
+    <ClInclude Include="raytracing\d3d12\nv_helpers_dx12\BottomLevelASGenerator.h">
+      <Filter>Raytracing\d3d12\nv_helpers_dx12</Filter>
+    </ClInclude>
+    <ClInclude Include="raytracing\d3d12\nv_helpers_dx12\RaytracingPipelineGenerator.h">
+      <Filter>Raytracing\d3d12\nv_helpers_dx12</Filter>
+    </ClInclude>
+    <ClInclude Include="raytracing\d3d12\nv_helpers_dx12\RootSignatureGenerator.h">
+      <Filter>Raytracing\d3d12\nv_helpers_dx12</Filter>
+    </ClInclude>
+    <ClInclude Include="raytracing\d3d12\nv_helpers_dx12\ShaderBindingTableGenerator.h">
+      <Filter>Raytracing\d3d12\nv_helpers_dx12</Filter>
+    </ClInclude>
+    <ClInclude Include="raytracing\d3d12\nv_helpers_dx12\TopLevelASGenerator.h">
+      <Filter>Raytracing\d3d12\nv_helpers_dx12</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1129,6 +1183,57 @@
     </ClCompile>
     <ClCompile Include="tools\compilers\aas\AASFileManager.cpp">
       <Filter>AAS</Filter>
+    </ClCompile>
+    <ClCompile Include="raytracing\math\matrix.cpp">
+      <Filter>Raytracing\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="raytracing\libs\xml\tinyxml2.cpp">
+      <Filter>Raytracing\libs\xml</Filter>
+    </ClCompile>
+    <ClCompile Include="raytracing\d3d12\d3d12_clear.cpp">
+      <Filter>Raytracing\d3d12</Filter>
+    </ClCompile>
+    <ClCompile Include="raytracing\d3d12\d3d12_composite.cpp">
+      <Filter>Raytracing\d3d12</Filter>
+    </ClCompile>
+    <ClCompile Include="raytracing\d3d12\d3d12_main.cpp">
+      <Filter>Raytracing\d3d12</Filter>
+    </ClCompile>
+    <ClCompile Include="raytracing\d3d12\d3d12_raytrace_cleanup.cpp">
+      <Filter>Raytracing\d3d12</Filter>
+    </ClCompile>
+    <ClCompile Include="raytracing\d3d12\d3d12_raytrace_entities.cpp">
+      <Filter>Raytracing\d3d12</Filter>
+    </ClCompile>
+    <ClCompile Include="raytracing\d3d12\d3d12_raytrace_lights.cpp">
+      <Filter>Raytracing\d3d12</Filter>
+    </ClCompile>
+    <ClCompile Include="raytracing\d3d12\d3d12_raytrace_mega.cpp">
+      <Filter>Raytracing\d3d12</Filter>
+    </ClCompile>
+    <ClCompile Include="raytracing\d3d12\d3d12_raytrace_mesh.cpp">
+      <Filter>Raytracing\d3d12</Filter>
+    </ClCompile>
+    <ClCompile Include="raytracing\d3d12\d3d12_ui.cpp">
+      <Filter>Raytracing\d3d12</Filter>
+    </ClCompile>
+    <ClCompile Include="raytracing\d3d12\tinydx.cpp">
+      <Filter>Raytracing\d3d12</Filter>
+    </ClCompile>
+    <ClCompile Include="raytracing\d3d12\nv_helpers_dx12\BottomLevelASGenerator.cpp">
+      <Filter>Raytracing\d3d12\nv_helpers_dx12</Filter>
+    </ClCompile>
+    <ClCompile Include="raytracing\d3d12\nv_helpers_dx12\RaytracingPipelineGenerator.cpp">
+      <Filter>Raytracing\d3d12\nv_helpers_dx12</Filter>
+    </ClCompile>
+    <ClCompile Include="raytracing\d3d12\nv_helpers_dx12\RootSignatureGenerator.cpp">
+      <Filter>Raytracing\d3d12\nv_helpers_dx12</Filter>
+    </ClCompile>
+    <ClCompile Include="raytracing\d3d12\nv_helpers_dx12\ShaderBindingTableGenerator.cpp">
+      <Filter>Raytracing\d3d12\nv_helpers_dx12</Filter>
+    </ClCompile>
+    <ClCompile Include="raytracing\d3d12\nv_helpers_dx12\TopLevelASGenerator.cpp">
+      <Filter>Raytracing\d3d12\nv_helpers_dx12</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

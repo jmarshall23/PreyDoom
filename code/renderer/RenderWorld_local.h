@@ -84,6 +84,7 @@ public:
 	virtual	void			UpdateEntityDef( qhandle_t entityHandle, const renderEntity_t *re );
 	virtual	void			FreeEntityDef( qhandle_t entityHandle );
 	virtual const renderEntity_t *GetRenderEntity( qhandle_t entityHandle ) const;
+	virtual int				GetNumRenderEntities(void) const { return entityDefs.Num(); }
 
 	virtual	qhandle_t		AddLightDef( const renderLight_t *rlight );
 	virtual	void			UpdateLightDef( qhandle_t lightHandle, const renderLight_t *rlight );

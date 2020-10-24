@@ -85,6 +85,10 @@ public:
 	virtual void				WriteToDemoFile( class idDemoFile *f );
 	virtual float				DepthHack() const;
 
+	virtual void				CreateRaytracingMesh(void);
+	virtual int					GetNumDXRFrames(void) { return dxrMeshFrames.Num(); }
+	virtual void*				GetDXRFrame(int frameId) { return dxrMeshFrames[frameId]; }
+
 	void						MakeDefaultModel();
 	
 	bool						LoadASE( const char *fileName );
@@ -125,6 +129,8 @@ protected:
 	static idCVar				r_slopVertex;			// merge xyz coordinates this far apart
 	static idCVar				r_slopTexCoord;			// merge texture coordinates this far apart
 	static idCVar				r_slopNormal;			// merge normals that dot less than this
+
+	idList<void*>				dxrMeshFrames;
 };
 
 /*

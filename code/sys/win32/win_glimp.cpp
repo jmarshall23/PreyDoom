@@ -425,6 +425,8 @@ bool GLimp_Init( glimpParms_t parms ) {
 		return false;
 	}
 
+	GL_Init(win32.hWnd, win32.hInstance, parms.width, parms.height);
+
 	// wglSwapinterval, etc
 	//GLW_CheckWGLExtensions( win32.hDC );
 

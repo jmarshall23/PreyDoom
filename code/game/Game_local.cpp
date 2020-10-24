@@ -1371,7 +1371,9 @@ void idGameLocal::InitFromNewMap( const char *mapName, idRenderWorld *renderWorl
 	}
 	// HUMANHEAD END
 
-
+// jmarshall
+	renderSystem->FinishDXRLoading();
+// jmarshall end
 	Printf( "--------------------------------------\n" );
 }
 

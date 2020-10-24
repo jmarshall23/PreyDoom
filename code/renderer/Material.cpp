@@ -2736,6 +2736,27 @@ const shaderStage_t *idMaterial::GetBumpStage( void ) const {
 
 /*
 ===================
+idMaterial::GetAlbedoStage
+===================
+*/
+const shaderStage_t* idMaterial::GetAlbedoStage(void) const {
+	for (int i = 0; i < numStages; i++) {
+		if (stages[i].lighting == SL_DIFFUSE) {
+			return &stages[i];
+		}
+	}
+
+	for (int i = 0; i < numStages; i++) {
+		if (stages[i].lighting != SL_BUMP) {
+			return &stages[i];
+		}
+	}
+
+	return NULL;
+}
+
+/*
+===================
 idMaterial::ReloadImages
 ===================
 */

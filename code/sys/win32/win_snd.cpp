@@ -29,7 +29,10 @@ If you have questions concerning this license or the applicable additional terms
 #pragma hdrstop
 
 // DirectX SDK
-#include <DxErr.h>
+//#include <DxErr.h>
+#define DXTRACE_MSG(str)              (0L)
+#define DXTRACE_ERR(str,hr)           (hr)
+#define DXTRACE_ERR_MSGBOX(str,hr)    (hr)
 
 #include <ks.h>
 #include <ksmedia.h>

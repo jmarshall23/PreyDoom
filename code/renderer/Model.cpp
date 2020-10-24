@@ -548,6 +548,22 @@ int idRenderModelStatic::NearestJoint( int surfaceNum, int a, int b, int c ) con
 	return INVALID_JOINT;
 }
 
+/*
+================
+idRenderModelStatic::CreateRaytracingMesh
+================
+*/
+void idRenderModelStatic::CreateRaytracingMesh(void) {
+	if (!renderSystem->IsOpenGLRunning())
+		return;
+
+	void* dxrMesh = GL_LoadDXRMesh(this);
+	if (dxrMesh == NULL) {
+		common->FatalError("Failed to create DirectX Raytracing Mesh...\n");
+	}
+
+	dxrMeshFrames.Append(dxrMesh);
+}
 
 //=====================================================================
 
@@ -705,6 +721,8 @@ void idRenderModelStatic::FinishSurfaces() {
 
 		}
 	}
+
+	CreateRaytracingMesh();
 }
 
 /*

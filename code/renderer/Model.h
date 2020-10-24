@@ -309,6 +309,10 @@ public:
 	// Writing to and reading from a demo file.
 	virtual void				ReadFromDemoFile( class idDemoFile *f ) = 0;
 	virtual void				WriteToDemoFile( class idDemoFile *f ) = 0;
+
+	// Gets the number of DirectX Raytracing Frames and retreives a DXR frame.
+	virtual int	GetNumDXRFrames(void) = 0;
+	virtual void* GetDXRFrame(int frameId) = 0;
 };
 
 #endif /* !__MODEL_H__ */

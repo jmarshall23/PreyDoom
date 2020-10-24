@@ -738,7 +738,7 @@ public:
 	virtual void			SetShuttleView(bool view) { };
 	virtual bool			SupportsFragmentPrograms(void) { return false; };// HUMANHEAD CJR
 	virtual int				VideoCardNumber(void) { return 0; }
-
+	virtual void			FinishDXRLoading(void);
 public:
 	// internal functions
 							idRenderSystemLocal( void );
@@ -810,6 +810,8 @@ public:
 	class idGuiModel *		demoGuiModel;
 
 	unsigned short			gammaTable[256];	// brightness / gamma modify this
+
+	renderView_t			dxrRenderView;
 };
 
 extern backEndState_t		backEnd;
@@ -1675,4 +1677,21 @@ idScreenRect R_CalcIntersectionScissor( const idRenderLightLocal * lightDef,
 #include "GuiModel.h"
 #include "VertexCache.h"
 
+void LoadTGA(const char* name, byte** pic, int* width, int* height, ID_TIME_T* timestamp);
+
+void GL_FinishVertexBufferAllocation(void);
+void* GL_LoadDXRMesh(idRenderModel* model);
+void GL_FindMegaTile(const char* name, float* x, float* y, float* width, float* height);
+void GL_SetNumMapLights();
+void GL_RegisterWorldAreaLight(idVec3 normal, idVec3 mins, idVec3 maxs, int lightStyle, float radius, float r, float g, float b);
+void GL_RegisterWorldLight(idRenderLight* ent, float x, float y, float z, float radius, int lightStyle, float r, float g, float b);
+void GL_ClearLights(void);
+
+void GL_Init(HWND hwnd, HINSTANCE hinstance, int width, int height);
+void GL_BeginRendering(int* x, int* y, int* width, int* height);
+void GL_EndRendering(void);
+void GL_Render(float x, float y, float z, idMat3 viewaxis);
+
+void GL_FinishDXRLoading(void);
+void RE_FinishDXRLoading(void);
 #endif /* !__TR_LOCAL_H__ */

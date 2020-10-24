@@ -95,7 +95,7 @@ typedef struct glconfig_s {
 	bool				allowR200Path;
 	bool				allowARB2Path;
 
-	bool				isInitialized;
+	bool				isInitialized;	
 } glconfig_t;
 
 
@@ -264,6 +264,9 @@ public:
 	// texture filter / mipmapping / repeat won't be modified by the upload
 	// returns false if the image wasn't found
 	virtual bool			UploadImage( const char *imageName, const byte *data, int width, int height ) = 0;
+
+	// Finishes DXR upload.
+	virtual void			FinishDXRLoading(void) = 0;
 };
 
 extern idRenderSystem *			renderSystem;

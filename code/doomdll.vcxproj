@@ -532,6 +532,18 @@
     <ClInclude Include="framework\async\NetworkSystem.h" />
     <ClInclude Include="framework\async\ServerScan.h" />
     <ClInclude Include="idlib\precompiled.h" />
+    <ClInclude Include="raytracing\d3d12\d3d12_local.h" />
+    <ClInclude Include="raytracing\d3d12\d3dx12.h" />
+    <ClInclude Include="raytracing\d3d12\DXRHelper.h" />
+    <ClInclude Include="raytracing\d3d12\DXSampleHelper.h" />
+    <ClInclude Include="raytracing\d3d12\nv_helpers_dx12\BottomLevelASGenerator.h" />
+    <ClInclude Include="raytracing\d3d12\nv_helpers_dx12\RaytracingPipelineGenerator.h" />
+    <ClInclude Include="raytracing\d3d12\nv_helpers_dx12\RootSignatureGenerator.h" />
+    <ClInclude Include="raytracing\d3d12\nv_helpers_dx12\ShaderBindingTableGenerator.h" />
+    <ClInclude Include="raytracing\d3d12\nv_helpers_dx12\TopLevelASGenerator.h" />
+    <ClInclude Include="raytracing\d3d12\tinydx.h" />
+    <ClInclude Include="raytracing\libs\xml\tinyxml2.h" />
+    <ClInclude Include="raytracing\math\vectormath.h" />
     <ClInclude Include="renderer\Cinematic.h" />
     <ClInclude Include="renderer\glext.h" />
     <ClInclude Include="renderer\GuiModel.h" />
@@ -710,6 +722,79 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Dedicated Debug with inlines|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Dedicated Debug with inlines|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="raytracing\d3d12\d3d12_clear.cpp" />
+    <ClCompile Include="raytracing\d3d12\d3d12_composite.cpp" />
+    <ClCompile Include="raytracing\d3d12\d3d12_main.cpp" />
+    <ClCompile Include="raytracing\d3d12\d3d12_raytrace_cleanup.cpp" />
+    <ClCompile Include="raytracing\d3d12\d3d12_raytrace_entities.cpp" />
+    <ClCompile Include="raytracing\d3d12\d3d12_raytrace_lights.cpp" />
+    <ClCompile Include="raytracing\d3d12\d3d12_raytrace_mega.cpp" />
+    <ClCompile Include="raytracing\d3d12\d3d12_raytrace_mesh.cpp" />
+    <ClCompile Include="raytracing\d3d12\d3d12_ui.cpp" />
+    <ClCompile Include="raytracing\d3d12\nv_helpers_dx12\BottomLevelASGenerator.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug with inlines|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Dedicated Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug with inlines and memory log|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Dedicated Release|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Dedicated Debug with inlines|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="raytracing\d3d12\nv_helpers_dx12\RaytracingPipelineGenerator.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug with inlines|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Dedicated Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug with inlines and memory log|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Dedicated Release|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Dedicated Debug with inlines|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="raytracing\d3d12\nv_helpers_dx12\RootSignatureGenerator.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug with inlines|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Dedicated Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug with inlines and memory log|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Dedicated Release|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Dedicated Debug with inlines|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="raytracing\d3d12\nv_helpers_dx12\ShaderBindingTableGenerator.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug with inlines|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Dedicated Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug with inlines and memory log|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Dedicated Release|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Dedicated Debug with inlines|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="raytracing\d3d12\nv_helpers_dx12\TopLevelASGenerator.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug with inlines|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Dedicated Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug with inlines and memory log|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Dedicated Release|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Dedicated Debug with inlines|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="raytracing\d3d12\tinydx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug with inlines|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Dedicated Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug with inlines and memory log|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Dedicated Release|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Dedicated Debug with inlines|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="raytracing\libs\xml\tinyxml2.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug with inlines|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Dedicated Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug with inlines and memory log|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Dedicated Release|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Dedicated Debug with inlines|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="raytracing\math\matrix.cpp" />
     <ClCompile Include="renderer\Cinematic.cpp" />
     <ClCompile Include="renderer\draw_common.cpp" />
     <ClCompile Include="renderer\GuiModel.cpp" />

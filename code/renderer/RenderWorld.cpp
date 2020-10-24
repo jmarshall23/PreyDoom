@@ -337,13 +337,13 @@ const renderEntity_t *idRenderWorldLocal::GetRenderEntity( qhandle_t entityHandl
 	idRenderEntityLocal	*def;
 
 	if ( entityHandle < 0 || entityHandle >= entityDefs.Num() ) {
-		common->Printf( "idRenderWorld::GetRenderEntity: invalid handle %i [0, %i]\n", entityHandle, entityDefs.Num() );
+		//common->Printf( "idRenderWorld::GetRenderEntity: invalid handle %i [0, %i]\n", entityHandle, entityDefs.Num() );
 		return NULL;
 	}
 
 	def = entityDefs[entityHandle];
 	if ( !def ) {
-		common->Printf( "idRenderWorld::GetRenderEntity: handle %i is NULL\n", entityHandle );
+		//common->Printf( "idRenderWorld::GetRenderEntity: handle %i is NULL\n", entityHandle );
 		return NULL;
 	}
 
@@ -691,6 +691,8 @@ void idRenderWorldLocal::RenderScene( const renderView_t *renderView ) {
 	if ( renderView->fov_x <= 0 || renderView->fov_y <= 0 ) {
 		common->Error( "idRenderWorld::RenderScene: bad FOVs: %f, %f", renderView->fov_x, renderView->fov_y );
 	}
+
+	tr.dxrRenderView = *renderView;
 
 	// close any gui drawing
 	tr.guiModel->EmitFullScreen();

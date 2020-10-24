@@ -161,7 +161,6 @@ void R_WritePalTGA( const char *filename, const byte *data, const byte *palette,
 
 
 static void LoadBMP( const char *name, byte **pic, int *width, int *height, ID_TIME_T *timestamp );
-static void LoadTGA( const char *name, byte **pic, int *width, int *height, ID_TIME_T *timestamp );
 static void LoadJPG( const char *name, byte **pic, int *width, int *height, ID_TIME_T *timestamp );
 
 
@@ -553,7 +552,7 @@ TARGA LOADING
 LoadTGA
 =============
 */
-static void LoadTGA( const char *name, byte **pic, int *width, int *height, ID_TIME_T *timestamp ) {
+void LoadTGA( const char *name, byte **pic, int *width, int *height, ID_TIME_T *timestamp ) {
 	int		columns, rows, numPixels, fileSize, numBytes;
 	byte	*pixbuf;
 	int		row, column;

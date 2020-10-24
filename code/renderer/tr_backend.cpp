@@ -197,6 +197,13 @@ RB_SwapBuffers
 =============
 */
 const void	RB_SwapBuffers( const void *data ) {
+	int x, y, w, h;
+	GL_BeginRendering(&x, &y, &w, &h);
+	if (tr.primaryWorld != NULL) {		
+		GL_Render(tr.dxrRenderView.vieworg[0], tr.dxrRenderView.vieworg[1], tr.dxrRenderView.vieworg[2], tr.dxrRenderView.viewaxis);
+	}
+	GL_EndRendering();
+
 	// texture swapping test
 	if ( r_showImages.GetInteger() != 0 ) {
 		RB_ShowImages();

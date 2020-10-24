@@ -1309,8 +1309,12 @@ void	idImage::ActuallyLoadImage( bool checkForPrecompressed, bool fromBackEnd ) 
 			// fall through to load the normal image
 		}
 
-		R_LoadImageProgram( imgName, &pic, &width, &height, &timestamp, &depth );
-
+		//R_LoadImageProgram( imgName, &pic, &width, &height, &timestamp, &depth );
+// jmarshall
+		width = 16;
+		height = 16;
+		pic = (byte *)R_StaticAlloc(width * height * 4);
+// jmarshall end
 		if ( pic == NULL ) {
 			common->Warning( "Couldn't load image: %s", imgName.c_str() );
 			MakeDefault();

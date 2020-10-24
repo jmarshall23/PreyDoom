@@ -1039,3 +1039,12 @@ bool idRenderSystemLocal::UploadImage( const char *imageName, const byte *data, 
 	image->SetImageFilterAndRepeat();
 	return true;
 }
+
+/*
+===============
+idRenderSystemLocal::FinishDXRLoading
+===============
+*/
+void idRenderSystemLocal::FinishDXRLoading(void) {
+	RE_FinishDXRLoading();
+}

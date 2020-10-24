@@ -17,8 +17,6 @@
 #ifndef _D3SDK
 #ifndef GAME_DLL
 
-#define WINVER				0x501
-
 #ifdef	ID_DEDICATED
 // dedicated sets windows version here
 #define	_WIN32_WINNT WINVER
