@@ -16,9 +16,11 @@ hhThread::hhThread( idInterpreter *source, const function_t *func, int args ) : 
 hhThread::PushParm
 ================
 */
-void hhThread::PushParm( int value ) {
+// jmarshall
+void hhThread::PushParm(intptr_t value ) {
 	interpreter.Push( value );
 }
+// jmarshall end
 
 /*
 ================
@@ -26,7 +28,9 @@ hhThread::PushString
 ================
 */
 void hhThread::PushString( const char *text ) {
-	PushParm( (int)new idStr(text) );
+	// jmarshall
+	PushParm( (intptr_t) new idStr(text) );
+	// jmarshall end
 }
 
 /*
@@ -35,7 +39,9 @@ hhThread::PushFloat
 ================
 */
 void hhThread::PushFloat( float value ) {
-	PushParm( *(int*)&value );
+// jmarshall
+	PushParm( *(intptr_t*)&value );
+// jmarshalle nd
 }
 
 /*

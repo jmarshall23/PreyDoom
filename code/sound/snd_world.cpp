@@ -28,8 +28,21 @@ If you have questions concerning this license or the applicable additional terms
 
 #include "precompiled.h"
 #pragma hdrstop
-
 #include "snd_local.h"
+#define DEFINE_GUID2(name, l, w1, w2, b1, b2, b3, b4, b5, b6, b7, b8) \
+        EXTERN_C const GUID DECLSPEC_SELECTANY name \
+                = { l, w1, w2, { b1, b2,  b3,  b4,  b5,  b6,  b7,  b8 } }
+DEFINE_GUID2(EAXPROPERTYID_EAX40_Source,
+	0x1b86b823,
+	0x22df,
+	0x4eae,
+	0x8b, 0x3c, 0x12, 0x78, 0xce, 0x54, 0x42, 0x27);
+
+DEFINE_GUID2(EAXPROPERTYID_EAX40_FXSlot0,
+	0xc4d79f1e,
+	0xf1ac,
+	0x436b,
+	0xa8, 0x1d, 0xa7, 0x38, 0xe7, 0x4, 0x54, 0x69);
 
 /*
 ==================
@@ -1713,7 +1726,7 @@ void idSoundWorldLocal::AddChannelContribution( idSoundEmitterLocal *sound, idSo
 	//
 	int offset = current44kHz - chan->trigger44kHzTime;
 	float inputSamples[MIXBUFFER_SAMPLES*2+16];
-	float *alignedInputSamples = (float *) ( ( ( (int)inputSamples ) + 15 ) & ~15 );
+	float *alignedInputSamples = (float *) ( ( ( (INT_PTR)inputSamples ) + 15 ) & ~15 );
 
 	//
 	// allocate and initialize hardware source

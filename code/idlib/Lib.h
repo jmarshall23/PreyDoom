@@ -26,9 +26,11 @@
 #define assert_16_byte_aligned( pointer )		assert( (((UINT_PTR)(pointer))&15) == 0 );
 #define assert_32_byte_aligned( pointer )		assert( (((UINT_PTR)(pointer))&31) == 0 );
 
+#undef ID_DEBUG_MEMORY
+
 // HUMANHEAD mdl
 #ifdef ID_DEBUG_MEMORY //rww - this is the appropriate define to use
-# error "compile_time_asserts are not currently compatible with inline debug with memory builds.  Comment them out and disable this check to continue."
+//# error "compile_time_asserts are not currently compatible with inline debug with memory builds.  Comment them out and disable this check to continue."
 #endif
 // HUMANHEAD END
 

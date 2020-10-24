@@ -47,6 +47,8 @@ If you have questions concerning this license or the applicable additional terms
 #pragma comment (lib, "wbemuuid.lib")
 #endif
 
+int (WINAPIV* __vsnprintf)(char*, size_t, const char*, va_list) = _vsnprintf;
+
 /*
 ================
 Sys_Milliseconds
@@ -667,18 +669,6 @@ address_t GetCallerAddr( long _ebp ) {
 	long midPtPtr;
 	long res = 0;
 
-	__asm {
-		mov		eax, _ebp
-		mov		ecx, [eax]		// check for end of stack frames list
-		test	ecx, ecx		// check for zero stack frame
-		jz		label
-		mov		eax, [eax+4]	// get the ret address
-		test	eax, eax		// check for zero return address
-		jz		label
-		mov		midPtPtr, eax
-	}
-	res = GetFuncAddr( midPtPtr );
-label:
 	return res;
 }
 
@@ -690,31 +680,7 @@ Sys_GetCallStack
 ==================
 */
 void Sys_GetCallStack( address_t *callStack, const int callStackSize ) {
-#if 1 //def _DEBUG
-	int i;
-	long m_ebp;
 
-	__asm {
-		mov eax, ebp
-		mov m_ebp, eax
-	}
-	// skip last two functions
-	m_ebp = *((long*)m_ebp);
-	m_ebp = *((long*)m_ebp);
-	// list functions
-	for ( i = 0; i < callStackSize; i++ ) {
-		callStack[i] = GetCallerAddr( m_ebp );
-		if ( callStack[i] == 0 ) {
-			break;
-		}
-		m_ebp = *((long*)m_ebp);
-	}
-#else
-	int i = 0;
-#endif
-	while( i < callStackSize ) {
-		callStack[i++] = 0;
-	}
 }
 
 /*
@@ -723,16 +689,7 @@ Sys_GetCallStackStr
 ==================
 */
 const char *Sys_GetCallStackStr( const address_t *callStack, const int callStackSize ) {
-	static char string[MAX_STRING_CHARS*2];
-	int index, i;
-	idStr module, funcName;
-
-	index = 0;
-	for ( i = callStackSize-1; i >= 0; i-- ) {
-		Sym_GetFuncInfo( callStack[i], module, funcName );
-		index += sprintf( string+index, " -> %s", funcName.c_str() );
-	}
-	return string;
+	return "";
 }
 
 /*

@@ -28,7 +28,7 @@
 #define snprintf		use_idStr_snPrintf
 #define _snprintf		use_idStr_snPrintf
 #define vsnprintf		use_idStr_vsnPrintf
-#define _vsnprintf		use_idStr_vsnPrintf
+//#define _vsnprintf		use_idStr_vsnPrintf
 
 class idVec4;
 
