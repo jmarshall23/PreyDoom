@@ -96,9 +96,11 @@ void GL_CreateTopLevelAccelerationStructs(bool forceUpdate) {
 			if (mesh == NULL)
 				continue;
 
+			meshInstanceData[i].startVertex = mesh->startSceneVertex;
+
 			// World matrix is always a identity.
 			static DirectX::XMMATRIX worldmatrix = DirectX::XMMatrixIdentity();
-			m_topLevelASGenerator.AddInstance(mesh->buffers.pResult.Get(), worldmatrix, 0, 0xFF);
+			m_topLevelASGenerator.AddInstance(mesh->buffers.pResult.Get(), worldmatrix, i, 0xFF);
 		}
 
 		/*
@@ -143,9 +145,9 @@ void GL_CreateTopLevelAccelerationStructs(bool forceUpdate) {
 			CD3DX12_RANGE readRange(0, 0); // We do not intend to read from this resource on the CPU.
 			ThrowIfFailed(m_instanceProperties->Map(0, &readRange, reinterpret_cast<void**>(&current)));
 
-			for(int d = 0; d < MAX_VISEDICTS; d++)
+			for (int i = 0; i < tr.primaryWorld->localModels.Num(); i++)
 			{
-				memcpy(current, &meshInstanceData[d], sizeof(dxrMeshIntance_t));
+				memcpy(current, &meshInstanceData[i], sizeof(dxrMeshIntance_t));
 				current++;
 			}
 			m_instanceProperties->Unmap(0, nullptr);
