@@ -489,6 +489,8 @@ void hhBeamSystem::Think( void ) {
 
 	RunPhysics();
 
+	return; // jmarshall
+
 	if (thinkFlags & TH_UPDATEPARTICLES) {
 
 		if( targets.Num() > 0 ) {

@@ -321,7 +321,7 @@ void idSoundSystemLocal::Init() {
 	}
 
 	// make a 16 byte aligned finalMixBuffer
-	finalMixBuffer = (float *) ( ( ( (int)realAccum ) + 15 ) & ~15 );
+	finalMixBuffer = (float *) ( ( ( (INT_PTR)realAccum ) + 15 ) & ~15 );
 
 	graph = NULL;
 

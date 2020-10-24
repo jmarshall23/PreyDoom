@@ -2375,7 +2375,7 @@ void idSessionLocal::Draw() {
 		if ( guiLoading ) {
 			guiLoading->Redraw( com_frameTime );
 		}
-		if ( guiActive == guiMsg ) {
+		if ( guiActive == guiMsg && guiMsg != NULL ) {
 			guiMsg->Redraw( com_frameTime );
 		} 
 	} else if ( guiTest ) {
@@ -2910,9 +2910,9 @@ void idSessionLocal::Init() {
 #endif
 	guiMainMenu_MapList = uiManager->AllocListGUI();
 	guiMainMenu_MapList->Config( guiMainMenu, "mapList" );
-	idAsyncNetwork::client.serverList.GUIConfig( guiMainMenu, "serverList" );
-	guiRestartMenu = uiManager->FindGui( "guis/restart.gui", true, false, true );
+	idAsyncNetwork::client.serverList.GUIConfig( guiMainMenu, "serverList" );	
 // jmarshall - gui
+	//guiRestartMenu = uiManager->FindGui( "guis/restart.gui", true, false, true );
 	//guiGameOver = uiManager->FindGui( "guis/gameover.gui", true, false, true );
 	//guiMsg = uiManager->FindGui( "guis/msg.gui", true, false, true );
 	//guiTakeNotes = uiManager->FindGui( "guis/takeNotes.gui", true, false, true );
