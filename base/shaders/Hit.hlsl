@@ -536,14 +536,14 @@ int sideOfPlane(float3 p, float3 pc, float3 pn){
 	//{
 	//	int r = 1;
 	//	float3 bounce = float3(0, 0, 0);
-	//	for(int i = 1; i < 10; i++)
+	//	for(int i = 1; i < 15; i++)
 	//	{
 	//		float3 worldDir = getCosHemisphereSample(r , orig_normal);
-	//		bounce += FireSecondRay(worldOrigin, 250, worldDir);
+	//		bounce += FireSecondRay(worldOrigin, 500, worldDir);
 	//	}
 	//	if(length(bounce) > 0)
 	//	{
-	//		ndotl += (bounce / 10);
+	//		ndotl += (bounce / 15);
 	//	}
 	//	//ndotl += FireSecondRay(worldOrigin, 500, orig_normal);
 	//}
@@ -551,7 +551,7 @@ int sideOfPlane(float3 p, float3 pc, float3 pn){
   //hitColor = float3(InstanceID(), 0, 0);
   float3 spec_final = pow(spec_lit, 0.5);
   ndotl = lerp(ndotl, spec_final, length(spec_final) * 1.5);
-  ndotl += 0.05;
+  ndotl += 0.025;
   //ndotl = max(ndotl, 0.1);
   //ndotl *= float3(227.0 / 255.0, 107.0 / 255.0, 0.0);  
 

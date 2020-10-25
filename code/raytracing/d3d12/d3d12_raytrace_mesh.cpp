@@ -84,6 +84,10 @@ void GL_LoadBottomLevelAccelStruct(dxrMesh_t* mesh, idRenderModel* model) {
 
 		const shaderStage_t* stage = fa->shader->GetAlbedoStage();		
 
+		if (fa->shader->GetEmissiveStage().isEnabled) {
+			materialInfo = 2;
+		}
+
 		if (fa->shader->GetSort() == SS_DECAL)
 			continue;
 

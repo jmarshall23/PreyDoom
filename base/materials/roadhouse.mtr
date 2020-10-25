@@ -2009,7 +2009,7 @@ textures/roadhouse/flourescent_02
 	qer_editorimage 	textures/roadhouse/flourescent_02_d
 	bumpmap 		heightmap (textures/roadhouse/flourescent_02_h, 6)
 
-	emissive 100 1.0 1.0 1.0
+	//emissive 100 1.0 1.0 1.0
 
 	diffusemap	 	textures/roadhouse/flourescent_02_d
 	specularmap		textures/roadhouse/flourescent_02_s

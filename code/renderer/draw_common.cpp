@@ -316,9 +316,9 @@ void	RB_STD_DrawView( void ) {
 		//lightColor[0] = backEnd.lightScale * lightRegs[lightStage->color.registers[0]];
 		//lightColor[1] = backEnd.lightScale * lightRegs[lightStage->color.registers[1]];
 		//lightColor[2] = backEnd.lightScale * lightRegs[lightStage->color.registers[2]];
-		//lightColor[3] = lightRegs[lightStage->color.registers[3]];		
+		//lightColor[3] = lightRegs[lightStage->color.registers[3]];
 
-		//GL_RegisterWorldLight(vLight->lightDef, vLight->lightDef->parms.origin.x, vLight->lightDef->parms.origin.y, vLight->lightDef->parms.origin.z, 150, 0, vLight->lightDef->parms.shaderParms[SHADERPARM_RED], vLight->lightDef->parms.shaderParms[SHADERPARM_GREEN], vLight->lightDef->parms.shaderParms[SHADERPARM_BLUE]);
+		//GL_RegisterWorldLight(vLight->lightDef, vLight->lightDef->parms.origin.x, vLight->lightDef->parms.origin.y, vLight->lightDef->parms.origin.z, 70, 0, vLight->lightDef->parms.shaderParms[SHADERPARM_RED], vLight->lightDef->parms.shaderParms[SHADERPARM_GREEN], vLight->lightDef->parms.shaderParms[SHADERPARM_BLUE]);
 	}
 
 	viewEntity_t* vEntity;
@@ -342,7 +342,16 @@ void	RB_STD_DrawView( void ) {
 			idBounds bounds = qmodel->Bounds() + currententity->origin;
 
 			if (emissive.isEnabled) {
-				GL_RegisterWorldAreaLight(surface->geometry->verts[0].normal, bounds[0], bounds[1], 0, emissive.radius, emissive.color[0], emissive.color[1], emissive.color[2]);
+				idAngles angle = currententity->axis.ToAngles();
+				idVec3 normal;
+				float yaw = angle.yaw;
+				float pitch = angle.pitch;
+				float roll = angle.roll;
+				normal.x = -cos(yaw)*sin(pitch)*sin(roll) - sin(yaw)*cos(roll);
+				normal.y = -sin(yaw)*sin(pitch)*sin(roll) + cos(yaw)*cos(roll);
+				normal.z = cos(pitch) * sin(roll);
+
+				GL_RegisterWorldAreaLight(normal, bounds[0], bounds[1], 0, emissive.radius, emissive.color[0], emissive.color[1], emissive.color[2]);
 			}
 		}
 	}

@@ -128,7 +128,22 @@ void GL_CreateTopLevelAccelerationStructs(bool forceUpdate) {
 		
 			meshInstanceData[index + numWorldVisMeshes].startVertex = mesh->startSceneVertex;
 		
-			m_topLevelASGenerator.AddInstance(mesh->buffers.pResult.Get(), (DirectX::XMMATRIX&)currententity->dxrTransform, index + numWorldVisMeshes, 0xFF);
+			bool skipSelfShadow = false;
+			for (int f = 0; f < qmodel->NumSurfaces(); f++) {
+				if (qmodel->Surface(f)->shader->GetEmissiveStage().isEnabled) {
+					skipSelfShadow = true;
+					break;
+				}
+			}
+
+			if (skipSelfShadow)
+			{
+				m_topLevelASGenerator.AddInstance(mesh->buffers.pResult.Get(), (DirectX::XMMATRIX&)currententity->dxrTransform, index + numWorldVisMeshes, 0x20);
+			}
+			else
+			{
+				m_topLevelASGenerator.AddInstance(mesh->buffers.pResult.Get(), (DirectX::XMMATRIX&)currententity->dxrTransform, index + numWorldVisMeshes, 0xFF);
+			}			
 			numVisMeshes++;
 			index++;
 		}
