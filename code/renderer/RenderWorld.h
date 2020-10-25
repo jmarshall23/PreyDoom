@@ -107,6 +107,10 @@ const int SHADERPARM_PARTICLE_STOPTIME = 8;	// don't spawn any more particles af
 // guis
 const int MAX_RENDERENTITY_GUI		= 3;
 
+// jmarshall
+#define HIDE_RENDERMODEL_EXCEPT_MIRROR 100
+// jmarshall end
+
 
 typedef bool(*deferredEntityCallback_t)( renderEntity_s *, const renderView_s * );
 
@@ -120,6 +124,9 @@ typedef struct hhBeamNodes_s {
 
 typedef struct renderEntity_s {
 	idRenderModel *			hModel;				// this can only be null if callback is set
+// jmarshall
+	iceDxrModel*			dxrModel;			// Skeletal instances will need their own instance of the mesh.
+// jmarshall end
 
 	int						entityNum;
 	int						bodyId;

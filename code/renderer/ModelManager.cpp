@@ -54,6 +54,7 @@ public:
 	virtual void			EndLevelLoad();
 
 	virtual	void			PrintMemInfo( MemInfo_t *mi );
+	virtual iceDxrModel* CreateDXRMeshInstance(idRenderModel* renderModel);
 
 private:
 	idList<idRenderModel*>	models;
@@ -619,4 +620,14 @@ void idRenderModelManagerLocal::PrintMemInfo( MemInfo_t *mi ) {
 
 	f->Printf( "\nTotal model bytes allocated: %s\n", idStr::FormatNumber( totalMem ).c_str() );
 	fileSystem->CloseFile( f );
+}
+
+/*
+=========================
+idRenderModelManagerLocal::CreateDXRMeshInstance
+=========================
+*/
+iceDxrModel* idRenderModelManagerLocal::CreateDXRMeshInstance(idRenderModel* renderModel) {
+	idRenderModelStatic* renderModelStatic = (idRenderModelStatic*)renderModel;
+	return renderModelStatic->CreateDynamicDXRModel();
 }

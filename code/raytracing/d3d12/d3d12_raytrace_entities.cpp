@@ -47,24 +47,34 @@ void GL_CreateTopLevelAccelerationStructs(bool forceUpdate) {
 	// Add in the entities.
 	int numProcessedEntities = 1;
 
-	for (int i = 0; i < tr.primaryWorld->GetNumRenderEntities(); i++)
 	{
-		renderEntity_t* currententity = (renderEntity_t * )tr.primaryWorld->GetRenderEntity(i);
-		if (currententity == NULL) {
-			continue;
+		viewEntity_t* vEntity;
+		int index = 0;
+		for (vEntity = tr.viewDef->viewEntitys; vEntity; vEntity = vEntity->next) {
+			renderEntity_t* currententity = (renderEntity_t * )&vEntity->entityDef->parms;
+			if (currententity == NULL) {
+				continue;
+			}
+
+			idRenderModel* qmodel = NULL;
+
+			if (vEntity->entityDef->dynamicModel) {
+				qmodel = vEntity->entityDef->dynamicModel;
+			}
+			else {
+				qmodel = currententity->hModel;
+			}
+
+			if (qmodel->GetNumDXRFrames() <= 0)
+				continue;
+
+			dxrMesh_t* mesh = (dxrMesh_t*)qmodel->GetDXRFrame(0);
+			if (mesh == NULL)
+				continue;
+
+			create_entity_matrix(&currententity->dxrTransform[0], currententity);
+			numProcessedEntities++;
 		}
-
-		idRenderModel* qmodel = currententity->hModel;
-
-		if (qmodel->GetNumDXRFrames() <= 0)
-			continue;
-		
-		dxrMesh_t* mesh = (dxrMesh_t*)qmodel->GetDXRFrame(0);
-		if (mesh == NULL)
-			continue;
-
-		create_entity_matrix(&currententity->dxrTransform[0], currententity);
-		numProcessedEntities++;
 	}
 
 	// Add the view entity
@@ -117,7 +127,14 @@ void GL_CreateTopLevelAccelerationStructs(bool forceUpdate) {
 				continue;
 			}
 		
-			idRenderModel* qmodel = currententity->hModel;
+			idRenderModel* qmodel = NULL;
+			
+			if (vEntity->entityDef->dynamicModel) {
+				qmodel = vEntity->entityDef->dynamicModel;
+			}
+			else {
+				qmodel = currententity->hModel;
+			}
 		
 			if (qmodel->GetNumDXRFrames() <= 0)
 				continue;
@@ -136,14 +153,23 @@ void GL_CreateTopLevelAccelerationStructs(bool forceUpdate) {
 				}
 			}
 
-			if (skipSelfShadow)
+			if (currententity->suppressSurfaceInViewID == HIDE_RENDERMODEL_EXCEPT_MIRROR)
+				continue;
+
+			if (currententity->weaponDepthHack)
+				continue;
+
+			if (mesh->buffers.pResult.Get() != NULL)
 			{
-				m_topLevelASGenerator.AddInstance(mesh->buffers.pResult.Get(), (DirectX::XMMATRIX&)currententity->dxrTransform, index + numWorldVisMeshes, 0x20);
+				if (skipSelfShadow)
+				{
+					m_topLevelASGenerator.AddInstance(mesh->buffers.pResult.Get(), (DirectX::XMMATRIX&)currententity->dxrTransform, index + numWorldVisMeshes, 0x20);
+				}
+				else
+				{
+					m_topLevelASGenerator.AddInstance(mesh->buffers.pResult.Get(), (DirectX::XMMATRIX&)currententity->dxrTransform, index + numWorldVisMeshes, 0xFF);
+				}
 			}
-			else
-			{
-				m_topLevelASGenerator.AddInstance(mesh->buffers.pResult.Get(), (DirectX::XMMATRIX&)currententity->dxrTransform, index + numWorldVisMeshes, 0xFF);
-			}			
 			numVisMeshes++;
 			index++;
 		}

@@ -164,6 +164,7 @@ public:
 	const idMD5Joint *			parent;
 };
 
+typedef void* iceDxrModel;
 
 // the init methods may be called again on an already created model when
 // a reloadModels is issued

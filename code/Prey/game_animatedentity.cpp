@@ -33,6 +33,12 @@ void hhAnimatedEntity::Spawn( void ) {
 			UpdateModel();	
 		}
 	}
+
+// jmarshall
+	if (renderEntity.hModel != NULL) {
+		renderEntity.dxrModel = renderModelManager->CreateDXRMeshInstance(renderEntity.hModel);
+	}
+// jmarshall end
 }
 
 void hhAnimatedEntity::Save(idSaveGame *savefile) const {

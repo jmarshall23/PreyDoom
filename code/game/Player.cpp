@@ -1267,7 +1267,7 @@ void idPlayer::Spawn( void ) {
 	playerView.SetPlayerEntity( static_cast<hhPlayer*>(this) );		//HUMANHEAD bjk: for god sakes we need to stop this hh version bullshit
 
 	// supress model in non-player views, but allow it in mirrors and remote views
-	renderEntity.suppressSurfaceInViewID = entityNumber+1;
+	renderEntity.suppressSurfaceInViewID = HIDE_RENDERMODEL_EXCEPT_MIRROR; // entityNumber + 1;
 
 	// don't project shadow on self or weapon
 	//HUMANHEAD rww - preserve the same look in sp where we have been self-shadowing
@@ -1280,7 +1280,7 @@ void idPlayer::Spawn( void ) {
 
 	idAFAttachment *headEnt = head.GetEntity();
 	if ( headEnt ) {
-		headEnt->GetRenderEntity()->suppressSurfaceInViewID = entityNumber+1;
+		headEnt->GetRenderEntity()->suppressSurfaceInViewID = HIDE_RENDERMODEL_EXCEPT_MIRROR; // entityNumber + 1;
 		//HUMANHEAD rww - preserve the same look in sp where we have been self-shadowing
 		if (gameLocal.isMultiplayer)
 		//HUMANHEAD END

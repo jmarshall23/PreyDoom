@@ -91,6 +91,9 @@ public:
 
 	// print memory info
 	virtual	void			PrintMemInfo( MemInfo_t *mi ) = 0;
+
+	// Creates a DXR Mesh Instance.
+	virtual iceDxrModel* CreateDXRMeshInstance(idRenderModel* renderModel) = 0;
 };
 
 // this will be statically pointed at a private implementation

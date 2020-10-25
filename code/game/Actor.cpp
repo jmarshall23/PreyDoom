@@ -740,6 +740,10 @@ void idActor::SetupHead( void ) {
 		headEnt->SetBody( this, headModel, damageJoint );
 		head = headEnt;
 
+// jmarshall
+		headEnt->GetRenderEntity()->dxrModel = renderModelManager->CreateDXRMeshInstance(headEnt->GetRenderEntity()->hModel);
+// jmarshall end
+
 		// HUMANHEAD CJR:  Set up scale on the head
 		float scale = 1.0f;
 		if ( spawnArgs.FindKey("scale") ) {

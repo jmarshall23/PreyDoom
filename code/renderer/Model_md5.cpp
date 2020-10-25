@@ -322,10 +322,18 @@ void idMD5Mesh::UpdateSurface( const struct renderEntity_s *ent, const idJointMa
 		}
 	}
 
-	if ( ent->shaderParms[ SHADERPARM_MD5_SKINSCALE ] != 0.0f ) {
-		TransformScaledVerts( tri->verts, entJoints, ent->shaderParms[ SHADERPARM_MD5_SKINSCALE ] );
-	} else {
-		TransformVerts( tri->verts, entJoints );
+	if (ent != NULL)
+	{
+		if (ent->shaderParms[SHADERPARM_MD5_SKINSCALE] != 0.0f) {
+			TransformScaledVerts(tri->verts, entJoints, ent->shaderParms[SHADERPARM_MD5_SKINSCALE]);
+		}
+		else {
+			TransformVerts(tri->verts, entJoints);
+		}
+	}
+	else
+	{
+		TransformVerts(tri->verts, entJoints);
 	}
 
 	// replicate the mirror seam vertexes
@@ -496,8 +504,7 @@ void idRenderModelMD5::LoadModel() {
 	idToken		token;
 	idLexer		parser( LEXFL_ALLOWPATHNAMES | LEXFL_NOSTRINGESCAPECHARS );
 	idJointQuat	*pose;
-	idMD5Joint	*joint;
-	idJointMat *poseMat3;
+	idMD5Joint	*joint;	
 
 	if ( !purged ) {
 		PurgeModel();
@@ -529,7 +536,7 @@ void idRenderModelMD5::LoadModel() {
 	joints.SetNum( num );
 	defaultPose.SetGranularity( 1 );
 	defaultPose.SetNum( num );
-	poseMat3 = ( idJointMat * )_alloca16( num * sizeof( *poseMat3 ) );
+	poseMat3.SetNum(num);
 
 	// parse num meshes
 	parser.ExpectTokenString( "numMeshes" );
@@ -561,13 +568,13 @@ void idRenderModelMD5::LoadModel() {
 
 	for( i = 0; i < meshes.Num(); i++ ) {
 		parser.ExpectTokenString( "mesh" );
-		meshes[ i ].ParseMesh( parser, defaultPose.Num(), poseMat3 );
+		meshes[ i ].ParseMesh( parser, defaultPose.Num(), &poseMat3[0] );
 	}
 
 	//
 	// calculate the bounds of the model
 	//
-	CalculateBounds( poseMat3 );
+	CalculateBounds( &poseMat3[0] );
 
 	// set the timestamp for reloadmodels
 	fileSystem->ReadFile( name, NULL, &timeStamp );
@@ -716,6 +723,21 @@ void idRenderModelMD5::DrawJoints( const renderEntity_t *ent, const struct viewD
 
 /*
 ====================
+idRenderModelMD5::CreateDynamicDXRModel
+====================
+*/
+iceDxrModel* idRenderModelMD5::CreateDynamicDXRModel(void) {
+	idRenderModel* model = InstantiateDynamicModel(NULL, NULL, NULL);
+	model->FinishSurfaces();
+
+	iceDxrModel* dxrModel = (iceDxrModel * )model->GetDXRFrame(0);
+	delete model;
+
+	return dxrModel;
+}
+
+/*
+====================
 idRenderModelMD5::InstantiateDynamicModel
 ====================
 */
@@ -734,14 +756,18 @@ idRenderModel *idRenderModelMD5::InstantiateDynamicModel( const struct renderEnt
 		LoadModel();
 	}
 
-	if ( !ent->joints ) {
-		common->Printf( "idRenderModelMD5::InstantiateDynamicModel: NULL joints on renderEntity for '%s'\n", Name() );
-		delete cachedModel;
-		return NULL;
-	} else if ( ent->numJoints != joints.Num() ) {
-		common->Printf( "idRenderModelMD5::InstantiateDynamicModel: renderEntity has different number of joints than model for '%s'\n", Name() );
-		delete cachedModel;
-		return NULL;
+	if (ent != NULL)
+	{
+		if (!ent->joints) {
+			common->Printf("idRenderModelMD5::InstantiateDynamicModel: NULL joints on renderEntity for '%s'\n", Name());
+			delete cachedModel;
+			return NULL;
+		}
+		else if (ent->numJoints != joints.Num()) {
+			common->Printf("idRenderModelMD5::InstantiateDynamicModel: renderEntity has different number of joints than model for '%s'\n", Name());
+			delete cachedModel;
+			return NULL;
+		}
 	}
 
 	tr.pc.c_generateMd5++;
@@ -776,7 +802,10 @@ idRenderModel *idRenderModelMD5::InstantiateDynamicModel( const struct renderEnt
 		// FIXME: may have to still deform clipping hulls
 		const idMaterial *shader = mesh->shader;
 		
-		shader = R_RemapShaderBySkin( shader, ent->customSkin, ent->customShader );
+		if (ent != NULL)
+		{
+			shader = R_RemapShaderBySkin(shader, ent->customSkin, ent->customShader);
+		}
 		
 		if ( !shader || ( !shader->IsDrawn() && !shader->SurfaceCastsShadow() ) ) {
 			staticModel->DeleteSurfaceWithId( i );
@@ -801,10 +830,21 @@ idRenderModel *idRenderModelMD5::InstantiateDynamicModel( const struct renderEnt
 			surf->id = i;
 		}
 
-		mesh->UpdateSurface( ent, ent->joints, surf );
+		if (ent != NULL)
+		{
+			mesh->UpdateSurface(ent, ent->joints, surf);
+		}
+		else
+		{
+			mesh->UpdateSurface(NULL, &poseMat3[0], surf);
+		}
 
 		staticModel->bounds.AddPoint( surf->geometry->bounds[0] );
 		staticModel->bounds.AddPoint( surf->geometry->bounds[1] );
+	}
+
+	if (ent != NULL && staticModel->dxrMeshFrames.Num() == 0) {
+		staticModel->dxrMeshFrames.Append(ent->dxrModel);
 	}
 
 	return staticModel;

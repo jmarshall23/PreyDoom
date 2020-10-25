@@ -38,6 +38,7 @@ If you have questions concerning this license or the applicable additional terms
 */
 
 class idRenderModelStatic : public idRenderModel {
+	friend class idRenderModelMD5;
 public:
 	// the inherited public interface
 	static idRenderModel *		Alloc();
@@ -106,6 +107,7 @@ public:
 	void						DeleteSurfacesWithNegativeId( void );
 	bool						FindSurfaceWithId( int id, int &surfaceNum );
 
+	virtual iceDxrModel*		CreateDynamicDXRModel(void) { return NULL; }
 public:
 	idList<modelSurface_t>		surfaces;
 	idBounds					bounds;
@@ -188,11 +190,12 @@ public:
 	virtual const char *		GetJointName( jointHandle_t handle ) const;
 	virtual const idJointQuat *	GetDefaultPose( void ) const;
 	virtual int					NearestJoint( int surfaceNum, int a, int b, int c ) const;
-
+	virtual iceDxrModel*		CreateDynamicDXRModel(void);
 private:
 	idList<idMD5Joint>			joints;
 	idList<idJointQuat>			defaultPose;
 	idList<idMD5Mesh>			meshes;
+	idList<idJointMat>			poseMat3;
 
 	void						CalculateBounds( const idJointMat *joints );
 	void						GetFrameBounds( const renderEntity_t *ent, idBounds &bounds ) const;
