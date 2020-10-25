@@ -7,6 +7,8 @@
 #include "nv_helpers_dx12/TopLevelASGenerator.h"
 #include <vector>
 
+UINT8* pVertexDataBegin;
+
 #define Vector2Subtract(a,b,c)  ((c)[0]=(a)[0]-(b)[0],(c)[1]=(a)[1]-(b)[1])
 static ID_INLINE void CrossProduct(const idVec3 v1, const idVec3 v2, idVec3 &cross) {
 	cross[0] = v1[1] * v2[2] - v1[2] * v2[1];
@@ -60,6 +62,34 @@ std::vector<dxrMesh_t *> dxrMeshList;
 ComPtr<ID3D12Resource> m_vertexBuffer;
 D3D12_VERTEX_BUFFER_VIEW m_vertexBufferView;
 std::vector<dxrVertex_t> sceneVertexes;
+
+void GL_UpdateBottomLevelAccelStruct(idRenderModel* model) {	
+	dxrMesh_t* mesh = (dxrMesh_t * )model->GetDXRFrame(0);
+	if (mesh == NULL)
+		return;
+
+	dxrVertex_t* sceneVertexes = (dxrVertex_t*)pVertexDataBegin;
+	dxrVertex_t* modelVertexes = &sceneVertexes[mesh->startSceneVertex];
+
+	// TODO: Use a index buffer here : )
+	{
+		for (int i = 0; i < mesh->meshSurfaces.size(); i++)
+		{
+			const modelSurface_t* surface = model->Surface(i);
+			for (int d = 0; d < mesh->meshSurfaces[i].numIndexes; d++)
+			{
+				int indexId = mesh->meshSurfaces[i].startIndex + d;
+				int meshIndexId = surface->geometry->indexes[d];
+
+				modelVertexes[indexId].xyz = surface->geometry->verts[meshIndexId].xyz;
+			}
+		}
+	}
+
+	// !!Performance!! This should be a update rather then a full-regen, I can't do that though without causing a D3D12 Device Failure :(
+	// I had to re-write these changes because the device changes were so bad it nuked this file.
+	mesh->bottomLevelAS.Generate(m_commandList.Get(), mesh->buffers.pScratch.Get(), mesh->buffers.pResult.Get(), false, nullptr);
+}
 
 void GL_LoadBottomLevelAccelStruct(dxrMesh_t* mesh, idRenderModel* model) {
 	mesh->startSceneVertex = sceneVertexes.size();
@@ -247,12 +277,11 @@ void GL_FinishVertexBufferAllocation(void) {
 			nullptr,
 			IID_PPV_ARGS(&m_vertexBuffer)));
 
-		// Copy the triangle data to the vertex buffer.
-		UINT8* pVertexDataBegin;
+		// Copy the triangle data to the vertex buffer.		
 		CD3DX12_RANGE readRange(0, 0);		// We do not intend to read from this resource on the CPU.
 		ThrowIfFailed(m_vertexBuffer->Map(0, &readRange, reinterpret_cast<void**>(&pVertexDataBegin)));
 		memcpy(pVertexDataBegin, &sceneVertexes[0], sizeof(dxrVertex_t) * sceneVertexes.size());
-		m_vertexBuffer->Unmap(0, nullptr);
+		//m_vertexBuffer->Unmap(0, nullptr);
 
 		// Initialize the vertex buffer view.
 		m_vertexBufferView.BufferLocation = m_vertexBuffer->GetGPUVirtualAddress();
@@ -263,9 +292,7 @@ void GL_FinishVertexBufferAllocation(void) {
 	for(int i = 0; i < dxrMeshList.size(); i++)
 	{
 		dxrMesh_t* mesh = dxrMeshList[i];
-
-		nv_helpers_dx12::BottomLevelASGenerator bottomLevelAS;
-		bottomLevelAS.AddVertexBuffer(m_vertexBuffer.Get(), mesh->startSceneVertex * sizeof(dxrVertex_t), mesh->numSceneVertexes, sizeof(dxrVertex_t), NULL, 0);
+		mesh->bottomLevelAS.AddVertexBuffer(m_vertexBuffer.Get(), mesh->startSceneVertex * sizeof(dxrVertex_t), mesh->numSceneVertexes, sizeof(dxrVertex_t), NULL, 0);
 
 		// Adding all vertex buffers and not transforming their position.
 		//for (const auto& buffer : vVertexBuffers) {
@@ -280,7 +307,7 @@ void GL_FinishVertexBufferAllocation(void) {
 		// buffers. It size is also dependent on the scene complexity.
 		UINT64 resultSizeInBytes = 0;
 
-		bottomLevelAS.ComputeASBufferSizes(m_device.Get(), false, &scratchSizeInBytes,
+		mesh->bottomLevelAS.ComputeASBufferSizes(m_device.Get(), false, &scratchSizeInBytes,
 			&resultSizeInBytes);
 
 		// Once the sizes are obtained, the application is responsible for allocating
@@ -293,7 +320,7 @@ void GL_FinishVertexBufferAllocation(void) {
 		// on the generated AS, so that it can be used to compute a top-level AS right
 		// after this method.
 
-		bottomLevelAS.Generate(m_commandList.Get(), mesh->buffers.pScratch.Get(), mesh->buffers.pResult.Get(), false, nullptr);
+		mesh->bottomLevelAS.Generate(m_commandList.Get(), mesh->buffers.pScratch.Get(), mesh->buffers.pResult.Get(), false, nullptr);
 	}
 
 	// Flush the command list and wait for it to finish

@@ -60,6 +60,7 @@ void GL_CreateTopLevelAccelerationStructs(bool forceUpdate) {
 
 			if (vEntity->entityDef->dynamicModel) {
 				qmodel = vEntity->entityDef->dynamicModel;
+				GL_UpdateBottomLevelAccelStruct(qmodel); // Dynamic models need to be updated. 
 			}
 			else {
 				qmodel = currententity->hModel;

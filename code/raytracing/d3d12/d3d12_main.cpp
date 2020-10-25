@@ -553,8 +553,6 @@ GL_BeginRendering
 */
 void GL_BeginRendering(int* x, int* y, int* width, int* height)
 {
-	GL_WaitForPreviousFrame();
-
 	*x = *y = 0;
 	*width = glConfig.vidWidth;
 	*height = glConfig.vidHeight;
@@ -670,6 +668,8 @@ void GL_EndRendering(void)
 
 	uiTexture->dx_resource->WriteToSubresource(0, NULL, uiTextureBuffer, glConfig.vidWidth * 4, 1);
 	memset(uiTextureBuffer, 0, sizeof(byte) * 4 * glConfig.vidWidth * glConfig.vidHeight);
+
+	GL_WaitForPreviousFrame();
 }
 
 void GL_Bind(int texnum)

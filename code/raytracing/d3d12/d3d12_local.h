@@ -33,6 +33,8 @@ using namespace Microsoft::WRL;
 
 #include <exception>
 
+#include "nv_helpers_dx12/BottomLevelASGenerator.h"
+
 // Helper function for acquiring the first available hardware adapter that supports Direct3D 12.
 // If no such adapter can be found, *ppAdapter will be set to nullptr.
 _Use_decl_annotations_
@@ -100,6 +102,8 @@ struct dxrMesh_t {
 	int numSceneVertexes;
 
 	AccelerationStructureBuffers buffers;
+
+	nv_helpers_dx12::BottomLevelASGenerator bottomLevelAS;
 };
 
 void GL_FinishVertexBufferAllocation(void);
@@ -152,5 +156,7 @@ void create_view_matrix(float* matrix, float* vieworg, idMat3 viewaxis);
 void create_orthographic_matrix(float matrix[16], float xmin, float xmax, float ymin, float ymax, float znear, float zfar);
 void create_projection_matrix(float matrix[16], float znear, float zfar, float fov_x, float fov_y);
 void create_entity_matrix(float matrix[16], renderEntity_t* e);
+
+void GL_UpdateBottomLevelAccelStruct(idRenderModel* model);
 
 extern int numWorldLights;

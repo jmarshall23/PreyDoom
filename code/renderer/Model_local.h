@@ -88,7 +88,7 @@ public:
 
 	virtual void				CreateRaytracingMesh(void);
 	virtual int					GetNumDXRFrames(void) { return dxrMeshFrames.Num(); }
-	virtual void*				GetDXRFrame(int frameId) { return dxrMeshFrames[frameId]; }
+	virtual void* GetDXRFrame(int frameId) { if (dxrMeshFrames.Num() == 0) return NULL; return dxrMeshFrames[frameId]; }
 
 	void						MakeDefaultModel();
 	
