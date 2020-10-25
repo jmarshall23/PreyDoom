@@ -302,6 +302,9 @@ RB_STD_DrawView
 void	RB_STD_DrawView( void ) {
 	viewLight_t* vLight;
 
+	if (tr.viewDef == NULL)
+		return;
+
 	for (vLight = backEnd.viewDef->viewLights; vLight; vLight = vLight->next) {
 		backEnd.vLight = vLight;
 
@@ -315,6 +318,32 @@ void	RB_STD_DrawView( void ) {
 		//lightColor[2] = backEnd.lightScale * lightRegs[lightStage->color.registers[2]];
 		//lightColor[3] = lightRegs[lightStage->color.registers[3]];		
 
-		GL_RegisterWorldLight(vLight->lightDef, vLight->lightDef->parms.origin.x, vLight->lightDef->parms.origin.y, vLight->lightDef->parms.origin.z, 300, 0, vLight->lightDef->parms.shaderParms[SHADERPARM_RED], vLight->lightDef->parms.shaderParms[SHADERPARM_GREEN], vLight->lightDef->parms.shaderParms[SHADERPARM_BLUE]);
+		//GL_RegisterWorldLight(vLight->lightDef, vLight->lightDef->parms.origin.x, vLight->lightDef->parms.origin.y, vLight->lightDef->parms.origin.z, 150, 0, vLight->lightDef->parms.shaderParms[SHADERPARM_RED], vLight->lightDef->parms.shaderParms[SHADERPARM_GREEN], vLight->lightDef->parms.shaderParms[SHADERPARM_BLUE]);
+	}
+
+	viewEntity_t* vEntity;
+	int index = 0;
+	for (vEntity = tr.viewDef->viewEntitys; vEntity; vEntity = vEntity->next) {
+		const renderEntity_t* currententity = &vEntity->entityDef->parms;
+		if (currententity == NULL) {
+			continue;
+		}
+
+		idRenderModel* qmodel = currententity->hModel;
+
+		if (qmodel->GetNumDXRFrames() <= 0)
+			continue;
+
+		for (int i = 0; i < qmodel->NumSurfaces(); i++)
+		{
+			const modelSurface_t* surface = qmodel->Surface(i);
+			const icdEmissiveStage& emissive = surface->shader->GetEmissiveStage();
+
+			idBounds bounds = qmodel->Bounds() + currententity->origin;
+
+			if (emissive.isEnabled) {
+				GL_RegisterWorldAreaLight(surface->geometry->verts[0].normal, bounds[0], bounds[1], 0, emissive.radius, emissive.color[0], emissive.color[1], emissive.color[2]);
+			}
+		}
 	}
 }

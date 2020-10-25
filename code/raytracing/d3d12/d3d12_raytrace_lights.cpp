@@ -101,7 +101,7 @@ void GL_RegisterWorldAreaLight(idVec3 normal, idVec3 mins, idVec3 maxs, int ligh
 	idVec3 light_clamp;
 	
 	origin = maxs + mins;
-	light_clamp = maxs + mins;
+	light_clamp = maxs - mins;
 
 	//VectorAdd(maxs, mins, origin);
 	//VectorSubtract(maxs, mins, light_clamp);
@@ -136,11 +136,11 @@ void GL_RegisterWorldAreaLight(idVec3 normal, idVec3 mins, idVec3 maxs, int ligh
 	light.isAreaLight = true;
 
 	// Quake sub divides geometry(lovely) so to hack around that don't add any area lights that are near already registered area lights!
-	//for (int i = 0; i < numWorldLights; i++) {
-	//	float dist = i(light.origin_radius, worldLights[i].origin_radius);
-	//	if (dist < 75)
-	//		return;
-	//}
+	for (int i = 0; i < numWorldLights; i++) {
+		float dist = idMath::Distance(light.origin_radius.ToVec3(), worldLights[i].origin_radius.ToVec3());
+		if (dist < 75)
+			return;
+	}
 
 	light.num_leafs = -1; // arealight
 	worldLights[numWorldLights++] = light;

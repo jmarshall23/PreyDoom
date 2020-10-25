@@ -638,9 +638,9 @@ hhPhysics_Player::WallWalkIsAllowed
 ================
 */
 bool hhPhysics_Player::WallWalkIsAllowed() const {
-	return	HasGroundContacts() && 
-			castSelf && !castSelf->IsSpiritWalking() &&
-			castSelf->inventory.requirements.bCanWallwalk;
+	return	HasGroundContacts() &&
+		castSelf && !castSelf->IsSpiritWalking();//&&
+			//castSelf->inventory.requirements.bCanWallwalk;
 }
 
 /*

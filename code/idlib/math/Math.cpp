@@ -44,6 +44,18 @@ void idMath::Init( void ) {
 }
 
 /*
+==================
+idMath::Distance
+==================
+*/
+float idMath::Distance(const idVec3 p1, const idVec3 p2) {
+	idVec3	v;
+
+	v = p2 - p1;
+	return v.Length();
+}
+
+/*
 ================
 idMath::FloatToBits
 ================

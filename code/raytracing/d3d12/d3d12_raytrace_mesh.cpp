@@ -82,7 +82,10 @@ void GL_LoadBottomLevelAccelStruct(dxrMesh_t* mesh, idRenderModel* model) {
 		if (fa->shader == NULL)
 			continue;
 
-		const shaderStage_t* stage = fa->shader->GetAlbedoStage();
+		const shaderStage_t* stage = fa->shader->GetAlbedoStage();		
+
+		if (fa->shader->GetSort() == SS_DECAL)
+			continue;
 
 		if (stage != NULL) {
 			idStr fileName = stage->texture.image->imgName.c_str();
@@ -90,10 +93,11 @@ void GL_LoadBottomLevelAccelStruct(dxrMesh_t* mesh, idRenderModel* model) {
 			GL_FindMegaTile(fileName.c_str(), x, y, w, h);
 		}
 		else {
-			x = -1;
-			y = -1;
-			w = -1;
-			h = -1;
+			//x = -1;
+			//y = -1;
+			//w = -1;
+			//h = -1;
+			continue;
 		}
 		
 		surf.startVertex = mesh->meshVertexes.size();

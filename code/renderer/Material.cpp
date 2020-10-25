@@ -2051,6 +2051,14 @@ void idMaterial::ParseMaterial( idLexer &src ) {
 			newSrc.FreeSource();
 			continue;
 		}
+		else if (!token.Icmp("emissive")) {
+			emissiveStage.isEnabled = true;
+			emissiveStage.radius = src.ParseInt();
+			emissiveStage.color.x = src.ParseFloat();
+			emissiveStage.color.y = src.ParseFloat();
+			emissiveStage.color.z = src.ParseFloat();
+			continue;
+		}
 		// DECAL_MACRO for backwards compatibility with the preprocessor macros
 		else if ( !token.Icmp( "DECAL_MACRO" ) ) {
 			// polygonOffset

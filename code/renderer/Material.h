@@ -358,6 +358,23 @@ typedef enum {
 											// won't collect light from any angle
 } surfaceFlags_t;
 
+//
+// icdEmissiveStage
+//
+struct icdEmissiveStage {
+	icdEmissiveStage();
+
+	bool isEnabled;
+	int radius;
+	idVec3 color;
+};
+
+ID_INLINE icdEmissiveStage::icdEmissiveStage() {
+	isEnabled = false;
+	radius = 0;
+	color.Zero();
+}
+
 class idSoundEmitter;
 
 class idMaterial : public idDecl {
@@ -608,6 +625,8 @@ public:
 	bool				IsPortalSky() const						{ return portalSky; };
 	void				AddReference();
 
+	// Returns the emissive information for this material.
+	const icdEmissiveStage& GetEmissiveStage() const { return emissiveStage; }
 private:
 	// parse the entire material
 	void				CommonInit();
@@ -705,6 +724,8 @@ private:
 	bool				suppressInSubview;
 	bool				portalSky;
 	int					refCount;
+
+	icdEmissiveStage	emissiveStage;
 };
 
 typedef idList<const idMaterial *> idMatList;

@@ -182,6 +182,7 @@ public:
 	static float				BitsToFloat( int i, int exponentBits, int mantissaBits );
 
 	static int					FloatHash( const float *array, const int numFloats );
+	static float				Distance(const idVec3 p1, const idVec3 p2);
 
 	static const float			PI;							// pi
 	static const float			TWO_PI;						// pi * 2
@@ -838,5 +839,6 @@ ID_INLINE int idMath::FloatHash( const float *array, const int numFloats ) {
 	}
 	return hash;
 }
+
 
 #endif /* !__MATH_MATH_H__ */
