@@ -68,6 +68,9 @@ void GL_UpdateBottomLevelAccelStruct(idRenderModel* model) {
 	if (mesh == NULL)
 		return;
 
+	if (mesh->buffers.pScratch.Get() == NULL)
+		return;
+
 	dxrVertex_t* sceneVertexes = (dxrVertex_t*)pVertexDataBegin;
 	dxrVertex_t* modelVertexes = &sceneVertexes[mesh->startSceneVertex];
 

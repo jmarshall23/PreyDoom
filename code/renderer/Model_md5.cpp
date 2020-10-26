@@ -348,10 +348,10 @@ void idMD5Mesh::UpdateSurface( const struct renderEntity_s *ent, const idJointMa
 	// R_DeriveTangents() to get normals, tangents, and face planes.  If it only
 	// needs shadows generated, it will only have to generate face planes.  If it only
 	// has ambient drawing, or is culled, no additional work will be necessary
-	if ( !r_useDeferredTangents.GetBool() ) {
+	//if ( !r_useDeferredTangents.GetBool() ) {
 		// set face planes, vertex normals, tangents
 		R_DeriveTangents( tri );
-	}
+	//}
 }
 
 /*
