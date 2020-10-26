@@ -523,7 +523,7 @@ public:
 	const char *		GetRenderBump() const { return renderBump; };
 
 						// set specific material flag(s)
-	void				SetMaterialFlag( const int flag ) const { materialFlags |= flag; }
+	void				SetMaterialFlag(const int flag) const;
 
 						// clear specific material flag(s)
 	void				ClearMaterialFlag( const int flag ) const { materialFlags &= ~flag; }

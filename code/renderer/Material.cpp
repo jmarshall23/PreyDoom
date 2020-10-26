@@ -779,6 +779,18 @@ int idMaterial::NameToSrcBlendMode( const idStr &name ) {
 
 /*
 ===============
+idMaterial::SetMaterialFlag
+===============
+*/
+void idMaterial::SetMaterialFlag(const int flag) const { 
+	if (flag == MF_DEFAULTED)
+		return;
+
+	materialFlags |= flag; 
+}
+
+/*
+===============
 idMaterial::NameToDstBlendMode
 ===============
 */

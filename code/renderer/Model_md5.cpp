@@ -727,8 +727,8 @@ idRenderModelMD5::CreateDynamicDXRModel
 ====================
 */
 iceDxrModel* idRenderModelMD5::CreateDynamicDXRModel(void) {
-	idRenderModel* model = InstantiateDynamicModel(NULL, NULL, NULL);
-	model->FinishSurfaces();
+	idRenderModelStatic* model = (idRenderModelStatic * )InstantiateDynamicModel(NULL, NULL, NULL);
+	model->CreateRaytracingMesh();
 
 	iceDxrModel* dxrModel = (iceDxrModel * )model->GetDXRFrame(0);
 	delete model;
@@ -807,11 +807,11 @@ idRenderModel *idRenderModelMD5::InstantiateDynamicModel( const struct renderEnt
 			shader = R_RemapShaderBySkin(shader, ent->customSkin, ent->customShader);
 		}
 		
-		if ( !shader || ( !shader->IsDrawn() && !shader->SurfaceCastsShadow() ) ) {
-			staticModel->DeleteSurfaceWithId( i );
-			mesh->surfaceNum = -1;
-			continue;
-		}
+		//if ( !shader || ( !shader->IsDrawn() && !shader->SurfaceCastsShadow() ) ) {
+		//	staticModel->DeleteSurfaceWithId( i );
+		//	mesh->surfaceNum = -1;
+		//	continue;
+		//}
 
 		modelSurface_t *surf;
 
